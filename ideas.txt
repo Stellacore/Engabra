@@ -1,0 +1,86 @@
+
+
+Naming: - engineeringGeoAlg
+
+	- brand as eGA++ ??
+	- maybe "ga++ library?" EnGAneer++
+
+GitHub:
+	- keywords:
+		- engineering geometric algebra
+		(one hit for Joot's code)
+		- C++ geometric algebra
+		(19 hits)
+
+Features
+	- focus documentation on *USE* of functions and classes
+		(e.g. Vec - use this to represent ...)
+
+
+Parts
+- Data structures
+	- distinct structs for compiler detection
+	- type system support (e.g. is_blade(), etc)
+	- private functions (e.g. ::priv for prodAnti(), prodComm(), etc)
+	- blade types (Sca, Vec, Biv, Tri)
+	- common composite types (types e.g. Spin, Imsp, Comp, Multi, etc)
+- Data Instance of special use
+	- null (and isValid() detection)
+	- zero<>()
+	- identity instances? (e0, Spin?)
+	- Casts? - e.g. null to anything? zero*anything?
+- Data multiplexing and Parsing
+	- e.g. grade selection, catenation
+	-- e.g. via Q.theSca, etc.
+	-- or could have functions to do this e.g. sca(Q), ...
+
+- Math algebraic entities
+	- reverse, involute, conjugate
+	- inverse
+- Math products between types
+	- between blades - e.g. Vec*Vec, Vec*Biv, Sca*Tri, etc
+	- between composites - e.g. Spin*Tri, Spin*Imsp, etc
+- Math functions
+	- e.g. exp(), log(), etc.
+
+- Localization specific
+	- I/O support (streams interaction?)
+	- Serialization (serialStringFor(Q), Q::fromString())
+
+
+- Transformations - e.g. coordinate frame relationships
+	- rigid bodies
+	- alignments
+	- physical angles
+	- Example: F-to-C conversion sqrt(5/9)*(t-32)*sqrt(5/9).rev()
+
+?? - perhaps make Data____ support special cases of null, zero?
+	- or let "null" and "0." auto cast to any other Data* type?
+
+
+Composite can have 16 combinations (from null, to Multi)
+
+*	....  - 0 Data____ : .0
+!	...s  - 1 Data___S : .1
+!	..v.  - 2 Data__V_ : .2
+	..vs  - 3 Data__VS : x3
+!	.b..  - 4 Data_B__ : d2
+*	.b.s  - 5 Data_B_S : .5
+	.bv.  - 6 Data_BV_ : 
+	.bvs  - 7 Data_BVS : 
+!	t...  - 8 DataT___ : d1
+c	t..s  - 9 DataT__S : .9
+*	t.v.  - A DataT_V_ : d5
+	t.vs  - B DataT_VS : 9+v
+	tb..  - C DataTB__ : d3
+	tb.s  - D DataTB_S : 9+b
+	tbv.  - E DataTBV_ : 9+b
+m	tbvs  - F DataTBVS : .F
+
+
+! - blades
+* - useful code constructs
+c - complex numbers
+m - multivectors
+
+
