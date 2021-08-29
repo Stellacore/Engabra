@@ -2,8 +2,45 @@
 
 Naming: - engineeringGeoAlg
 
+	- namespaces
+		- engabra:: overarching project namespace
+		- g3:: working namespace
+			allow possible others e.g.
+			- g2:: optimization for complex?
+			- g4:: if needed? etc...
+		- e.g. in main() { using engabra; g3::Vec const vector{}; }
+
+		- ?? any need for subspaces?
+			math? functions? transforms? deriviatives? etc?
+
 	- brand as eGA++ ??
 	- maybe "ga++ library?" EnGAneer++
+
+	Ideas:
+		EnGAbra
+
+		EnGAlibre
+		EnGAbure
+		EnGAfri
+		EnGAfrei
+
+
+		EnGAmax - noise on searches
+		EnGAwin
+
+
+		EnGAcube
+		EnGAkit
+		EnGAvec
+		EnGAflow
+		EnGApile
+		EnGAflux
+		EnGAcap
+		EnGAglide
+		EnGApost
+		EnGAfix
+		
+
 
 GitHub:
 	- keywords:
@@ -18,11 +55,14 @@ Features
 
 
 Parts
+- Organization
+	- consider putting least used templates in optional include file?
 - Data structures
 	- distinct structs for compiler detection
 	- type system support (e.g. is_blade(), etc)
 	- private functions (e.g. ::priv for prodAnti(), prodComm(), etc)
 	- blade types (Sca, Vec, Biv, Tri)
+		- perhaps have a longNames.h file with 'using' aliases?
 	- common composite types (types e.g. Spin, Imsp, Comp, Multi, etc)
 - Data Instance of special use
 	- null (and isValid() detection)

@@ -1,8 +1,40 @@
 
-# engineeringGeoAlg - A Pragmatic Implementation of Geometric Algebra for Engineering
+# EnGAbra - Practical Geometric Algebra Computation for Engineering
+
+
+EnGAbra - Engineering Geometric Algebra
+
+namespace ega::
+namespace Engabra::
+
+
+## Good advice points
+
+- What the project does
+- Why the project is useful
+- How users can get started with the project
+- Where users can get help with your project
+- Who maintains and contributes to the project
+
+- a brief description of what your code does;
+- instructions for installing your code;
+- what other code needs to be installed for it to work;
+- one or two examples of how to invoke your code;
+- optionally: who wrote the code, how to cite it, and who to contact for help.
+- One good example of a README file is
+[here](https://github.com/github/markup/blob/master/README.md)
+
 
 
 ## Features
+
+	- Graphics
+		- need cool imagery on main page
+
+	- Functional
+		- not an experiment
+		- not an academic exercise
+		- ref example project (e.g. gravity bridge?)
 
 	- Simple
 		- clean concrete classes for easy use
@@ -65,5 +97,45 @@ Uses C++ constant expressions to do Geometric Algebra. Removes
 all calculations that result in zeros at compile time.
 
 	- https://github.com/RobinKa/ConstGA
+
+
+## Tools
+
+### Code Build Tools
+
+- CMake : for build system generation
+
+- Standard C++ compiler (e.g. g++, clang)
+
+### Documentation
+
+#### Code Reference Material
+
+Doxygen : For generation of code reference documentation
+
+#### General Algorithm and Math Descriptions
+
+LyX : GUI interface for operating with LaTeX
+
+- https://www.lyx.org/
+
+
+LaTeX Figures
+
+- tikZ : For drawing figures
+
+	- https://www.tug.org/pracjourn/2007-1/mertz/mertz.pdf
+
+	- https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Basic_Drawing
+
+- tikz-3dplot : Extensions to tikz for drawing perspective 3D figures
+
+	- https://ctan.math.washington.edu/tex-archive/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf
+
+	- https://tex.stackexchange.com/questions/534487/difference-between-usetikzlibrary3d-and-usepackagetikz-3dplot/534521#534521
+
+	- https://ctan.org/pkg/tikz-3dplot
+
+	- https://mirrors.concertpass.com/tex-archive/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf
 
 

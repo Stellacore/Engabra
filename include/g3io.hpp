@@ -1,0 +1,147 @@
+/*
+
+MIT License
+
+Copyright (c) 2021 Stellacore Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/
+
+
+#ifndef engabra_g3io_INCL_
+#define engabra_g3io_INCL_
+
+
+#include "g3types.hpp"
+
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+
+
+namespace engabra
+{
+
+namespace g3
+{
+namespace io
+{
+
+	//! Display elements of array
+	template <typename Type, std::size_t Dim>
+	void
+	put
+		( std::ostream & ostrm
+		, std::array<Type, Dim> const & elems
+		)
+	{
+		std::ostringstream oss;
+		constexpr std::size_t ndSign{ 1u };
+		constexpr std::size_t ndInt{ 1u }; // should be arg?
+		constexpr std::size_t ndDec{ 1u };
+		constexpr std::size_t ndFrac{ 6u }; // should be arg?
+		constexpr std::size_t ndSize{ ndSign + ndInt + ndDec + ndFrac };
+		oss << std::fixed;
+		oss << std::setprecision(ndFrac);
+		for (double const & elem : elems)
+		{
+			oss << " " << std::setw(ndSize) << elem;
+		}
+		ostrm << oss.str();
+	}
+
+} // [io]
+} // [g3]
+
+} // [engabra]
+
+
+//! Global i/o functions within anonymous namespace
+namespace
+{
+	//! Put a scalar to stream - with some formatting
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::Sca const & blade
+		)
+	{
+		engabra::g3::io::put(ostrm, blade.theData);
+		return ostrm;
+	}
+
+	//! Put a vector to stream - with some formatting
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::Vec const & blade
+		)
+	{
+		engabra::g3::io::put(ostrm, blade.theData);
+		return ostrm;
+	}
+
+	//! Put a bivector to stream - with some formatting
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::Biv const & blade
+		)
+	{
+		engabra::g3::io::put(ostrm, blade.theData);
+		return ostrm;
+	}
+
+	//! Put a trivector to stream - with some formatting
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::Tri const & blade
+		)
+	{
+		engabra::g3::io::put(ostrm, blade.theData);
+		return ostrm;
+	}
+
+	//! Put a spinor to stream - with some formatting
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::Spinor const & spin
+		)
+	{
+		ostrm << spin.theSca << " " << spin.theBiv;
+		return ostrm;
+	}
+
+	//! Put a imaginary-spinor to stream - with some formatting
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::ImSpin const & imsp
+		)
+	{
+		ostrm << imsp.theVec << " " << imsp.theTri;
+		return ostrm;
+	}
+
+} // [anon]
+
+#endif // engabra_g3io_INCL_

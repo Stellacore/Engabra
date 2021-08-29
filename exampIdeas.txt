@@ -1,0 +1,23 @@
+
+# Example uses of <projectNameHere>
+
+
+## Statics
+
+	- solution for forces on a ladder
+
+	- numeric solution for tension in a truss member?
+
+## Kinematics
+
+	- integration of rotation sensors from smart device
+
+## Gravity solution
+
+	- generative bridge design on binary/trinary asteroid
+
+	- orbiting dumb-bells around spherical body
+
+
+
+
