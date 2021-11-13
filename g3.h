@@ -43,6 +43,22 @@
 //! Namespace
 namespace g3
 {
+
+	//
+	// Utility functions
+	//
+
+	//! Square operation (result of multiplying argument by itself)
+	template <typename Type>
+	inline
+	Type
+	sq
+		( Type const & someValue
+		)
+	{
+		return { someValue * someValue };
+	}
+
 	//
 	// Fundamentals (as classes to allow compiler type discrimination)
 	//
@@ -463,6 +479,18 @@ namespace g3
 		return outBlade;
 	}
 
+	//! Double multiplication - specialized to Spinor
+	template <>
+	inline
+	Spinor
+	operator*
+		( double const & dub
+		, Spinor const & spin
+		)
+	{
+		return Spinor{ dub*spin.theSca, dub*spin.theBiv };
+	}
+
 	//! Double multiplication
 	template <typename Blade>
 	inline
@@ -614,6 +642,19 @@ namespace g3
 		return prodComm(blade.theData, blade.theData);
 	}
 
+	//! Squared magnitude - specialization for Spinor
+	template <>
+	inline
+	double
+	magSq
+		( Spinor const & spin
+		)
+	{
+		double const scaSq{ sq(spin.theSca.theData[0]) };
+		double const bivSq{ magSq(spin.theBiv) };
+		return {scaSq + bivSq };
+	}
+
 	//! Magnitude of blade
 	template <typename Blade>
 	inline
@@ -623,41 +664,6 @@ namespace g3
 		)
 	{
 		return std::sqrt(magSq(blade));
-	}
-
-	//! Decompose arbitrary blade into magnitude and direction interpretations
-	template <typename Blade>
-	inline
-	std::pair<double, Blade>
-	magDirFrom
-		( Blade const & blade
-		)
-	{
-		double const mag{ magnitude(blade) };
-		Blade dir{ null<Blade>() };
-		if (0. != mag)
-		{
-			dir = (1./mag) * blade;
-		}
-		return {mag, dir};
-	}
-
-	//! Exponential of a bivector
-	inline
-	Spinor
-	exp
-		( Biv const & spinAngle
-		)
-	{
-		Spinor spin{ 1., zero<Biv>() }; // zero angle default result
-		std::pair<double, Biv> const magdir{ magDirFrom(spinAngle) };
-		double const & mag = magdir.first;
-		Biv const & dir = magdir.second;
-		if (isValid(dir)) // zero angle direction undefined - return default
-		{
-			spin = Spinor{ std::cos(mag), std::sin(mag)*dir };
-		}
-		return spin;
 	}
 
 	//
