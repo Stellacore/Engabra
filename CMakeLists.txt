@@ -23,6 +23,7 @@ enable_testing()
 # Inform CMake about project tree
 # (each subdir needs its own CMakeLists.txt file)
 add_subdirectory(include) # project library public interface (e.g. c++ headers)
+add_subdirectory(doc) # project reference documentation
 #add_subdirectory(src) # project source code
 add_subdirectory(tests) # developer unit tests (check source code operation)
 #add_subdirectory(demos) # demonstration/example code

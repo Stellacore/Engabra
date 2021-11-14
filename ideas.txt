@@ -54,6 +54,14 @@ Features
 		(e.g. Vec - use this to represent ...)
 
 
+Topics to Address
+
+	- Overview topics could be similar to those of software design
+	docs. E.g. several topic ideas in:
+
+		- https://blog.bit.ai/software-design-document/
+
+
 Parts
 - Organization
 	- consider putting least used templates in optional include file?

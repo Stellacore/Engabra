@@ -27,9 +27,11 @@ SOFTWARE.
 
 #include "test_common.hpp" // testing environment common utilities
 
-#include "engabra.hpp"
+#include "g3io.hpp"
 
 #include <iostream> // For test message output
+#include <sstream>
+#include <vector>
 
 
 namespace
@@ -43,6 +45,36 @@ namespace
 		()
 	{
 		std::size_t errCount{ 0u };
+
+		g3::Vec const vec{ 1.23, 3.45, 5.67 };
+
+		// Formatter local to g3::io, not really for public consumption
+		g3::io::PutFormat const fmt{};
+
+		// Expected: default formatter should be <sign><3><.><6>
+		std::string const expString
+			{ "   -3.123400  -23.123400 -123.123400" };
+		std::vector<double> const vals
+			{   -3.1234
+			,  -23.1234
+			, -123.1234
+			};
+
+		// Format several values with formatter
+		std::ostringstream oss;
+		for (double const & val : vals)
+		{
+			oss << fmt << val;
+		}
+		std::string const gotString{ oss.str() };
+
+		if (! (gotString == expString))
+		{
+			++errCount;
+			std::cout << "Failure of g3::io::PutFormat test" << '\n';
+			std::cout << "got: '" << gotString << "'\n";
+			std::cout << "exp: '" << expString << "'\n";
+		}
 
 		return errCount;
 	}

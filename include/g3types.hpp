@@ -32,6 +32,9 @@ SOFTWARE.
 #include <array>
 #include <cstddef>
 
+#include <cmath>
+#include <limits>
+
 
 namespace engabra
 {
@@ -267,7 +270,10 @@ namespace types
 		Tri theTri; //!< TriVector grade part
 	};
 
+
 } // [types]
+
+// "Publish" these implementations into working engabra::g3 namespace
 
 using types::Sca;
 using types::Vec;
@@ -275,6 +281,112 @@ using types::Biv;
 using types::Tri;
 using types::Spinor;
 using types::ImSpin;
+
+
+	//
+	// Null/NaN values
+	//
+
+	//! Generic Not-A-Number for individual values
+	constexpr double nan{ std::numeric_limits<double>::quiet_NaN() };
+
+	//! Null instance for a type constructable from 'double'.
+	template <typename Type>
+	inline
+	Type
+	null
+		()
+	{
+		return Type{ nan };
+	}
+
+	// null<Sca> handled by default function
+
+	//! Null value - specialization for Vectors
+	template <> inline Vec null<Vec> () { return Vec{ nan, nan, nan }; }
+
+	//! Null value - specialization for BiVectors
+	template <> inline Biv null<Biv> () { return Biv{ nan, nan, nan }; }
+
+	// null<Tri> handled by default function
+
+	//
+	// Instance validity testing
+	//
+
+	//! True if dub is a reasonable value, e.g. is (! null)
+	inline
+	bool
+	isValid
+		( double const & dub
+		)
+	{
+		bool okay{ (0. == dub) }; // allow zero as valid
+		if (! okay)
+		{
+			// normal meaning NOT any of {zero, subnormal, infinite, NaN}
+			okay = std::isnormal(dub);
+		}
+		return okay;
+	}
+
+	//! True if blade is not a null instancwe
+	template <typename Blade>
+	inline
+	bool
+	isValid
+		( Blade const & blade
+		)
+	{
+		return isValid(blade.theData[0]); // test only first element for nan
+	}
+
+	//! True if instance is not null - specialization for Spinor
+	template <>
+	inline
+	bool
+	isValid
+		( Spinor const & spin
+		)
+	{
+		return { isValid(spin.theSca) && isValid(spin.theBiv) };
+	}
+
+	//! True if instance is not null - specialization for ImSpin
+	template <>
+	inline
+	bool
+	isValid
+		( ImSpin const & imsp
+		)
+	{
+		return { isValid(imsp.theVec) && isValid(imsp.theTri) };
+	}
+
+	//
+	// Zero values
+	//
+
+	//! Zero value instance of Type constructable from 'double'.
+	template <typename Type>
+	constexpr
+	Type
+	zero
+		()
+	{
+		return Type{ 0. };
+	}
+
+	// zero<Sca> handled by default function
+
+	//! Zero value - specialization for Vectors
+	template <> constexpr Vec zero<Vec> () { return Vec{ 0., 0., 0. }; }
+
+	//! Zero value - specialization for BiVectors
+	template <> constexpr Biv zero<Biv> () { return Biv{ 0., 0., 0. }; }
+
+	// zero<Tri> handled by default function
+
 
 } // [g3]
 

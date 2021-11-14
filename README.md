@@ -1,4 +1,9 @@
 
+[//]: # (Comments Like this)
+
+[MIT License](https://mit-license.org/)
+
+
 # EnGAbra - Practical Geometric Algebra Computation for Engineering
 
 

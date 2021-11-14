@@ -31,6 +31,7 @@ SOFTWARE.
 
 #include "g3types.hpp"
 
+#include <cstddef>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -43,6 +44,89 @@ namespace g3
 {
 namespace io
 {
+	struct PutFormat
+	{
+		//! Number of digit places available before decimal (int part)
+		std::size_t theNumDigLead{ 3u };
+		//! Number of digit places available after the decimal (frac part)
+		std::size_t theNumDigFrac{ 6u };
+
+		//! Mnemonic for tracking sign spacing.
+		static constexpr std::size_t theNumDigSign{ 1u };
+		//! Mnemonic for tracking decimal spacing.
+		static constexpr std::size_t theNumDigPoint{ 1u };
+
+		//! Construct with nominally-sane default values
+		PutFormat () = default;
+
+		//! Construct with specified field sizes
+		inline
+		explicit
+		PutFormat
+			( std::size_t const & numDigLead
+				//!< Number of leading digits (between sign and point)
+			, std::size_t const & numDigFrac
+				//!< Number of trailing digits (after point)
+			)
+			: theNumDigLead{ numDigLead }
+			, theNumDigFrac{ numDigFrac }
+		{
+		}
+
+		//! Total width used by number (e.g. use with std::setw())
+		inline
+		std::size_t
+		fieldWide
+			() const
+		{
+			return
+				( theNumDigSign
+				+ theNumDigLead
+				+ theNumDigPoint
+				+ theNumDigFrac
+				);
+		}
+
+		//! Configure a stream for displaying a formatted double value
+		inline
+		void
+		prepareStream
+			( std::ostream & ostrm
+			) const
+		{
+			ostrm
+				<< " "   // force a leading space
+				<< std::fixed
+				<< std::setprecision(theNumDigFrac)
+				<< std::setw(fieldWide())
+				;
+		}
+
+	}; // PutFormat
+
+	//! Use fmt formatter to prepare stream (calls fmt.prepareStream())
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::io::PutFormat const & fmt
+		)
+	{
+		fmt.prepareStream(ostrm);
+		return ostrm;
+	}
+
+
+	//! Put value to stream with nominal formatting
+	void
+	putDub
+		( std::ostream & ostrm
+		, double const & value
+		, PutFormat const & fmt = {}
+		)
+	{
+		// using engabra::g3::io::operator<<() for fmt
+		ostrm << fmt << value;
+	}
 
 	//! Display elements of array
 	template <typename Type, std::size_t Dim>
@@ -50,19 +134,14 @@ namespace io
 	put
 		( std::ostream & ostrm
 		, std::array<Type, Dim> const & elems
+		, PutFormat const & fmt = {}
 		)
 	{
 		std::ostringstream oss;
-		constexpr std::size_t ndSign{ 1u };
-		constexpr std::size_t ndInt{ 1u }; // should be arg?
-		constexpr std::size_t ndDec{ 1u };
-		constexpr std::size_t ndFrac{ 6u }; // should be arg?
-		constexpr std::size_t ndSize{ ndSign + ndInt + ndDec + ndFrac };
-		oss << std::fixed;
-		oss << std::setprecision(ndFrac);
 		for (double const & elem : elems)
 		{
-			oss << " " << std::setw(ndSize) << elem;
+			// using engabra::g3::io::operator<<() for fmt
+			oss << fmt << elem;
 		}
 		ostrm << oss.str();
 	}
@@ -141,6 +220,18 @@ namespace
 		ostrm << imsp.theVec << " " << imsp.theTri;
 		return ostrm;
 	}
+
+	/*
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::io::PutFormat const & fmt
+		)
+	{
+		fmt.prepareStream(ostrm);
+		return ostrm;
+	}
+	*/
 
 } // [anon]
 

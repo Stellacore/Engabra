@@ -25,44 +25,35 @@ SOFTWARE.
 */
 
 
-#include "test_common.hpp" // testing environment common utilities
-
-#include "engabra.hpp"
-
-#include <iostream> // For test message output
+#ifndef engabra_g3consts_INCL_
+#define engabra_g3consts_INCL_
 
 
-namespace
+#include <cmath>
+
+
+namespace engabra
 {
-	// Keep test code focused on internal structure under main project name
-	using namespace engabra;
 
-	//! Check TODO
-	std::size_t
-	test1
-		()
-	{
-		std::size_t errCount{ 0u };
-
-		return errCount;
-	}
-}
-
-//! Check behavior of TODO
-int
-main
-	()
+namespace g3
 {
-	int status{ tst::CTest::fail };
-	std::size_t errCount{ 0u };
 
-	errCount += test1();
-//	errCount += test2();
+	//
+	// Constants
+	//
 
-	if (0u == errCount) // Only pass if no errors were encountered
-	{
-		status = tst::CTest::pass;
-	}
-	return status;
-}
+	//! Value consistent with gnu math library and seems to match general usage
+	constexpr double pi{ 3.141592653589793 };
+	constexpr double piHalf{ .5 * pi };
+	constexpr double piQtr{ .5 * piHalf };
 
+	constexpr double turnFull{ 2.*pi };
+	constexpr double turnHalf{ pi };
+	constexpr double turnQtr{ piHalf };
+
+} // [g3]
+
+} // [engabra]
+
+
+#endif // engabra_g3consts_INCL_

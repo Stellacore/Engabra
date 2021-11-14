@@ -3,6 +3,9 @@
 # list of all developer unit tests (or could GLOB for filenames)
 set(unitTests
 
+	test_g3consts
+	test_g3io
+	test_g3types
 	test_helloEngabra
 
 	)
@@ -11,7 +14,7 @@ set(unitTests
 foreach(aUnitTest ${unitTests}) # loop over all tests
 
 #add_executable(${aUnitTest} test_ifc_local.cpp test_common.hpp)
-add_executable(${aUnitTest} test_helloEngabra.cpp)
+add_executable(${aUnitTest} ${aUnitTest}.cpp test_common.hpp)
 
 target_include_directories(
 	${aUnitTest}
