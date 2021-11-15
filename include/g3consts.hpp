@@ -42,13 +42,18 @@ namespace g3
 	// Constants
 	//
 
-	//! Value consistent with gnu math library and seems to match general usage
+	//! Classic value of Pi (consistent with gnu math library)
 	constexpr double pi{ 3.141592653589793 };
+	//! Convenience mnemonic for Pi/2.
 	constexpr double piHalf{ .5 * pi };
+	//! Convenience mnemonic for Pi/4.
 	constexpr double piQtr{ .5 * piHalf };
 
+	//! Angle associated with a full turn (rotation returning to start) [rad]
 	constexpr double turnFull{ 2.*pi };
+	//! Angle associated with a half turn (pointing opposite direction) [rad]
 	constexpr double turnHalf{ pi };
+	//! Angle associated with quarter turn (pointing orthogonal direction) [rad]
 	constexpr double turnQtr{ piHalf };
 
 } // [g3]

@@ -27,7 +27,7 @@ SOFTWARE.
 
 #include "test_common.hpp" // testing environment common utilities
 
-#include "g3compare.hpp"
+#include "compare.hpp"
 #include "g3consts.hpp"
 
 #include "g3io.hpp"
@@ -49,7 +49,7 @@ namespace
 		std::size_t errCount{ 0u };
 
 		// display results to about full IEEE-754 precision.
-		g3::io::PutFormat const fmt(2u, 18u);
+		g3::io::DoubleFormat const fmt(2u, 18u);
 
 		double const piGot{ g3::pi };
 		double const piLib{ 4. * std::atan(1.) };

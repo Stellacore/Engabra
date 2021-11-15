@@ -25,8 +25,8 @@ SOFTWARE.
 */
 
 
-#ifndef engabra_g3compare_INCL_
-#define engabra_g3compare_INCL_
+#ifndef engabra_compare_INCL_
+#define engabra_compare_INCL_
 
 
 #include "g3types.hpp"
@@ -38,9 +38,9 @@ SOFTWARE.
 namespace engabra
 {
 
-	/*! Compare two double values using absolute tolerances.
+	/*! \brief Compare two double values using absolute tolerances.
 	 *
-	 * Returns true if valA and valB are both valid and they are
+	 * Returns true if testVal and refVal are both valid and they are
 	 * nearly the same within the tolerance value.
 	 *
 	 * Comparison is performed using simple subtraction. Returns true
@@ -56,56 +56,60 @@ namespace engabra
 	 * \arg nearlyEqualsRel()
 	 * \arg nearlyEquals()
 	 *
+	 * TODO - Check for handling subnormal numbers
 	 */
 	inline
 	bool
 	nearlyEqualsAbs
-		( double const & valA
-		, double const & valB
+		( double const & testVal
+		, double const & refVal
 	 	, double const & tol = { std::numeric_limits<double>::epsilon() }
 		)
 	{
 		bool same{ false };
-		if (engabra::g3::isValid(valA) && engabra::g3::isValid(valB))
+		if (engabra::g3::isValid(testVal) && engabra::g3::isValid(refVal))
 		{
-			double const diff{ valB - valA };
+			double const diff{ refVal - testVal };
 			same = (std::abs(diff) < tol);
 		}
 		return same;
 	}
 
+	/*! \brief True if testVal is proportionally (relatively) near refVal.
+	 *
+	 * TODO - algorithm for this
+	 */
 	inline
 	bool
 	nearlyEqualsRel
-		( double const & valA
-		, double const & valB
+		( double const & testVal
+		, double const & refVal
 	 	, double const & tol = { std::numeric_limits<double>::epsilon() }
 		)
 	{
 		bool same{ false };
+		// TODO
 		return same;
 	}
 
+	/*! \brief True if testVal is nearly equal to refVal at tolerance.
+	 *
+	 */
 	inline
 	bool
 	nearlyEquals
-		( double const & valA
-		, double const & valB
+		( double const & testVal
+		, double const & refVal
 	 	, double const & tol = { std::numeric_limits<double>::epsilon() }
 		)
 	{
 		bool same{ false };
+		// TODO
 		return same;
 	}
 
-
-namespace g3
-{
-
-
-} // [g3]
 
 } // [engabra]
 
 
-#endif // engabra_g3compare_INCL_
+#endif // engabra_compare_INCL_

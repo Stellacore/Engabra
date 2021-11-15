@@ -46,10 +46,10 @@ namespace
 	{
 		std::size_t errCount{ 0u };
 
-		g3::Vec const vec{ 1.23, 3.45, 5.67 };
+		g3::Vector const vec{ 1.23, 3.45, 5.67 };
 
 		// Formatter local to g3::io, not really for public consumption
-		g3::io::PutFormat const fmt{};
+		g3::io::DoubleFormat const fmt{};
 
 		// Expected: default formatter should be <sign><3><.><6>
 		std::string const expString
@@ -71,7 +71,7 @@ namespace
 		if (! (gotString == expString))
 		{
 			++errCount;
-			std::cout << "Failure of g3::io::PutFormat test" << '\n';
+			std::cout << "Failure of g3::io::DoubleFormat test" << '\n';
 			std::cout << "got: '" << gotString << "'\n";
 			std::cout << "exp: '" << expString << "'\n";
 		}

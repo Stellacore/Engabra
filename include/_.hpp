@@ -35,6 +35,9 @@ namespace engabra
 
 namespace g3
 {
+
+// TODO - document
+//! Namespace for TODO
 namespace NS
 {
 

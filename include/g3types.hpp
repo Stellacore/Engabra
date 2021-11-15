@@ -41,6 +41,27 @@ namespace engabra
 
 namespace g3
 {
+
+/*! \brief Namespace for definition of fundamental GA data types.
+ *
+ * The fundamental types are
+ * \arg Scalar
+ * \arg Vector
+ *
+ * Other blades are based on extensions of these fundamental types and
+ * include:
+ * \arg BiVector
+ * \arg TriVector
+ *
+ * Particularly useful composites of the basic blade types include:
+ * \arg Spinor
+ * \arg ImSpinor
+ * \arg Complex - TODO worth supporting? can use std::complex<double>
+ * \arg MultiVector
+ *
+ * Note that MultiVector is the general element of the entire algebra.
+ *
+ */
 namespace types
 {
 
@@ -48,12 +69,12 @@ namespace types
 	// Fundamentals (as unique structs to allow compiler type detection)
 	//
 
-	/*! A scalar type
+	/*! \brief Fundamental scalar type - basically a wrapper for 'double' type.
 	 *
-* Engineering uses: quantities: mass, temperature, time, ...
-*
-* Geometric interpretation: a quantity that does not depend on space
-*
+	 * TODO- Engineering uses: quantities: mass, temperature, time, ...
+	 *
+	 * TODO- Geometric interpretation: a quantity that does not depend on space
+	 *
 	 * In geometric algebra (GA) terminology this class represents the 
 	 * field of real value numbers over which the algebra is defined.
 	 *
@@ -73,14 +94,16 @@ namespace types
 	 *
 	 * TODO -- include from unit tests.
 	 * Field type operations
-	 * \arg Sca const result{ Sca{7.} * (Sca{3.} + Sca{5.}) }; // == Sca{21.}
+	 * \arg Scalar const result
+	 * 	{ Scalar{7.} * (Scalar{3.} + Scalar{5.}) }; // == Scalar{21.}
 	 *
 	 * Solving equations
 	 * 10.x+5.=7.
 	 * x = inverse(10.) * (7.-5.)
 	 */
-	struct Sca
+	struct Scalar
 	{
+		//! Internal data store: Can also access element via operator[]().
 		std::array<double, 1u> theData;
 
 		/*! Subscript-style access to theData.
@@ -100,22 +123,24 @@ namespace types
 		}
 	};
 
-	/*! A vector type (in 3D)
+	/*! \brief Fundamental directed element of GA (in 3D)
 	 *
-* Engineering uses: relationships: displacements, forces, velocities
-*
-* Geometric interpretation: a quantity that defines the idea of (1D of) space
-*
+	 * TODO - Engineering uses: relationships: displacements, forces, velocities
+	 *
+	 * TODO - Geometric interpretation: a quantity that defines the
+	 * idea of (1D of) space
+	 *
 	 * In geometric algebra (GA), vectors are what extend the power of
 	 * algebra to address "space". For engineering uses that are the focus
 	 * of this package, the space of interest is a classic three-dimensional
 	 * (3D) Euclidean space.
 	 *
-* In the language of extensions, vectors extend the concept of a point
-* attribute into space. The represent a one-dimensional element of space.
-* The magnitude of the vector is how much of this dimension, and the
-* direction is "which" 1D subspace is selected from full the full space.
-* (e.g. geometrically associated with a section of a line)
+	 * TODO - 
+	 * In the language of extensions, vectors extend the concept of a point
+	 * attribute into space. The represent a one-dimensional element of space.
+	 * The magnitude of the vector is how much of this dimension, and the
+	 * direction is "which" 1D subspace is selected from full the full space.
+	 * (e.g. geometrically associated with a section of a line)
 	 *
 	 * The principals and theory of GA are valid in any dimensional space.
 	 * It is the code herein that is restricted to an implementation in
@@ -137,21 +162,23 @@ namespace types
 	 * These additional concepts allow expanding GA into an enormously
 	 * rich and powerful mathematical system.
 	 *
-	 * The algebraic operations associated with Sca class can now be
+	 * The algebraic operations associated with Scalar class can now be
 	 * extended to vectors. E.g.
 	 *
 	 * TODO -- include example from test code
-	 * \arg Vec const result{ Vec{7.,6.,5.} * (Vec{3.,2.,1.} + Vec{5.,4.,3.}) };
+	 * \arg Vector const result
+	 * 	{ Vector{7.,6.,5.} * (Vector{3.,2.,1.} + Vector{5.,4.,3.}) };
 	 * producing result same as
-	 * \arg result{ Sca{TODO} + Biv{TODO,TODO,TODO} };
+	 * \arg result{ Scalar{TODO} + BiVector{TODO,TODO,TODO} };
 	 *
 	 * Solving equation systems (after introducing rest of the algebra)
 	 * a*x + S = R
 	 * x = inverse(a) * (R - S) // with zero trivector part
 	 *
 	 */
-	struct Vec
+	struct Vector
 	{
+		//! Internal data store: Can also access elements via operator[]().
 		std::array<double, 3u> theData;
 
 		/*! Subscript-style access to theData elements.
@@ -169,12 +196,17 @@ namespace types
 		}
 	};
 
-	/*! A BiVector type (in 3D)
+	/*! \brief Extension of orthogonal vector directions to planar element
 	 *
-* Engineering uses: surfaces: angles, moments, rotations, ...
-*
-* Geometric interpretation: the idea of perpendicular (spatial orthogonality)
-*
+	 * A bivector results from the extension of one vector along an
+	 * independent vector direction, and also is the result of the
+	 * product of two orthogonal vectors.
+	 *
+	 * TODO - Engineering uses: surfaces: angles, moments, rotations, ...
+	 *
+	 * TODO - Geometric interpretation: the idea of perpendicular
+	 * (spatial orthogonality)
+	 *
 	 * In geometric algebra (GA), bivectors are an extension of the concept
 	 * of vector. Whereas a vector represents one dimension from the full
 	 * space, a bivector represents two dimensions from within the full
@@ -188,8 +220,9 @@ namespace types
 	 * plane containing both of the original vectors.
 	 *
 	 */
-	struct Biv
+	struct BiVector
 	{
+		//! Internal data store: Can also access elements via operator[]().
 		std::array<double, 3u> theData;
 
 		/*! Subscript-style access to theData elements.
@@ -207,24 +240,30 @@ namespace types
 		}
 	};
 
-	/*! A Trivector type (in 3D. For 3D, this is the pseudo-scalar)
+	/*! \brief Extension of vectors into volume element.
 	 *
-* Engineering uses: volumes, duality relationships (e.g. surface normals)
-*
-* Geometric interpretation: the concept of volume - all of space
-*
-* Algebraically: wraparound (dual to scalars)
-* - e.g. *ALL* of space (N-D together) acts like time - except neg square
-*
-* (e.g. geometrically associated with a section of a volume)
-*
+	 * A trivector results from the extension of a bivector along an
+	 * independent vector direction, and are the result of the
+	 * product of three orthogonal vectors.
+	 *
+	 * TODO - Engineering uses: volumes, duality relationships
+	 * (e.g. surface normals)
+	 *
+	 * TODO - Geometric interpretation: the concept of volume - all of space
+	 *
+	 * TODO - Algebraically: wraparound (dual to scalars)
+	 * - e.g. *ALL* of space (N-D together) acts like time - except neg square
+	 *
+	 * TODO - (e.g. geometrically associated with a section of a volume)
+	 *
 	 * In geometric algebra (GA), trivectors are an extension of bivectors
 	 * along a vector direction. Trivectors may also be defined as the
 	 * multiplicative product of three orthogonal vectors.
 	 *
 	 */
-	struct Tri
+	struct TriVector
 	{
+		//! Internal data store: Can also access element via operator[]().
 		std::array<double, 1u> theData;
 
 		/*! Subscript-style access to theData.
@@ -248,14 +287,17 @@ namespace types
 	// Useful composites
 	//
 
-	//! Conventional spinor - scalar and bivector grades
+	/*! \brief Conventional spinor - scalar and bivector grades.
+	 *
+	 *
+	 */
 	struct Spinor
 	{
-		Sca theSca; //!< Scalar grade part (acts like 'real' number)
-		Biv theBiv; //!< BiVector grade part (acts like 'imaginary plane')
+		Scalar theS; //!< Scalar grade part (acts like 'real' number)
+		BiVector theB; //!< BiVector grade part (acts like 'imaginary plane')
 	};
 
-	/*! Imaginary spinor - vector and trivector grades (dual to Spinor).
+	/*! \brief Imaginary spinor - vector and trivector grades (dual to Spinor).
 	 *
 	 * Although it is not much used directly, this composite type arises
 	 * often during various intermediate computations (e.g. product of
@@ -266,8 +308,8 @@ namespace types
 	 */
 	struct ImSpin
 	{
-		Vec theVec; //!< Vector grade part
-		Tri theTri; //!< TriVector grade part
+		Vector theV; //!< Vector grade part
+		TriVector theT; //!< TriVector grade part
 	};
 
 
@@ -275,10 +317,10 @@ namespace types
 
 // "Publish" these implementations into working engabra::g3 namespace
 
-using types::Sca;
-using types::Vec;
-using types::Biv;
-using types::Tri;
+using types::Scalar;
+using types::Vector;
+using types::BiVector;
+using types::TriVector;
 using types::Spinor;
 using types::ImSpin;
 
@@ -300,15 +342,23 @@ using types::ImSpin;
 		return Type{ nan };
 	}
 
-	// null<Sca> handled by default function
+	// null<Scalar> could be handled by default function
+	//! Null value - specialization for Scalar
+	template <> inline Scalar
+	null<Scalar> () { return Scalar{ nan }; }
 
-	//! Null value - specialization for Vectors
-	template <> inline Vec null<Vec> () { return Vec{ nan, nan, nan }; }
+	//! Null value - specialization for Vector
+	template <> inline Vector
+	null<Vector> () { return Vector{ nan, nan, nan }; }
 
-	//! Null value - specialization for BiVectors
-	template <> inline Biv null<Biv> () { return Biv{ nan, nan, nan }; }
+	//! Null value - specialization for BiVector
+	template <> inline BiVector
+	null<BiVector> () { return BiVector{ nan, nan, nan }; }
 
-	// null<Tri> handled by default function
+	// null<Tri> could be handled by default function
+	//! Null value - specialization for TriVector
+	template <> inline TriVector
+	null<TriVector> () { return TriVector{ nan }; }
 
 	//
 	// Instance validity testing
@@ -349,7 +399,7 @@ using types::ImSpin;
 		( Spinor const & spin
 		)
 	{
-		return { isValid(spin.theSca) && isValid(spin.theBiv) };
+		return { isValid(spin.theS) && isValid(spin.theB) };
 	}
 
 	//! True if instance is not null - specialization for ImSpin
@@ -360,7 +410,7 @@ using types::ImSpin;
 		( ImSpin const & imsp
 		)
 	{
-		return { isValid(imsp.theVec) && isValid(imsp.theTri) };
+		return { isValid(imsp.theV) && isValid(imsp.theT) };
 	}
 
 	//
@@ -377,15 +427,15 @@ using types::ImSpin;
 		return Type{ 0. };
 	}
 
-	// zero<Sca> handled by default function
+	// zero<Scalar> handled by default function
 
 	//! Zero value - specialization for Vectors
-	template <> constexpr Vec zero<Vec> () { return Vec{ 0., 0., 0. }; }
+	template <> constexpr Vector zero<Vector> () { return Vector{ 0., 0., 0. }; }
 
 	//! Zero value - specialization for BiVectors
-	template <> constexpr Biv zero<Biv> () { return Biv{ 0., 0., 0. }; }
+	template <> constexpr BiVector zero<BiVector> () { return BiVector{ 0., 0., 0. }; }
 
-	// zero<Tri> handled by default function
+	// zero<TriVector> handled by default function
 
 
 } // [g3]

@@ -29,7 +29,7 @@ SOFTWARE.
 
 #include "g3types.hpp"
 
-#include "g3compare.hpp"
+#include "compare.hpp"
 #include "g3io.hpp"
 
 #include <iostream> // For test message output
@@ -104,10 +104,10 @@ namespace
 		// NOTE - for initial implementation, seems no need for this?
 		/*
 		// check default constructions
-		g3::Sca const aSca;
-		g3::Vec const aVec;
-		g3::Biv const aBiv;
-		g3::Tri const aTri;
+		g3::Scalar const aSca;
+		g3::Vector const aVec;
+		g3::BiVector const aBiv;
+		g3::TriVector const aTri;
 		g3::Spinor const aSpinor;
 		g3::ImSpin const aImSpin;
 		*/
@@ -151,18 +151,18 @@ namespace
 		std::size_t errCount{ 0u };
 
 		// check default constructions - valid to use, but random content
-		errCount += checkDefaultCtor<g3::Sca>();
-		errCount += checkDefaultCtor<g3::Vec>();
-		errCount += checkDefaultCtor<g3::Biv>();
-		errCount += checkDefaultCtor<g3::Tri>();
+		errCount += checkDefaultCtor<g3::Scalar>();
+		errCount += checkDefaultCtor<g3::Vector>();
+		errCount += checkDefaultCtor<g3::BiVector>();
+		errCount += checkDefaultCtor<g3::TriVector>();
 		errCount += checkDefaultCtor<g3::Spinor>();
 		errCount += checkDefaultCtor<g3::ImSpin>();
 
 		// STL containers only require copy constructable
-		errCount += checkCtorInContainer<g3::Sca>();
-		errCount += checkCtorInContainer<g3::Vec>();
-		errCount += checkCtorInContainer<g3::Biv>();
-		errCount += checkCtorInContainer<g3::Tri>();
+		errCount += checkCtorInContainer<g3::Scalar>();
+		errCount += checkCtorInContainer<g3::Vector>();
+		errCount += checkCtorInContainer<g3::BiVector>();
+		errCount += checkCtorInContainer<g3::TriVector>();
 		errCount += checkCtorInContainer<g3::Spinor>();
 		errCount += checkCtorInContainer<g3::ImSpin>();
 
@@ -192,10 +192,10 @@ namespace
 		using namespace g3;
 
 		// check default constructions
-		errCount += checkNullCtor<g3::Sca>();
-		errCount += checkNullCtor<g3::Vec>();
-		errCount += checkNullCtor<g3::Biv>();
-		errCount += checkNullCtor<g3::Tri>();
+		errCount += checkNullCtor<g3::Scalar>();
+		errCount += checkNullCtor<g3::Vector>();
+		errCount += checkNullCtor<g3::BiVector>();
+		errCount += checkNullCtor<g3::TriVector>();
 		errCount += checkNullCtor<g3::Spinor>();
 		errCount += checkNullCtor<g3::ImSpin>();
 
@@ -224,10 +224,10 @@ namespace
 		using namespace g3;
 
 		// check default constructions
-		errCount += checkZeroCtor<g3::Sca>();
-		errCount += checkZeroCtor<g3::Vec>();
-		errCount += checkZeroCtor<g3::Biv>();
-		errCount += checkZeroCtor<g3::Tri>();
+		errCount += checkZeroCtor<g3::Scalar>();
+		errCount += checkZeroCtor<g3::Vector>();
+		errCount += checkZeroCtor<g3::BiVector>();
+		errCount += checkZeroCtor<g3::TriVector>();
 		errCount += checkZeroCtor<g3::Spinor>();
 		errCount += checkZeroCtor<g3::ImSpin>();
 
