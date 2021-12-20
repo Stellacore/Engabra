@@ -112,6 +112,22 @@ all calculations that result in zeros at compile time.
 
 - Standard C++ compiler (e.g. g++, clang)
 
+#### Build Example
+
+
+	$ cmake 
+		-DCMAKE_BUILD_TYPE=Release
+		-DCMAKE_INSTALL_PREFIX=/tmpLocal/
+		-DCMAKE_PREFIX_PATH=/tmpLocal/
+		/repos/engabra
+	$ make -j `nproc`
+	$ ctest
+	$ cpack
+	$ dpkg --contents ./Engabra*
+	$ sudo apt-get install ./Engabra-0.1.0-Linux.deb   # Install
+	$ sudo apt-get remove engabra   # Remove
+
+
 ### Documentation
 
 #### Code Reference Material

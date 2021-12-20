@@ -38,6 +38,7 @@ message("#### ${CPACK_PACKAGING_INSTALL_PREFIX} : "
 #[[
 #]]
 
+	# Copy entire document directory contents to install destination
 	install(
 		DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html
 		DESTINATION

@@ -1,14 +1,22 @@
+##
+## -- CMake public header sources
+##
+
 
 # list of headers that form package public interface
-set(allPublicHeaders
+set(engabraPublicHeaders
 
-	engabra.hpp
-	g3types.hpp
-	
+	g3func.h
+	g3.h
+	g3long.h
+	g3ops.h
+
 	)
 
+# install (public) header files
 install(
-	FILES ${allPublicHeaders}
-	DESTINATION include # disto packages uses (e.g. </usr/local>/include
+	FILES ${engabraPublicHeaders}
+	DESTINATION
+		${CMAKE_INSTALL_INCLUDEDIR}/${engabraProjName}
 	)
 

@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.13)
 
-set(engabraProjName "Engabra")
+set(engabraProjName "engabra")
 set(engabraProjVersion "0.1.0")
 
 project(
@@ -13,6 +13,14 @@ project(
 	DESCRIPTION "Practical Geometric Algebra Computations for Engineering"
 	LANGUAGES CXX
 	)
+
+message("### CMAKE_MAJOR_VERSION: " ${CMAKE_MAJOR_VERSION})
+message("### CMAKE_MINOR_VERSION: " ${CMAKE_MINOR_VERSION})
+message("### CMAKE_PATCH_VERSION: " ${CMAKE_PATCH_VERSION})
+message("### CMAKE_TWEAK_VERSION: " ${CMAKE_TWEAK_VERSION})
+message("### PROJECT: " ${PROJECT})
+message("### PROJECT_VERSION: " ${PROJECT_VERSION})
+
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -55,30 +63,68 @@ add_compile_options(
 #]]
 
 
-# Needs to be included before (doc) subdir
-include(GNUInstallDirs) # creates/sets CMAKE_INSTALL_<dir>
-
+##
+## -- configure packaging utilities
+##
 
 # unit test capabilities
 # include and enable here for enable to be inherited by subdir tree
 include(CTest)
 enable_testing()
 
+# Needs to be included first for use in subdir CMakeLists.txt files
+include(GNUInstallDirs) # creates/sets CMAKE_INSTALL_<dir>
+
+
+##
+## -- project source tree description
+##
+
+set(EXPORT_ALIAS_NAME ${engabraProjName}::${engabraProjName})
+set(EXPORT_TARGETS_NAME ${engabraProjName}Targets)
+set(EXPORT_FILENAME ${EXPORT_TARGETS_NAME}.cmake)
+message("### EXPORT_ALIAS_NAME: " ${EXPORT_ALIAS_NAME})
+message("### EXPORT_TARGETS_NAME: " ${EXPORT_TARGETS_NAME})
+message("### EXPORT_FILENAME: " ${EXPORT_FILENAME})
+
+
 ## -- Inform CMake about project tree
 
 # Project source code
+add_subdirectory(src) # project source code
 add_subdirectory(include) # project library public interface (e.g. c++ headers)
-#add_subdirectory(src) # project source code
 
 # Documentation
 add_subdirectory(doc) # project reference documentation
 
 # Project test programs
 add_subdirectory(tests) # developer unit tests (check source code operation)
-#add_subdirectory(vnv) # user validation tests
+#add_subdirectory(vnv) # use-case validation tests
 
 # Project examples
 #add_subdirectory(demos) # demonstration/example code
+
+
+# CMake configuration file packaging
+add_subdirectory(cmake) # generate .cmake files for downstream use
+
+##
+## -- CMake configuration utilities
+##
+
+set_property(
+	TARGET ${engabraProjName}
+	PROPERTY VERSION ${engabra_VERSION}
+	)
+set_property(
+	TARGET ${engabraProjName}
+	PROPERTY VERSION INTERFACE_engabra_MAJOR_VERSION 1
+	)
+set_property(
+	TARGET ${engabraProjName}
+	APPEND PROPERTY COMPATIBLE_INTERFACE_STRING engabra_MAJOR_VERSION
+	)
+
 
 
 ##
@@ -144,8 +190,5 @@ message("### CMAKE_INSTALL_FULL_DOCDIR: " ${CMAKE_INSTALL_FULL_DOCDIR})
 message("###")
 message("### DEB_PACKAGE_ROOT: " ${DEB_PACKAGE_ROOT})
 message("###")
-
-
-
 
 

@@ -1,0 +1,20 @@
+
+CMake
+
+	- decide naming for install package (e.g. add version number?)
+	- test/main programs include "Engabra/g3..."? or just "g3..."?
+	- cmake config file dir naming
+	- library tree directory use (perhaps like TPQZ?)
+
+Naming
+
+	- file naming in general
+
+Documentation
+
+	- everything
+
+Coding
+
+	- need multivector arithmetic
+
