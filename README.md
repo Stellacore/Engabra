@@ -71,6 +71,13 @@ namespace Engabra::
 		egaXyz
 
 
+## Design Concepts
+
+	- null object pattern
+
+	- const object usage (don't use assign, +=, etc)
+
+
 ## Decisions
 
 	- Naming: verbose vs. short

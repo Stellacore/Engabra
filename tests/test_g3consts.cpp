@@ -1,33 +1,31 @@
-/*
-
-MIT License
-
-Copyright (c) 2021 Stellacore Corporation
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-*/
+// 
+// MIT License
+// 
+// Copyright (c) 2022 Stellacore Corporation
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// 
 
 
 #include "test_common.hpp" // testing environment common utilities
 
-#include "compare.hpp"
+#include "g3compare.hpp"
 #include "g3consts.hpp"
 
 #include "g3io.hpp"
@@ -39,7 +37,7 @@ SOFTWARE.
 namespace
 {
 	// Keep test code focused on internal structure under main project name
-	using namespace engabra;
+	namespace g3 = engabra::g3;
 
 	//! Check (hardcoded) value of pi against math library implementation
 	std::size_t
@@ -53,7 +51,7 @@ namespace
 
 		double const piGot{ g3::pi };
 		double const piLib{ 4. * std::atan(1.) };
-		if (! nearlyEqualsAbs(piGot, piLib))
+		if (! g3::nearlyEqualsAbs(piGot, piLib))
 		{
 			++errCount;
 			std::cout << "Failure of 'pi' value check" << '\n';
@@ -64,7 +62,7 @@ namespace
 		{ // Check fractions of pi
 
 			double const gotFromHalf{ 2. * g3::piHalf };
-			if (! nearlyEqualsAbs(gotFromHalf, piLib))
+			if (! g3::nearlyEqualsAbs(gotFromHalf, piLib))
 			{
 				++errCount;
 				std::cout << "Failure of 'piHalf' value check" << '\n';
@@ -72,7 +70,7 @@ namespace
 				std::cout << "      piLib: " << fmt << piLib << '\n';
 			}
 			double const gotFromQtr{ 4. * g3::piQtr };
-			if (! nearlyEqualsAbs(gotFromQtr, piLib))
+			if (! g3::nearlyEqualsAbs(gotFromQtr, piLib))
 			{
 				++errCount;
 				std::cout << "Failure of 'piQtr' value check" << '\n';
@@ -84,7 +82,7 @@ namespace
 		{ // Check fractions of full cycle turn
 
 			double const gotFromFull{ .5 * g3::turnFull };
-			if (! nearlyEqualsAbs(gotFromFull, piLib))
+			if (! g3::nearlyEqualsAbs(gotFromFull, piLib))
 			{
 				++errCount;
 				std::cout << "Failure of 'piFull' value check" << '\n';
@@ -92,7 +90,7 @@ namespace
 				std::cout << "      piLib: " << fmt << piLib << '\n';
 			}
 			double const gotFromHalf{ g3::turnHalf };
-			if (! nearlyEqualsAbs(gotFromHalf, piLib))
+			if (! g3::nearlyEqualsAbs(gotFromHalf, piLib))
 			{
 				++errCount;
 				std::cout << "Failure of 'piHalf' value check" << '\n';
@@ -100,7 +98,7 @@ namespace
 				std::cout << "      piLib: " << fmt << piLib << '\n';
 			}
 			double const gotFromQtr{ 2. * g3::turnQtr };
-			if (! nearlyEqualsAbs(gotFromQtr, piLib))
+			if (! g3::nearlyEqualsAbs(gotFromQtr, piLib))
 			{
 				++errCount;
 				std::cout << "Failure of 'piQtr' value check" << '\n';

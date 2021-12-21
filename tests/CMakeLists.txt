@@ -3,9 +3,14 @@
 # list of all developer unit tests (or could GLOB for filenames)
 set(unitTests
 
+	test_engabra
+	test_g3compare
 	test_g3consts
 	test_g3io
+	test_g3opsBinAdd
+	test_g3opsUni
 	test_g3types
+	test_g3validity
 	test_helloEngabra
 
 	)

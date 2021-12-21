@@ -1,32 +1,79 @@
-/*
-
-MIT License
-
-Copyright (c) 2021 Stellacore Corporation
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-*/
+// 
+// MIT License
+// 
+// Copyright (c) 2022 Stellacore Corporation
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// 
 
 
 #ifndef engabra_g3types_INCL_
 #define engabra_g3types_INCL_
+
+/*! \file
+\brief Fundamental types (dimension basis blades) for G3.
+
+Basic Types:
+
+These are the fundamental types that describe the geometry of 3D space
+and its component subspaces. Each of these is a pure blade (an entity
+formed by the otter product of vectors).
+\arg Scalar - a 0-Dimensional entity (numeric value). Abstractly speaking
+	this is an outer product of zero vectors.
+\arg Vector - a 1-Dimensional entity spanning a line and is the outer product
+	of a single vector
+\arg BiVector - a 2-Dimensional entity spanning a plane. This can be factored
+	as the outer product of two (linearly independent) vectors. In 3D space
+	BiVectors are dual to Vectors.
+\arg TriVector - a 3-Dimensional entity spanning a volume and constructable
+	as the outer product of three (linearly independent) vectors.
+	TriVectors are the pseudoscalar of 3D space (i.e. dual to Scalars).
+
+Composite entities include:
+\arg Spinor - This is the geometric product of two vectors (aka "Rotor").
+	It comprises a Scalar and a BiVector constituent parts.
+\arg ImSpin - An "imaginary spinor" which is dual to Spinor. It comprises
+	a Vector and a Trivector constituent parts.
+
+
+Constructions Examples:
+
+Default constructions are fast but do \b NOT initialize content values.
+\snippet test_g3types.cpp DoxyExample01
+
+Instances can be initialized to explicit null values (e.g. to
+support the "null object" design pattern (which is used within the library
+- cf.  https://en.wikipedia.org/wiki/Null_object_pattern)
+\snippet test_g3types.cpp DoxyExample02
+
+Instances can be initialized to zero values (a single concept of 'zero'
+applies to geometric algebra entities of all grades).
+\snippet test_g3types.cpp DoxyExample03
+
+Instances can be initialized with specific numeric values.
+\snippet test_g3types.cpp DoxyExample04
+
+Composite entities can also be constructed using constituent entities:
+\snippet test_g3types.cpp DoxyExample05
+
+
+*/
 
 
 #include <array>
@@ -42,7 +89,7 @@ namespace engabra
 namespace g3
 {
 
-/*! \brief Namespace for definition of fundamental GA data types.
+/*! \brief Internal namespace: Fundamental GA types (published to engabra::g3)
  *
  * The fundamental types are
  * \arg Scalar
@@ -56,8 +103,8 @@ namespace g3
  * Particularly useful composites of the basic blade types include:
  * \arg Spinor
  * \arg ImSpinor
- * \arg Complex - TODO worth supporting? can use std::complex<double>
- * \arg MultiVector
+ * \arg Complex - TBD worth supporting? can use std::complex<double>
+ * \arg MultiVector - TODO need to add
  *
  * Note that MultiVector is the general element of the entire algebra.
  *
@@ -106,7 +153,7 @@ namespace types
 		//! Internal data store: Can also access element via operator[]().
 		std::array<double, 1u> theData;
 
-		/*! Subscript-style access to theData.
+		/*! \brief Subscript-style access to theData.
 		 *
 		 * This is trivial for the 1-element array, but provides functional
 		 * compatibility with other blade types.
@@ -181,7 +228,7 @@ namespace types
 		//! Internal data store: Can also access elements via operator[]().
 		std::array<double, 3u> theData;
 
-		/*! Subscript-style access to theData elements.
+		/*! \brief Subscript-style access to theData elements.
 		 *
 		 * Valid arguments are ndx={0,1,2}. The coordinates correspond
 		 * to unitary basis vector directions {e1,e2,e3}.
@@ -225,7 +272,7 @@ namespace types
 		//! Internal data store: Can also access elements via operator[]().
 		std::array<double, 3u> theData;
 
-		/*! Subscript-style access to theData elements.
+		/*! \brief Subscript-style access to theData elements.
 		 *
 		 * Valid arguments are ndx={0,1,2}. The coordinates correspond
 		 * to unitary basis bivector directions {e21,e31,e12}
@@ -266,7 +313,7 @@ namespace types
 		//! Internal data store: Can also access element via operator[]().
 		std::array<double, 1u> theData;
 
-		/*! Subscript-style access to theData.
+		/*! \brief Subscript-style access to theData.
 		 *
 		 * This is trivial for the 1-element array, but provides functional
 		 * compatibility with other blade types.
@@ -293,8 +340,8 @@ namespace types
 	 */
 	struct Spinor
 	{
-		Scalar theS; //!< Scalar grade part (acts like 'real' number)
-		BiVector theB; //!< BiVector grade part (acts like 'imaginary plane')
+		Scalar theSca; //!< Scalar grade part (acts like 'real' number)
+		BiVector theBiv; //!< BiVector grade part (acts like 'imaginary plane')
 	};
 
 	/*! \brief Imaginary spinor - vector and trivector grades (dual to Spinor).
@@ -308,8 +355,8 @@ namespace types
 	 */
 	struct ImSpin
 	{
-		Vector theV; //!< Vector grade part
-		TriVector theT; //!< TriVector grade part
+		Vector theVec; //!< Vector grade part
+		TriVector theTri; //!< TriVector grade part
 	};
 
 
@@ -323,120 +370,6 @@ using types::BiVector;
 using types::TriVector;
 using types::Spinor;
 using types::ImSpin;
-
-
-	//
-	// Null/NaN values
-	//
-
-	//! Generic Not-A-Number for individual values
-	constexpr double nan{ std::numeric_limits<double>::quiet_NaN() };
-
-	//! Null instance for a type constructable from 'double'.
-	template <typename Type>
-	inline
-	Type
-	null
-		()
-	{
-		return Type{ nan };
-	}
-
-	// null<Scalar> could be handled by default function
-	//! Null value - specialization for Scalar
-	template <> inline Scalar
-	null<Scalar> () { return Scalar{ nan }; }
-
-	//! Null value - specialization for Vector
-	template <> inline Vector
-	null<Vector> () { return Vector{ nan, nan, nan }; }
-
-	//! Null value - specialization for BiVector
-	template <> inline BiVector
-	null<BiVector> () { return BiVector{ nan, nan, nan }; }
-
-	// null<Tri> could be handled by default function
-	//! Null value - specialization for TriVector
-	template <> inline TriVector
-	null<TriVector> () { return TriVector{ nan }; }
-
-	//
-	// Instance validity testing
-	//
-
-	//! True if dub is a reasonable value, e.g. is (! null)
-	inline
-	bool
-	isValid
-		( double const & dub
-		)
-	{
-		bool okay{ (0. == dub) }; // allow zero as valid
-		if (! okay)
-		{
-			// normal meaning NOT any of {zero, subnormal, infinite, NaN}
-			okay = std::isnormal(dub);
-		}
-		return okay;
-	}
-
-	//! True if blade is not a null instancwe
-	template <typename Blade>
-	inline
-	bool
-	isValid
-		( Blade const & blade
-		)
-	{
-		return isValid(blade.theData[0]); // test only first element for nan
-	}
-
-	//! True if instance is not null - specialization for Spinor
-	template <>
-	inline
-	bool
-	isValid
-		( Spinor const & spin
-		)
-	{
-		return { isValid(spin.theS) && isValid(spin.theB) };
-	}
-
-	//! True if instance is not null - specialization for ImSpin
-	template <>
-	inline
-	bool
-	isValid
-		( ImSpin const & imsp
-		)
-	{
-		return { isValid(imsp.theV) && isValid(imsp.theT) };
-	}
-
-	//
-	// Zero values
-	//
-
-	//! Zero value instance of Type constructable from 'double'.
-	template <typename Type>
-	constexpr
-	Type
-	zero
-		()
-	{
-		return Type{ 0. };
-	}
-
-	// zero<Scalar> handled by default function
-
-	//! Zero value - specialization for Vectors
-	template <> constexpr Vector zero<Vector> () { return Vector{ 0., 0., 0. }; }
-
-	//! Zero value - specialization for BiVectors
-	template <> constexpr BiVector zero<BiVector> () { return BiVector{ 0., 0., 0. }; }
-
-	// zero<TriVector> handled by default function
-
 
 } // [g3]
 

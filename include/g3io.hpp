@@ -1,32 +1,34 @@
-/*
-
-MIT License
-
-Copyright (c) 2021 Stellacore Corporation
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-*/
+// 
+// MIT License
+// 
+// Copyright (c) 2022 Stellacore Corporation
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+// 
 
 
 #ifndef engabra_g3io_INCL_
 #define engabra_g3io_INCL_
+
+/*! \file
+\brief Various I/O functions for G3 entities and consistent formatting.
+*/
 
 
 #include "g3types.hpp"
@@ -43,10 +45,10 @@ namespace engabra
 namespace g3
 {
 
-//! Namespace for GA element input/ouput utilities and functions
+//! Internal namespace: GA element input/ouput (published to engabra::g3)
 namespace io
 {
-	/*! \brief Attributes for rudimentary numeric formatting.
+	/*! \brief Holds attributes for rudimentary numeric formatting.
 	 *
 	 * This structure provides a means for formatting the various GA
 	 * numeric values in a consistent manner.
@@ -105,7 +107,7 @@ namespace io
 				);
 		}
 
-		/*! Prepare stream to be suitable for inserting double next.
+		/*! \brief Prepare stream to be suitable for inserting double next.
 		 *
 		 * E.g.
 		 * \code
@@ -131,6 +133,7 @@ namespace io
 	}; // DoubleFormat
 
 	//! Use fmt formatter to prepare stream (calls fmt.prepareStream())
+	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
@@ -146,6 +149,7 @@ namespace io
 	//
 
 	//! Put value to stream with nominal formatting
+	inline
 	void
 	put
 		( std::ostream & ostrm
@@ -159,6 +163,7 @@ namespace io
 
 	//! Display elements of array
 	template <typename Type, std::size_t Dim>
+	inline
 	void
 	put
 		( std::ostream & ostrm
@@ -185,6 +190,7 @@ namespace io
 namespace
 {
 	//! Put a scalar to stream - with some formatting
+	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
@@ -196,6 +202,7 @@ namespace
 	}
 
 	//! Put a vector to stream - with some formatting
+	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
@@ -207,6 +214,7 @@ namespace
 	}
 
 	//! Put a bivector to stream - with some formatting
+	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
@@ -218,6 +226,7 @@ namespace
 	}
 
 	//! Put a trivector to stream - with some formatting
+	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
@@ -229,28 +238,31 @@ namespace
 	}
 
 	//! Put a spinor to stream - with some formatting
+	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
 		, engabra::g3::Spinor const & spin
 		)
 	{
-		ostrm << spin.theS << " " << spin.theB;
+		ostrm << spin.theSca << " " << spin.theBiv;
 		return ostrm;
 	}
 
 	//! Put a imaginary-spinor to stream - with some formatting
+	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
 		, engabra::g3::ImSpin const & imsp
 		)
 	{
-		ostrm << imsp.theV << " " << imsp.theT;
+		ostrm << imsp.theVec << " " << imsp.theTri;
 		return ostrm;
 	}
 
 	/*
+	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm

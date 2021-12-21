@@ -23,26 +23,72 @@
 //
 
 
-#ifndef g3_g3func_INCL_
-#define g3_g3func_INCL_
+#ifndef g3_g3funcs_INCL_
+#define g3_g3funcs_INCL_
+
+/*! \file
+\brief Useful mathematics operations and function extensions to G3 algebra.
+*/
 
 
-#include "g3.h"
+#include "g3ops.hpp"
+#include "g3types.hpp"
+#include "g3validity.hpp"
 
+
+namespace engabra
+{
 
 namespace g3
 {
+	//
+	// Math utility functions
+	//
 
-	//! General inverse of a multivector item
+	//! Square operation (result of multiplying argument by itself)
 	template <typename Type>
 	inline
 	Type
-	inverse
-		( Type const & someItem
+	sq
+		( Type const & someValue
 		)
 	{
-		double const mag2{ magSq(someItem) };
-		return Type{ (1./mag2) * reverse(someItem) };
+		return { someValue * someValue };
+	}
+
+	//! Squared magnitude
+	template <typename Blade>
+	inline
+	double
+	magSq
+		( Blade const & blade
+		)
+	{
+		return prodComm(blade.theData, blade.theData);
+	}
+
+	//! Squared magnitude - specialization for Spinor
+	template <>
+	inline
+	double
+	magSq
+		( Spinor const & spin
+		)
+	{
+		double const scaSq{ sq(spin.theSca.theData[0]) };
+		double const bivSq{ magSq(spin.theBiv) };
+		return {scaSq + bivSq };
+	}
+
+	//! Magnitude of blade
+	template <typename Blade>
+	inline
+	double
+	magnitude
+		( Blade const & blade
+		)
+	{
+		return std::sqrt(magSq(blade));
 	}
 
 	//! Decompose arbitrary blade into magnitude and direction interpretations
@@ -62,17 +108,21 @@ namespace g3
 		return {mag, dir};
 	}
 
+	//
+	// Math library type functions
+	//
+
 	//! Exponential of a bivector
 	inline
 	Spinor
 	exp
-		( Biv const & spinAngle
+		( BiVector const & spinAngle
 		)
 	{
-		Spinor spin{ 1., zero<Biv>() }; // zero angle default result
-		std::pair<double, Biv> const magdir{ magDirPairFrom(spinAngle) };
+		Spinor spin{ 1., zero<BiVector>() }; // zero angle default result
+		std::pair<double, BiVector> const magdir{ magDirPairFrom(spinAngle) };
 		double const & mag = magdir.first;
-		Biv const & dir = magdir.second;
+		BiVector const & dir = magdir.second;
 		if (isValid(dir)) // zero angle direction undefined - return default
 		{
 			spin = Spinor{ std::cos(mag), std::sin(mag)*dir };
@@ -97,7 +147,7 @@ namespace g3
 		( Spinor const & spin
 		)
 	{
-		Spinor gangle{ null<Spinor>() }; // generalized angle (Sca+Biv)
+		Spinor gangle{ null<Spinor>() }; // generalized angle (Scalar+BiVector)
 		double const spinMag{ magnitude(spin) };
 		// check for positive magnitude (no logarithm for zero magnitude)
 		if (std::numeric_limits<double>::epsilon() < spinMag)
@@ -116,15 +166,15 @@ namespace g3
 				// Rotation is very near PI
 				// - bivector direction not (or not well) defined
 				// - use provided argument plane to complete rotation
-				gangle = Spinor{ logSpinMag, null<Biv>() };
+				gangle = Spinor{ logSpinMag, null<BiVector>() };
 			}
 			else
 			{
 				// Rotation plane should be well defined
-				std::pair<double, Biv> const bivMagDir
+				std::pair<double, BiVector> const bivMagDir
 					{ magDirPairFrom(spinDir.theBiv) };
 				double const & angleMagSin = bivMagDir.first;
-				Biv const & angleDir = bivMagDir.second;
+				BiVector const & angleDir = bivMagDir.second;
 
 				double const angleVal{ std::atan2(angleMagSin, angleMagCos) };
 
@@ -135,6 +185,24 @@ namespace g3
 		return gangle;
 	}
 
+	//
+	// Algebraic operations
+	//
+
+	//! General inverse of a multivector item
+	template <typename Type>
+	inline
+	Type
+	inverse
+		( Type const & someItem
+		)
+	{
+		double const mag2{ magSq(someItem) };
+		return Type{ (1./mag2) * reverse(someItem) };
+	}
+
 } // [g3]
 
-#endif // g3_g3func_INCL_
+} // [engabra]
+
+#endif // g3_g3funcs_INCL_

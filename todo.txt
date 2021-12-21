@@ -1,4 +1,13 @@
 
+
+Action List:
+
+	- Complete g3ops port
+		- unit tests
+		- move functions from g3.hpp
+
+
+
 CMake
 
 	- decide naming for install package (e.g. add version number?)
@@ -13,6 +22,9 @@ Naming
 Documentation
 
 	- everything
+	- doxygen generation as part of build process
+
+	https://gist.github.com/francesco-romano/351a6ae457860c14ee7e907f2b0fc1a5
 
 Coding
 

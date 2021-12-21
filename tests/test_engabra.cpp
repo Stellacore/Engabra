@@ -24,22 +24,21 @@
 
 
 /*! \file
-\brief Unit tests (and example) code for engabra::NS
+\brief Unit tests (and example) code for 'engabra' level items
 */
 
 
 #include "test_common.hpp" // testing environment common utilities
 
-#include "g3NS.hpp"
+#include "engabra.hpp"
 
+#include <cassert>
 #include <iostream> // For test message output
+#include <sstream>
 
 
 namespace
 {
-	// Keep test code focused on internal structure under main project name
-	using namespace engabra;
-
 	//! Check TODO
 	std::size_t
 	test1
@@ -49,12 +48,61 @@ namespace
 
 		// [DoxyExample01]
 
-		// ###TODO interesting test code here
-		double const somethingIntersting{ g3::null<double>() };
+		std::ostringstream someStream;
+		// Use of fully qualified names
+		{
+			// fully qualified operations
+			engabra::g3::Vector const vecA{ 1.0, 1.1, 1.2 };
+			engabra::g3::Vector const vecB{ 2.0, 2.1, 2.2 };
+			using engabra::g3::operator+;  // required here
+			using engabra::g3::operator-;  // required here
+			engabra::g3::Vector const vecC{ vecA + (-vecB) };
+			someStream
+				<< " vecC: " << vecC  // engabra's global scope ::operator<<
+				<< " ok: " << engabra::g3::isValid(vecC)
+				<< '\n';
+		}
 
-		// [DoxyExample01]
+			// [DoxyExample01]
 
-		++errCount;
+		// [DoxyExample02]
+
+		// Implicit use of "G3" subspace within engabra
+		{
+			using namespace engabra;
+
+			// relatively compact notation with short namespace qualification
+			g3::Vector const vecA{ 1.0, 1.1, 1.2 };
+			g3::Vector const vecB{ 2.0, 2.1, 2.2 };
+			using g3::operator+;
+			g3::Vector const vecC{ vecA + vecB };
+			someStream
+				<< " vecC: " << vecC  // engabra's global scope ::operator<<
+				<< " ok: " << g3::isValid(vecC)
+				<< '\n';
+		}
+
+			// [DoxyExample02]
+
+		// [DoxyExample03]
+
+		// Implicit use of all basic items within the library
+		{
+			using namespace engabra::g3;
+
+			// relatively compact notation with short namespace qualification
+			Vector const vecA{ 1.0, 1.1, 1.2 };
+			Vector const vecB{ 2.0, 2.1, 2.2 };
+			Vector const vecC{ vecA + vecB }; // op+() implicitly
+			someStream
+				<< " vecC: " << vecC  // engabra's global scope ::operator<<
+				<< " ok: " << isValid(vecC) // implicit engabra function
+				<< '\n';
+		}
+
+			// [DoxyExample03]
+
+		std::cout << someStream.str();
 
 		return errCount;
 	}

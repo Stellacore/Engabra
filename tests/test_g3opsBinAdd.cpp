@@ -23,33 +23,60 @@
 // 
 
 
-#ifndef engabra_g3NS_INCL_
-#define engabra_g3NS_INCL_
-
 /*! \file
-\brief Contains ######
-
-Example:
-\snippet test_g3NS.cpp DoxyExample01
-
+\brief Unit tests (and example) code for engabra::opsBinAdd
 */
 
 
-namespace engabra
+#include "test_common.hpp" // testing environment common utilities
+
+#include "g3opsBinAdd.hpp"
+#include "engabra.hpp"
+
+#include <iostream> // For test message output
+
+
+namespace
 {
+	// Keep test code focused on internal structure under main project name
+	using namespace engabra;
 
-namespace g3
+	//! Check operations on basis blades
+	std::size_t
+	test1
+		()
+	{
+		std::size_t errCount{ 0u };
+
+
+		// [DoxyExample01]
+
+		// ###TODO interesting test code here
+		double const somethingIntersting{ g3::null<double>() };
+
+		// [DoxyExample01]
+
+		++errCount;
+
+		return errCount;
+	}
+}
+
+//! Check behavior of TODO
+int
+main
+	()
 {
+	int status{ tst::CTest::fail };
+	std::size_t errCount{ 0u };
 
-// TODO - document
-//! Namespace for TODO
-namespace NS
-{
+	errCount += test1();
+//	errCount += test2();
 
-} // [NS]
-} // [g3]
+	if (0u == errCount) // Only pass if no errors were encountered
+	{
+		status = tst::CTest::pass;
+	}
+	return status;
+}
 
-} // [engabra]
-
-
-#endif // engabra_g3NS_INCL_

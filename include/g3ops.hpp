@@ -23,33 +23,16 @@
 // 
 
 
-#ifndef engabra_g3NS_INCL_
-#define engabra_g3NS_INCL_
+#ifndef engabra_g3ops_INCL_
+#define engabra_g3ops_INCL_
 
 /*! \file
-\brief Contains ######
-
-Example:
-\snippet test_g3NS.cpp DoxyExample01
+\brief File to include all other g3ops*.hpp operator groupings.
 
 */
 
-
-namespace engabra
-{
-
-namespace g3
-{
-
-// TODO - document
-//! Namespace for TODO
-namespace NS
-{
-
-} // [NS]
-} // [g3]
-
-} // [engabra]
+#include "g3opsUni.hpp"
+#include "g3opsBin.hpp"
 
 
-#endif // engabra_g3NS_INCL_
+#endif // engabra_g3ops_INCL_

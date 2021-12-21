@@ -3,19 +3,8 @@
 ##
 
 
-#[[ - moved to end of top CMakeLists.txt
-# create export set for all targets (e.g. public headers and library)
-install(
-	EXPORT ${EXPORT_TARGETS_NAME}  # e.g. engabraTargets
-	FILE ${EXPORT_FILENAME}        # e.g. engabraTargets.cmake
-	NAMESPACE ${engabraProjName}:: # e.g. engabra::engabra
-	DESTINATION
-		${CMAKE_INSTALL_LIBDIR}/cmake/${engabraProjName}
-	)
-#]]
-
 ##
-## Creates Config.cmake and ConfigVersion.cmake files (that use install export)
+## -- create Config.cmake and ConfigVersion.cmake files (for export)
 ##
 
 # use CMake tools to create package
@@ -44,6 +33,10 @@ install(
 	DESTINATION
 		${CMAKE_INSTALL_LIBDIR}/cmake/${engabraProjName}
 )
+
+##
+## -- "publish" export targets for downstream use
+##
 
 # create export set for all targets (e.g. public headers and library)
 install(
