@@ -21,6 +21,10 @@ Naming
 
 Documentation
 
+	- describe concept of using const instances e.g.
+		Vector const foo{};
+		not doing (foo = bar;, foo[1]=3.; etc)
+
 	- everything
 	- doxygen generation as part of build process
 
@@ -29,4 +33,7 @@ Documentation
 Coding
 
 	- need multivector arithmetic
+
+	- Case: Should use (Complex and Dirplex) or (ComPlex and DirPlex) but
+	not both. (or ComPlex and AntPlex for commutitive and anti-commutative?)
 

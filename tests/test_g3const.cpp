@@ -26,7 +26,7 @@
 #include "test_common.hpp" // testing environment common utilities
 
 #include "g3compare.hpp"
-#include "g3consts.hpp"
+#include "g3const.hpp"
 
 #include "g3io.hpp"
 
@@ -47,7 +47,7 @@ namespace
 		std::size_t errCount{ 0u };
 
 		// display results to about full IEEE-754 precision.
-		g3::io::DoubleFormat const fmt(2u, 18u);
+		using engabra::g3::io::fixed;
 
 		double const piGot{ g3::pi };
 		double const piLib{ 4. * std::atan(1.) };
@@ -55,8 +55,8 @@ namespace
 		{
 			++errCount;
 			std::cout << "Failure of 'pi' value check" << '\n';
-			std::cout << "piGot: " << fmt << piGot << '\n';
-			std::cout << "piLib: " << fmt << piLib << '\n';
+			std::cout << "piGot: " << fixed(piGot) << '\n';
+			std::cout << "piLib: " << fixed(piLib) << '\n';
 		}
 
 		{ // Check fractions of pi
@@ -66,16 +66,16 @@ namespace
 			{
 				++errCount;
 				std::cout << "Failure of 'piHalf' value check" << '\n';
-				std::cout << "gotFromHalf: " << fmt << gotFromHalf << '\n';
-				std::cout << "      piLib: " << fmt << piLib << '\n';
+				std::cout << "gotFromHalf: " << fixed(gotFromHalf) << '\n';
+				std::cout << "      piLib: " << fixed(piLib) << '\n';
 			}
 			double const gotFromQtr{ 4. * g3::piQtr };
 			if (! g3::nearlyEqualsAbs(gotFromQtr, piLib))
 			{
 				++errCount;
 				std::cout << "Failure of 'piQtr' value check" << '\n';
-				std::cout << "gotFromQtr: " << fmt << gotFromQtr << '\n';
-				std::cout << "     piLib: " << fmt << piLib << '\n';
+				std::cout << "gotFromQtr: " << fixed(gotFromQtr) << '\n';
+				std::cout << "     piLib: " << fixed(piLib) << '\n';
 			}
 		}
 
@@ -86,24 +86,24 @@ namespace
 			{
 				++errCount;
 				std::cout << "Failure of 'piFull' value check" << '\n';
-				std::cout << "gotFromFull: " << fmt << gotFromFull << '\n';
-				std::cout << "      piLib: " << fmt << piLib << '\n';
+				std::cout << "gotFromFull: " << fixed(gotFromFull) << '\n';
+				std::cout << "      piLib: " << fixed(piLib) << '\n';
 			}
 			double const gotFromHalf{ g3::turnHalf };
 			if (! g3::nearlyEqualsAbs(gotFromHalf, piLib))
 			{
 				++errCount;
 				std::cout << "Failure of 'piHalf' value check" << '\n';
-				std::cout << "gotFromHalf: " << fmt << gotFromHalf << '\n';
-				std::cout << "      piLib: " << fmt << piLib << '\n';
+				std::cout << "gotFromHalf: " << fixed(gotFromHalf) << '\n';
+				std::cout << "      piLib: " << fixed(piLib) << '\n';
 			}
 			double const gotFromQtr{ 2. * g3::turnQtr };
 			if (! g3::nearlyEqualsAbs(gotFromQtr, piLib))
 			{
 				++errCount;
 				std::cout << "Failure of 'piQtr' value check" << '\n';
-				std::cout << "gotFromQtr: " << fmt << gotFromQtr << '\n';
-				std::cout << "     piLib: " << fmt << piLib << '\n';
+				std::cout << "gotFromQtr: " << fixed(gotFromQtr) << '\n';
+				std::cout << "     piLib: " << fixed(piLib) << '\n';
 			}
 		}
 

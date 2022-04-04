@@ -1,0 +1,3032 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass IEEEtran
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+GA Types in 3D
+\end_layout
+
+\begin_layout Standard
+This technical note summarizes the various data types provided by the engabra
+ package.
+ It identifies the explicit geometric algebra types that represent various
+ common specializations of the general three-dimensional multivector type.
+ Key algebraic operations are associated with typesetting notation and function
+ terminologies.
+\end_layout
+
+\begin_layout Section
+Entities
+\end_layout
+
+\begin_layout Standard
+Language support types
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+double
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+complex<double>
+\end_layout
+
+\begin_layout Standard
+Blades
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+Scalar
+\noun default
+ - intervals and counting (states and time) - differential state enumerations,
+ counting elements (countels)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=\sigma$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\noun on
+Vector
+\noun default
+ - spatial directions - foundation of linear space - concept of position/offset
+ - differential curve elements (e.g.
+ curvels)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=v$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\noun on
+BiVector
+\noun default
+ - spatial areas - differential surface elements (e.g.
+ surfels)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=B$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\noun on
+TriVector
+\noun default
+ - spatial volumes - differential volume elements (e.g.
+ voxels)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=\mathcal{T}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Pairs
+\end_layout
+
+\begin_layout Itemize
+Scalar and...
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+vec: 
+\noun on
+ParaVec
+\noun default
+ - physical time-space (e.g.
+ for 
+\begin_inset Formula $P=\tau+v$
+\end_inset
+
+, then 
+\begin_inset Formula $PP^{\circ}=\tau^{2}-v^{2}$
+\end_inset
+
+ is a light-like interval)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=\sigma+v$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+biv: 
+\noun on
+Spinor
+\noun default
+ - physical (generalized) angles
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=\sigma+B$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+tri: 
+\noun on
+Complex
+\noun default
+ - ?waves, harmonics?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=\sigma+\mathcal{T}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Vector and...
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+[ sca: ParaVec ]
+\end_layout
+
+\begin_layout Itemize
+biv: 
+\noun on
+DirPlex
+\noun default
+ - directed anti-commutative elements AntiPlex? generalized arg(M)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=v+B$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+tri: 
+\noun on
+ImSpin
+\noun default
+ - ?intermediate triple vector product properties)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=v+\mathcal{T}==\mathcal{I}\left(\sigma+B\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+BiVector and...
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+[ sca: Spinor ]
+\end_layout
+
+\begin_layout Itemize
+[ vec: Dirplex ]
+\end_layout
+
+\begin_layout Itemize
+tri: 
+\noun on
+ImPara
+\noun default
+ - ?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=B+\mathcal{T}=\mathcal{I}\left(\sigma+v\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+TriVector and...
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+[ sca: Complex ]
+\end_layout
+
+\begin_layout Itemize
+[ vec: ImSpin ]
+\end_layout
+
+\begin_layout Itemize
+[ biv: ImPara ]
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Trios
+\end_layout
+
+\begin_layout Itemize
+Missing
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+sca: 
+\noun on
+NoScalar
+\end_layout
+
+\begin_layout Itemize
+vec: 
+\noun on
+NoVector
+\end_layout
+
+\begin_layout Itemize
+biv: NoBiVector
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\noun on
+ImNoVector
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+tri: NoTriVector
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\noun on
+ImNoScalar
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+Quads
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+MultiVector
+\noun default
+ - general algebraic element, but not a division algebra
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=\sigma+v+B+\mathcal{T}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+MultiPlex - multiVector decomposed into ComPlex and DirPlex parts?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=\left(\sigma+\mathcal{T}\right)+\mathcal{I}\left(v+B\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M=\left(\sigma+v\right)+\mathcal{I}\left(w+\tau\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Grade Selection
+\end_layout
+
+\begin_layout Standard
+Grade selection operators include:
+\end_layout
+
+\begin_layout Itemize
+blade selections
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+grade(ndx) - selects the ndx-th grade (ndx=0 for Scalar, up to ndx=3 for
+ TriVector) - NO! CAN'T do since would require overloading return types.
+ Could do type.grade(ndx), but may as well just use type.theSca, etc.
+\end_layout
+
+\begin_layout Itemize
+scalar(*), vector(*), bivector(*), trivector(*)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Compound pair selections
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+spinor(*), imspin(*), complex(*), dirplex(*)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+MultiVector promotion
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+multivector(*)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+MultiVector decompositions
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+scalar() + vector() + bivector() + trivector()
+\end_layout
+
+\begin_layout Itemize
+spinor() + imspin()
+\end_layout
+
+\begin_layout Itemize
+complex() + dirplex()
+\end_layout
+
+\begin_layout Itemize
+paravec() + impara()
+\end_layout
+
+\begin_layout Itemize
+amplitude() * exp(arg())
+\end_layout
+
+\end_deeper
+\begin_layout Section
+General Product
+\end_layout
+
+\begin_layout Standard
+For MultiVectors,
+\begin_inset Formula 
+\[
+M=\alpha+a+A+\mathcal{A}
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+N=\beta+b+B+\mathcal{B}
+\]
+
+\end_inset
+
+the product may be expressed as
+\begin_inset Formula 
+\[
+MN=\left(\alpha+a+A+\mathcal{A}\right)\left(\beta+b+B+\mathcal{B}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MN & =\alpha\beta+\alpha b+\alpha B+\alpha\mathcal{B}\\
+ & +\beta a+ab+aB+a\mathcal{B}\\
+ & +\beta A+Ab+AB+A\mathcal{B}\\
+ & +\beta\mathcal{A}+b\mathcal{A}+B\mathcal{A}+\mathcal{A}\mathcal{B}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MN & =\alpha\beta+\mathcal{A}\mathcal{B}\\
+ & +\alpha b+\beta a+A\mathcal{B}+B\mathcal{A}\\
+ & +\alpha B+\beta A+a\mathcal{B}+b\mathcal{A}\\
+ & +\alpha\mathcal{B}+\beta\mathcal{A}\\
+\\
+ & +ab+AB\\
+ & +aB+Ab
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MN & =\alpha\beta+\mathcal{A}\mathcal{B}+a\cdot b+A\cdot B\\
+ & +\alpha b+\beta a+A\mathcal{B}+B\mathcal{A}+a\cdot B+A\cdot b\\
+ & +\alpha B+\beta A+a\mathcal{B}+b\mathcal{A}+a\wedge b+A\otimes B\\
+ & +\alpha\mathcal{B}+\beta\mathcal{A}+a\wedge B+A\wedge b
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $N$
+\end_inset
+
+ has grade components that are 
+\begin_inset Formula $\pm$
+\end_inset
+
+ the value of the same grade in 
+\begin_inset Formula $M$
+\end_inset
+
+, then several terms disappear e.g.
+\begin_inset Formula 
+\begin{align*}
+a\wedge b & =0\\
+A\otimes B & =0\\
+a\cdot B+A\cdot b & =0
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM & =\alpha\beta+\mathcal{A}\mathcal{B}+a\cdot b+A\cdot B\\
+ & +\alpha b+\beta a+A\mathcal{B}+B\mathcal{A}\\
+ & +\alpha B+\beta A+a\mathcal{B}+b\mathcal{A}\\
+ & +\alpha\mathcal{B}+\beta\mathcal{A}+a\wedge B+A\wedge b
+\end{align*}
+
+\end_inset
+
+In 
+\begin_inset Quotes eld
+\end_inset
+
+a-b
+\begin_inset Quotes erd
+\end_inset
+
+ order:
+\begin_inset Formula 
+\begin{align*}
+MM & =\alpha\beta+a\cdot b+\mathcal{A}\mathcal{B}+A\cdot B\\
+ & +\alpha b+a\beta+A\mathcal{B}+\mathcal{A}B\\
+ & +\alpha B+a\mathcal{B}+A\beta+\mathcal{A}b\\
+ & +\alpha\mathcal{B}+a\wedge B+A\wedge b+\mathcal{A}\beta
+\end{align*}
+
+\end_inset
+
+neg scalar, 
+\begin_inset Formula $\alpha$
+\end_inset
+
+,
+\begin_inset Formula 
+\begin{align*}
+MM & =-\alpha\beta+a\cdot b+\mathcal{A}\mathcal{B}+A\cdot B\\
+ & +A\mathcal{B}+\mathcal{A}B\\
+ & +a\mathcal{B}+\mathcal{A}b\\
+ & +a\wedge B+A\wedge b
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+neg vector, 
+\begin_inset Formula $a$
+\end_inset
+
+,
+\begin_inset Formula 
+\begin{align*}
+MM & =\alpha\beta-a\cdot b+\mathcal{A}\mathcal{B}+A\cdot B\\
+ & +A\mathcal{B}+\mathcal{A}B\\
+ & +\alpha B+A\beta\\
+ & +\alpha\mathcal{B}+\mathcal{A}\beta
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+neg bivector, 
+\begin_inset Formula $A$
+\end_inset
+
+,
+\begin_inset Formula 
+\begin{align*}
+MM & =\alpha\beta+a\cdot b-\mathcal{A}\mathcal{B}+A\cdot B\\
+ & +\alpha b+a\beta\\
+ & +a\mathcal{B}+\mathcal{A}b\\
+ & +\alpha\mathcal{B}+\mathcal{A}\beta
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+neg trivector, 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+,
+\begin_inset Formula 
+\begin{align*}
+MM & =\alpha\beta+a\cdot b+\mathcal{A}\mathcal{B}-A\cdot B\\
+ & +\alpha b+a\beta\\
+ & +\alpha B+A\beta\\
+ & +a\wedge B+A\wedge b
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Inspection / Characterization Functions
+\end_layout
+
+\begin_layout Standard
+Forms for expression include:
+\end_layout
+
+\begin_layout Itemize
+Grade form
+\begin_inset Formula 
+\[
+M=\sigma+v+B+\mathcal{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Duplex form
+\begin_inset Formula 
+\begin{align*}
+M & =C+D
+\end{align*}
+
+\end_inset
+
+where
+\begin_inset Formula 
+\begin{align*}
+C & =\left\langle M\right\rangle _{0}+\left\langle M\right\rangle _{3}\\
+D & =\left\langle M\right\rangle _{1}+\left\langle M\right\rangle _{2}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Polar form - expressed in terms of duplex expansion,
+\begin_inset Formula 
+\[
+M=\left|M\right|e^{A\hat{D}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Functions including:
+\end_layout
+
+\begin_layout Itemize
+normSq() - squared L2 norm (positive definitive)
+\begin_inset Formula 
+\[
+\left\Vert M\right\Vert ^{2}=\left\langle MM^{\dagger}\right\rangle _{0}=\left\langle M^{\dagger}M\right\rangle _{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+magnitude() - sqrt(scalar(normSq))
+\begin_inset Formula 
+\[
+\left\Vert M\right\Vert =\left\langle MM^{\dagger}\right\rangle _{0}^{\frac{1}{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+polar() - express multivector in polar form.
+ For multivector.
+ 
+\begin_inset Formula $M$
+\end_inset
+
+, in 
+\begin_inset Quotes eld
+\end_inset
+
+duplex decomposition
+\begin_inset Quotes erd
+\end_inset
+
+ (Complex and Dirplex parts), 
+\begin_inset Formula $M=Z+F$
+\end_inset
+
+, (e.g.
+ 
+\begin_inset Formula $Z=\alpha+\mathcal{I}\beta$
+\end_inset
+
+, and 
+\begin_inset Formula $F=\gamma+\mathcal{I}\delta$
+\end_inset
+
+) the polar form has a complex amplitude 
+\begin_inset Formula $\left|M\right|=\sigma+\mathcal{I}\tau$
+\end_inset
+
+, and complex argument, 
+\begin_inset Formula $A=\phi+\mathcal{I}\vartheta$
+\end_inset
+
+,
+\begin_inset Formula 
+\begin{align*}
+M & =\left|M\right|e^{A\hat{F}}=\left|M\right|\left(\cos A+\hat{F}\sin A\right)=e^{\ln\left|M\right|+A\hat{F}}\\
+A & =\arg\left(M\right)\\
+\hat{F} & =\frac{F}{\left|F\right|}
+\end{align*}
+
+\end_inset
+
+Provided, 
+\begin_inset Formula $\left|M\right|\ne0$
+\end_inset
+
+ and 
+\begin_inset Formula $\left|F\right|\ne0$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+amplitude() - in 3D space, this is a complex-like type (complex, dirplex,
+ other?)
+\begin_inset Formula 
+\[
+\left|M\right|=\left(MM^{\ddagger}\right)^{\frac{1}{2}}\,;\,\text{in 3D}
+\]
+
+\end_inset
+
+or
+\begin_inset Formula 
+\[
+\left|M\right|=\sqrt{MM^{\ddagger}}\,;\,\text{in 3D}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+argument() - dirplex type (directed angle?),
+\begin_inset Formula 
+\[
+\Phi=\arctan\left(\frac{\left|F\right|}{Z}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+angle() - ? - how/if to define? or grl() ?
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+inverse() - algebraic inverse (when/if it exists)
+\begin_inset Formula 
+\[
+M^{-1}=\frac{M^{\ddagger}}{MM^{\ddagger}}=\frac{M^{\ddagger}}{M^{\ddagger}M}
+\]
+
+\end_inset
+
+Provided 
+\begin_inset Formula $MM^{\dagger}\ne0$
+\end_inset
+
+, which, for 
+\begin_inset Formula $M=Z+F$
+\end_inset
+
+, requires 
+\begin_inset Formula $F^{2}\ne Z^{2}$
+\end_inset
+
+ (i.e.
+ where 
+\begin_inset Formula $Z$
+\end_inset
+
+ is Complex and 
+\begin_inset Formula $F$
+\end_inset
+
+ is Dirplex type).
+\end_layout
+
+\begin_layout Section
+Operations Functions
+\end_layout
+
+\begin_layout Standard
+Unitary involution inverses for multivectors:
+\begin_inset Formula 
+\[
+M=\sigma+v+B+\mathcal{T}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{?}=\sigma-v-B-\mathcal{T}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{\circ}=\sigma-v+B-\mathcal{T}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{\dagger}=\sigma+v-B-\mathcal{T}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{\ddagger}=\sigma-v-B+\mathcal{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Pair Products
+\end_layout
+
+\begin_layout Standard
+Times Self:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $MM$
+\end_inset
+
+: Square:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Is (MultiVector)
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+MM=\left(\sigma+v+B+\mathcal{T}\right)\left(\sigma+v+B+\mathcal{T}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM & =\sigma\sigma+\sigma v+\sigma B+\sigma\mathcal{T}\\
+ & +\sigma v+vv+vB+v\mathcal{T}\\
+ & +\sigma B+Bv+BB+B\mathcal{T}\\
+ & +\sigma\mathcal{T}+v\mathcal{T}+B\mathcal{T}+\mathcal{T}\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM & =\sigma\sigma+vv+BB+\mathcal{T}\mathcal{T}\\
+ & +\sigma v+\sigma v+B\mathcal{T}+B\mathcal{T}\\
+ & +\sigma B+\sigma B+v\mathcal{T}+v\mathcal{T}\\
+ & +\sigma\mathcal{T}+\sigma\mathcal{T}\\
+ & +vB+Bv
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM & =\sigma\sigma+vv+BB+\mathcal{T}\mathcal{T}\\
+ & +2\sigma v+2B\mathcal{T}\\
+ & +2\sigma B+2v\mathcal{T}\\
+ & +2\sigma\mathcal{T}+\left(vB+Bv\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM & =\left\langle \sigma^{2}+v^{2}+B^{2}+\mathcal{T}^{2}\right\rangle _{0}\\
+ & +2\left\langle \sigma v+B\mathcal{T}\right\rangle _{1}\\
+ & +2\left\langle \sigma B+v\mathcal{T}\right\rangle _{2}\\
+ & +2\left\langle \sigma\mathcal{T}+2v\wedge B\right\rangle _{3}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Times Converse(): +,-,-,-
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $MM^{?}$
+\end_inset
+
+: ???
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+is (??).
+ E.g.
+ is amount of 
+\begin_inset Quotes eld
+\end_inset
+
+non-vector-ness
+\begin_inset Quotes erd
+\end_inset
+
+?.
+ E.g.
+ Scalar is positive 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+, Vector is 
+\begin_inset Formula $-v^{2}$
+\end_inset
+
+, BiVector is 
+\begin_inset Formula $-B^{2}=-\left\Vert B\right\Vert ^{2}$
+\end_inset
+
+, and Trivector is 
+\begin_inset Formula $-\mathcal{T}^{2}=\left\Vert \mathcal{T}\right\Vert ^{2}$
+\end_inset
+
+
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+MM^{?}=\left(\sigma+v+B+\mathcal{T}\right)\left(\sigma-v-B-\mathcal{T}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{?} & =\sigma\sigma-\sigma v-\sigma B-\sigma\mathcal{T}\\
+ & +\sigma v-vv-vB-v\mathcal{T}\\
+ & +\sigma B-Bv-BB-B\mathcal{T}\\
+ & +\sigma\mathcal{T}-v\mathcal{T}-B\mathcal{T}-\mathcal{T}\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{?} & =\sigma\sigma-vv-BB-\mathcal{T}\mathcal{T}\\
+ & -\sigma v+\sigma v-B\mathcal{T}-B\mathcal{T}\\
+ & -\sigma B+\sigma B-v\mathcal{T}-v\mathcal{T}\\
+ & -\sigma\mathcal{T}+\sigma\mathcal{T}-vB-Bv
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{?} & =\sigma\sigma-vv-BB-\mathcal{T}\mathcal{T}\\
+ & -B\mathcal{T}-B\mathcal{T}\\
+ & -v\mathcal{T}-v\mathcal{T}\\
+ & -\left(vB+Bv\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{?} & =\sigma\sigma-vv-BB-\mathcal{T}\mathcal{T}\\
+ & -2B\mathcal{T}\\
+ & -2v\mathcal{T}\\
+ & -2v\wedge B
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+-MM^{?} & =\left\langle -\sigma^{2}+v^{2}+B^{2}+\mathcal{T}^{2}\right\rangle _{0}\\
+ & +2\left\langle B\mathcal{T}\right\rangle _{1}\\
+ & +2\left\langle v\mathcal{T}\right\rangle _{2}\\
+ & +2\left\langle v\wedge B\right\rangle _{3}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{?} & =\sigma^{2}-\left\langle v^{2}+B^{2}+\mathcal{T}^{2}\right\rangle _{0}\\
+ & -2\left\langle B\mathcal{T}\right\rangle _{1}\\
+ & -2\left\langle v\mathcal{T}\right\rangle _{2}\\
+ & -2\left\langle v\wedge B\right\rangle _{3}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Times Oddverse(): +,-,+,-
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $MM^{\circ}$
+\end_inset
+
+: ? - If 
+\begin_inset Formula $v\parallel B$
+\end_inset
+
+, then this is a projection into MultiVector in 
+\begin_inset Formula $B$
+\end_inset
+
+ plane.
+ If 
+\begin_inset Formula $v\nparallel B$
+\end_inset
+
+, then vector is in the 
+\begin_inset Formula $B$
+\end_inset
+
+ subspace, but bivector grade is an different subspace.
+ E.g.
+ is a projection if 
+\begin_inset Formula $B=x\wedge v$
+\end_inset
+
+.
+ E.g.
+\begin_inset Formula $B=\frac{1}{2}\left(xv-vx\right)$
+\end_inset
+
+ or if 
+\begin_inset Formula $M=\sigma+v+x\wedge v+\mathcal{T}.$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Is (NoTriVector)
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+MM^{\circ}=\left(\sigma+v+B+\mathcal{T}\right)\left(\sigma-v+B-\mathcal{T}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-\sigma v+\sigma B-\sigma\mathcal{T}\\
+ & +\sigma v-vv+vB-v\mathcal{T}\\
+ & +\sigma B-Bv+BB-B\mathcal{T}\\
+ & +\sigma\mathcal{T}-v\mathcal{T}+B\mathcal{T}-\mathcal{T}\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-vv+BB-\mathcal{T}\mathcal{T}\\
+ & -\sigma v+\sigma v-B\mathcal{T}+B\mathcal{T}\\
+ & +\sigma B-v\mathcal{T}+\sigma B-v\mathcal{T}\\
+ & -\sigma\mathcal{T}+\sigma\mathcal{T}\\
+ & +vB-Bv
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-vv+BB-\mathcal{T}\mathcal{T}\\
+ & -\sigma v+\sigma v-B\mathcal{T}+B\mathcal{T}+\left(vB-Bv\right)\\
+ & +\sigma B-v\mathcal{T}+\sigma B-v\mathcal{T}\\
+ & -\sigma\mathcal{T}+\sigma\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-vv+BB-\mathcal{T}\mathcal{T}\\
+ & +\left(vB-Bv\right)\\
+ & +2\sigma B-2v\mathcal{T}\\
+ & +0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Check
+\begin_inset Formula 
+\[
+MM^{\circ}=\left(\sigma+v+B+\mathcal{T}\right)\left(\sigma-v+B-\mathcal{T}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-\sigma v+\sigma B-\sigma\mathcal{T}\\
+ & +\sigma v-vv+vB-v\mathcal{T}\\
+ & +\sigma B-Bv+BB-B\mathcal{T}\\
+ & +\sigma\mathcal{T}-v\mathcal{T}+B\mathcal{T}-\mathcal{T}\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-vv+BB-\mathcal{T}\mathcal{T}\\
+ & -\sigma v+\sigma v-B\mathcal{T}+B\mathcal{T}\\
+ & +\sigma B-v\mathcal{T}+\sigma B-v\mathcal{T}\\
+ & -\sigma\mathcal{T}+\sigma\mathcal{T}\\
+\\
+ & +vB-Bv
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-vv+BB-\mathcal{T}\mathcal{T}\\
+ & -\sigma v+\sigma v-B\mathcal{T}+B\mathcal{T}+\left(vB-Bv\right)\\
+ & +\sigma B-v\mathcal{T}+\sigma B-v\mathcal{T}\\
+ & -\sigma\mathcal{T}+\sigma\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-vv+BB-\mathcal{T}\mathcal{T}\\
+ & +\left(vB-Bv\right)\\
+ & +\sigma B+\sigma B-v\mathcal{T}-v\mathcal{T}\\
+ & +0
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\sigma\sigma-vv+BB-\mathcal{T}\mathcal{T}\\
+ & +\left(vB-Bv\right)\\
+ & +2\sigma B-2v\mathcal{T}\\
+ & +0
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+MM^{\circ}=\left\langle \sigma^{2}-v^{2}+B^{2}-\mathcal{T}^{2}\right\rangle _{0}+2\left\langle v\cdot B\right\rangle _{1}+2\left\langle \sigma B-v\mathcal{T}\right\rangle _{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\left\langle \sigma^{2}-v^{2}+B^{2}-\mathcal{T}^{2}\right\rangle _{0}\\
+ & +2\left\langle v\cdot B\right\rangle _{1}\\
+ & +2\left\langle \sigma B-v\mathcal{T}\right\rangle _{2}\\
+ & +\left\langle 0\right\rangle _{3}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Times Reverse(): +,-,+,-
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $MM^{\dagger}$
+\end_inset
+
+: Squared Norm - aka Complex Square.
+ Magnitude Square: (ParaVector) - this is more like complex 
+\begin_inset Quotes eld
+\end_inset
+
+modulus
+\begin_inset Quotes erd
+\end_inset
+
+ e.g.
+ 
+\begin_inset Formula $zz^{*}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Is a (ParaVector)
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+MM^{\dagger}=\left(\sigma+v+B+\mathcal{T}\right)\left(\sigma+v-B-\mathcal{T}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\dagger} & =\sigma\sigma+\sigma v-\sigma B-\sigma\mathcal{T}\\
+ & +\sigma v+vv-vB-v\mathcal{T}\\
+ & +\sigma B+Bv-BB-B\mathcal{T}\\
+ & +\sigma\mathcal{T}+v\mathcal{T}-B\mathcal{T}-\mathcal{T}\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\dagger} & =\sigma\sigma+vv-BB-\mathcal{T}\mathcal{T}\\
+ & +\sigma v+\sigma v-B\mathcal{T}-B\mathcal{T}\\
+ & -\sigma B-v\mathcal{T}+\sigma B+v\mathcal{T}\\
+ & -\sigma\mathcal{T}+\sigma\mathcal{T}\\
+\\
+ & -vB+Bv
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\dagger} & =\sigma\sigma+vv-BB-\mathcal{T}\mathcal{T}\\
+ & +\sigma v+\sigma v-B\mathcal{T}-B\mathcal{T}+\left(Bv-vB\right)\\
+ & -\sigma B-v\mathcal{T}+\sigma B+v\mathcal{T}\\
+ & -\sigma\mathcal{T}+\sigma\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\dagger} & =\sigma\sigma+vv-BB-\mathcal{T}\mathcal{T}\\
+ & +2\sigma v-2B\mathcal{T}+\left(Bv-vB\right)\\
+ & +0\\
+ & +0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\dagger} & =\left\langle \sigma^{2}+v^{2}+B^{2}+\mathcal{T}^{2}\right\rangle _{0}\\
+ & +2\left\langle \sigma v-2B\mathcal{T}+B\cdot v\right\rangle _{1}\\
+ & +\left\langle 0\right\rangle _{2}\\
+ & +\left\langle 0\right\rangle _{3}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Times Dirverse(): +,-,-,+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $MM^{\ddagger}$
+\end_inset
+
+: Squared Amplitude - aka Absolute Square: Note that 
+\begin_inset Formula $\left(MM^{\ddagger}\right)^{\dagger}\left(MM^{\ddagger}\right)=\left\langle ...\right\rangle _{0}$
+\end_inset
+
+ and can be used to rationalize denominator of inverse.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Is a (Complex)
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+MM^{\ddagger}=\left(\sigma+v+B+\mathcal{T}\right)\left(\sigma-v-B+\mathcal{T}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\ddagger} & =\sigma\sigma-\sigma v-\sigma B+\sigma\mathcal{T}\\
+ & +\sigma v-vv-vB+v\mathcal{T}\\
+ & +\sigma B-Bv-BB+B\mathcal{T}\\
+ & +\sigma\mathcal{T}-v\mathcal{T}-B\mathcal{T}+\mathcal{T}\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\ddagger} & =\sigma\sigma-vv-BB+\mathcal{T}\mathcal{T}\\
+ & -\sigma v+\sigma v+B\mathcal{T}-B\mathcal{T}\\
+ & -\sigma B+v\mathcal{T}+\sigma B-v\mathcal{T}\\
+ & +\sigma\mathcal{T}+\sigma\mathcal{T}\\
+ & -vB-Bv
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\ddagger} & =\sigma\sigma-vv-BB+\mathcal{T}\mathcal{T}\\
+ & -\sigma v+\sigma v+B\mathcal{T}-B\mathcal{T}\\
+ & -\sigma B+v\mathcal{T}+\sigma B-v\mathcal{T}\\
+ & +\sigma\mathcal{T}+\sigma\mathcal{T}-\left(vB+Bv\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\ddagger} & =\sigma\sigma-vv-BB+\mathcal{T}\mathcal{T}\\
+ & +0\\
+ & +0\\
+ & +2\sigma\mathcal{T}-\left(vB+Bv\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\ddagger} & =\left\langle \sigma^{2}-v^{2}-B^{2}+\mathcal{T}^{2}\right\rangle _{0}\\
+ & +\left\langle 0\right\rangle _{1}\\
+ & +\left\langle 0\right\rangle _{2}\\
+ & +2\left\langle \sigma\mathcal{T}-v\wedge B\right\rangle _{3}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Magnitude: 
+\begin_inset Formula $\left(MM^{\dagger}\right)^{\frac{1}{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Squared Norm?
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Amplitude: 
+\begin_inset Formula $\sqrt{MM^{\ddagger}}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Squared Amplitude
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Duplex Components
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $M$
+\end_inset
+
+ in ComPlex and DirPlex parts:
+\begin_inset Formula 
+\[
+M=C+D
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Self Duplex
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+C & =\sigma+\mathcal{T}\\
+D & =v+B
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\begin{align*}
+C^{2} & =\left(\sigma^{2}+\mathcal{T}^{2}\right)+2\sigma\mathcal{T}\\
+D^{2} & =v^{2}+B^{2}+\left(vB+Bv\right)\\
+CD & =\sigma v+\sigma B+v\mathcal{T}+B\mathcal{T}\\
+DC & =CD
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+CC^{\#} & =\left\langle \sigma^{2}+\mathcal{T}^{2}\right\rangle _{0}+2\left\langle \sigma\mathcal{T}\right\rangle _{3}\\
+DD^{\#} & =\left\langle v^{2}+B^{2}\right\rangle _{0}+2\left\langle v\wedge B\right\rangle _{3}\\
+CD^{\#} & =\left\langle \sigma v+B\mathcal{T}\right\rangle _{1}+\left\langle \sigma B+v\mathcal{T}\right\rangle _{2}\\
+DC^{\#} & =\left\langle \sigma v+B\mathcal{T}\right\rangle _{1}+\left\langle \sigma B+v\mathcal{T}\right\rangle _{2}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\#} & =\left\langle CC^{\#}+DD^{\#}\right\rangle _{C}+\left\langle CD^{\#}+DC^{\#}\right\rangle _{D}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Opposites
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+C^{\circ} & =\sigma-\mathcal{T}\\
+D^{\circ} & =-v+B
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+C^{\circ2} & =\left\langle \sigma^{2}+\mathcal{T}^{2}\right\rangle _{0}-2\left\langle \sigma\mathcal{T}\right\rangle _{3}=C^{\dagger2}\\
+D^{\circ2} & =\left\langle v^{2}+B^{2}\right\rangle _{0}-2\left\langle v\wedge B\right\rangle _{3}=D^{\dagger2}\\
+CD=DC & =-\left\langle \sigma v+B\mathcal{T}\right\rangle _{1}+\left\langle \sigma B+v\mathcal{T}\right\rangle _{2}=\left(CD\right)^{\circ}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+CC^{\circ} & =\left\langle \sigma^{2}+\mathcal{T}^{2}\right\rangle _{0}-2\left\langle \sigma\mathcal{T}\right\rangle _{3}\\
+DD^{\circ} & =\left\langle v^{2}+B^{2}\right\rangle _{0}-2\left\langle v\wedge B\right\rangle _{3}\\
+CD^{\circ} & =-\left\langle \sigma v-B\mathcal{T}\right\rangle _{1}+\left\langle \sigma B-v\mathcal{T}\right\rangle _{2}\\
+DC^{\circ} & =\left\langle \sigma v-B\mathcal{T}\right\rangle _{1}+\left\langle \sigma B-v\mathcal{T}\right\rangle _{2}=\left(CD^{\circ}\right)^{\circ}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\left\langle CC^{\circ}+DD^{\circ}\right\rangle _{C}+2\left\langle CD^{\circ}\right\rangle _{2}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Reverses
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+C^{\dagger} & =\sigma-\mathcal{T}\\
+D^{\dagger} & =v-B
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+CC^{\dagger} & =\left\langle \sigma^{2}+\mathcal{T}^{2}\right\rangle _{0}-2\left\langle \sigma\mathcal{T}\right\rangle _{3}\\
+DD^{\dagger} & =\left\langle v^{2}+B^{2}\right\rangle _{0}-2\left\langle v\wedge B\right\rangle _{3}\\
+CD^{\dagger} & =\left\langle \sigma v-B\mathcal{T}\right\rangle _{1}+\left\langle -\sigma B+v\mathcal{T}\right\rangle _{2}\\
+DC^{\dagger} & =\left\langle \sigma v-B\mathcal{T}\right\rangle _{1}+\left\langle \sigma B-v\mathcal{T}\right\rangle _{2}=-CD^{\dagger}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\dagger} & =\left\langle CC^{\dagger}+DD^{\dagger}\right\rangle _{C}+2\left\langle CD^{\dagger}\right\rangle _{1}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\dagger}=\left\Vert M\right\Vert ^{2} & =\left\langle \left\Vert C\right\Vert ^{2}+\left\Vert M\right\Vert ^{2}\right\rangle _{0}+2\left(\left\langle CD^{\dagger}\right\rangle _{1}-\left\langle \sigma\mathcal{T}+v\wedge B\right\rangle _{3}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Redirects
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+C^{\ddagger} & =\sigma+\mathcal{T}\\
+D^{\ddagger} & =-v-B=-D
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+CC^{\ddagger} & =\left\langle \sigma^{2}+\mathcal{T}^{2}\right\rangle _{0}+2\left\langle \sigma\mathcal{T}\right\rangle _{3}\\
+DD^{\ddagger} & =\left\langle v^{2}+B^{2}\right\rangle _{0}+2\left\langle v\wedge B\right\rangle _{3}\\
+CD^{\ddagger} & =-\left\langle \sigma v+B\mathcal{T}\right\rangle _{1}-\left\langle \sigma B+v\mathcal{T}\right\rangle _{2}=-CD=-DC\\
+DC^{\ddagger} & =-\left\langle \sigma v+B\mathcal{T}\right\rangle _{1}-\left\langle \sigma B+v\mathcal{T}\right\rangle _{2}=-DC=-CD
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\ddagger} & =\left\langle CC^{\ddagger}+DD^{\ddagger}\right\rangle _{C}+\left\langle 2CD\right\rangle _{D}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\ddagger} & =\left|M\right|^{2}=\left\langle \left|C\right|^{2}+\left|D\right|^{2}\right\rangle _{C}+\left\langle 2CD\right\rangle _{D}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $MM$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+MM=\left(C+D\right)\left(C^{\#}+D^{\#}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM & =CC^{\#}+DD^{\#}\\
+ & +\left(CD^{\#}+DC^{\#}\right)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $MM^{\circ}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+MM^{\circ}=CC^{\circ}+DD^{\circ}+\left(CD^{\circ}+DC^{\circ}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =CC^{\circ}+DD^{\circ}\\
+ & +\left(CD^{\circ}+DC^{\circ}\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\left\langle \sigma\sigma-\mathcal{T}\mathcal{T}\right\rangle _{0}+\left\langle -vv+BB\right\rangle _{0}+\left\langle vB-Bv\right\rangle _{1}\\
+ & +\left(\left\langle -\sigma v+B\mathcal{T}\right\rangle _{1}+\left\langle -v\mathcal{T}+\sigma B\right\rangle _{2}+\left\langle \sigma v-B\mathcal{T}\right\rangle _{1}+\left\langle -v\mathcal{T}+\sigma B\right\rangle _{2}\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\left\langle \sigma\sigma-\mathcal{T}\mathcal{T}\right\rangle _{0}+\left\langle -vv+BB\right\rangle _{0}\\
+ & +\left\langle vB-Bv\right\rangle _{1}+\left\langle -\sigma v+B\mathcal{T}\right\rangle _{1}+\left\langle \sigma v-B\mathcal{T}\right\rangle _{1}\\
+ & +\left\langle -v\mathcal{T}+\sigma B\right\rangle _{2}+\left\langle -v\mathcal{T}+\sigma B\right\rangle _{2}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+MM^{\circ} & =\left\langle \sigma\sigma-vv+BB-\mathcal{T}\mathcal{T}\right\rangle _{0}\\
+ & +\left\langle vB-Bv\right\rangle _{1}\\
+ & +2\left\langle -v\mathcal{T}+\sigma B\right\rangle _{2}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Entity manipulations:
+\end_layout
+
+\begin_layout Itemize
+involutions involving sign changes in grade components
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+negative() - via uninary operator-()
+\end_layout
+
+\begin_layout Itemize
+opposite() - Point reflection
+\end_layout
+
+\begin_layout Itemize
+reverse() - Imaginary Conjugation
+\end_layout
+
+\begin_layout Itemize
+redirect() - Clifford Conjugation
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Products include
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+scalar(self() * reverse()) = magnitude
+\end_layout
+
+\begin_layout Itemize
+self() * redirect() = complex amplitude
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Algebraic functions:
+\end_layout
+
+\begin_layout Itemize
+exp() - exponentiation
+\end_layout
+
+\begin_layout Itemize
+cosh(), sinh(), cos(), sin() - components of exp()
+\end_layout
+
+\begin_layout Itemize
+log() - function inverse of exp()
+\end_layout
+
+\begin_layout Itemize
+? angle() - e.g.
+ log(b*a^-1)?
+\end_layout
+
+\begin_layout Section
+Cast Operations
+\end_layout
+
+\begin_layout Standard
+E.g.
+\end_layout
+
+\begin_layout Itemize
+(MultiVector){...alltypes}
+\end_layout
+
+\begin_layout Itemize
+Any use for (Spinor){Scalar,Bivector}, (Complex){Scalar,TriVector}
+\end_layout
+
+\begin_layout Section
+Grade Operations
+\end_layout
+
+\begin_layout Standard
+All of the operators are involutions (
+\begin_inset Formula $f\left(f\left(x\right)\right)=x$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M^{1}$
+\end_inset
+
+ some multivector
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Concept: Entity definition standards and conventions
+\end_layout
+
+\begin_layout Itemize
+Changes: N/A
+\end_layout
+
+\begin_layout Itemize
+Impacts: Definition of all
+\end_layout
+
+\begin_layout Itemize
+Name: Existence, Instance, Entity
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+Function
+\noun default
+: self()
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+inverseNone()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $M^{\circ}$
+\end_inset
+
+ Involution by building basis from opposing directions - 
+\begin_inset Formula $M$
+\end_inset
+
+ (change vectors signs) (+,-,+,-)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Properties: anti-automorphic.
+ I.e.
+\begin_inset Formula $\left(AB\right)^{\circ}=A^{\circ}B^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Concept: Inversion of frame basis construction
+\end_layout
+
+\begin_layout Itemize
+Signature: Changes sign of all odd grades
+\end_layout
+
+\begin_layout Itemize
+Changes: Chirality of basis interpretation, negates DirPlexs
+\end_layout
+
+\begin_layout Itemize
+Impacts: Vector, Trivectors, ImSpins
+\end_layout
+
+\begin_layout Itemize
+Name: Opposition, (point/frame/origin) Inversion
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+Function
+\noun default
+: opposite() - frame basis inversion
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Itemize
+orientationInverse(), inverseOrientation, inverseFrameOrientation()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+orientation (or origin) inversion
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Pointverse
+\end_layout
+
+\begin_layout Itemize
+Oriverse (orientation or origin inverse)
+\end_layout
+
+\begin_layout Itemize
+Frameverse - inversion of basis (e.g.
+ baseversion), ChiVerse
+\end_layout
+
+\begin_layout Itemize
+BasisFlip (FrameFlip)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $M^{\dagger}$
+\end_inset
+
+ Involution by reversing the order of factors - 
+\begin_inset Formula $M$
+\end_inset
+
+ (+,+,-,-)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Properties: anti-automorphic.
+ I.e.
+\begin_inset Formula $\left(AB\right)^{\dagger}=B^{\dagger}A^{\dagger}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Concept: Inversion of algebraic extension construction paradigm
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Itemize
+e.g.
+ from 
+\begin_inset Formula $a$
+\end_inset
+
+ extent toward 
+\begin_inset Formula $b$
+\end_inset
+
+, vs from 
+\begin_inset Formula $b$
+\end_inset
+
+ extend toward 
+\begin_inset Formula $a$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+e.g.
+ from 
+\begin_inset Formula $ab$
+\end_inset
+
+ extent toward 
+\begin_inset Formula $c$
+\end_inset
+
+, vs from 
+\begin_inset Formula $cb$
+\end_inset
+
+ extend toward 
+\begin_inset Formula $a$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+from 
+\begin_inset Formula $a$
+\end_inset
+
+ extend to 
+\begin_inset Formula $b$
+\end_inset
+
+ then to 
+\begin_inset Formula $c$
+\end_inset
+
+, vs from 
+\begin_inset Formula $c$
+\end_inset
+
+ extend to 
+\begin_inset Formula $b$
+\end_inset
+
+ then to 
+\begin_inset Formula $a$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $\left(\left\langle abc\right\rangle _{1}+\left\langle abc\right\rangle _{3}\right)^{\dagger}=\left(\left\langle abc\right\rangle _{1}-\left\langle abc\right\rangle _{3}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Signature: Changes sign of all 
+\begin_inset Quotes eld
+\end_inset
+
+imaginary
+\begin_inset Quotes erd
+\end_inset
+
+ grades
+\end_layout
+
+\begin_layout Itemize
+Changes: Permutation of order in product factors
+\end_layout
+
+\begin_layout Itemize
+Impacts: Bivectors, TriVectors, ImParas
+\end_layout
+
+\begin_layout Itemize
+Name: Reverse (Permuverse)
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+Function
+\noun default
+: reverse()
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Itemize
+inverseOrder(), inverseFactorOrder()
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+(permutation) Reversal 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Reverse - inversion of interpretation (chirality inversion in 3D space)
+\end_layout
+
+\begin_layout Itemize
+OrderFlip
+\end_layout
+
+\end_inset
+
+ - extension construct inversion
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $M^{\ddagger}$
+\end_inset
+
+ Clifford conjugate (reversed involution of 
+\begin_inset Formula $M$
+\end_inset
+
+) (+,-,-,+)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Properties: anti-automorphic.
+ I.e.
+ 
+\begin_inset Formula $\left(AB\right)^{\ddagger}=B^{\ddagger}A^{\ddagger}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Concept: Inversion of directed compound (multi-dimensional) elements
+\end_layout
+
+\begin_layout Itemize
+Signature: Changes sign of all anti-commutative grades
+\end_layout
+
+\begin_layout Itemize
+Changes: sign of DirPlex numbers
+\end_layout
+
+\begin_layout Itemize
+Impacts: Vectors, BiVectors, DirPlexs
+\end_layout
+
+\begin_layout Itemize
+Name: Flip, Conjugate
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+Function
+\noun default
+: redirect() - Directed compound element inversion
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Itemize
+conjugate() - too overloaded
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+dirverse(), commuverse(), redirection(), twist(), diversion()
+\end_layout
+
+\begin_layout Itemize
+conjugateDirections(), inverseDirections(), inverseGradeDirections()
+\end_layout
+
+\begin_layout Itemize
+Clifford conjugation: reverse(oriverse(X))
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Dirflip - inversion of spatially directed grades
+\end_layout
+
+\begin_layout Itemize
+DirectionFlip
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Relationships
+\end_layout
+
+\begin_layout Standard
+Staring with multivector
+\begin_inset Formula 
+\[
+M=\sigma+v+B+\mathcal{T}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{\circ}=\sigma-v+B-\mathcal{T}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{\dagger}=\sigma+v-B-\mathcal{T}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{\ddagger}=\sigma-v-B+\mathcal{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Combined relationships include:
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pair wise involution composites
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(M^{\#}\right)^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(M^{\#}\right)^{\dagger}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(M^{\#}\right)^{\ddagger}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(M^{\circ}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M^{\ddagger}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M^{\dagger}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(M^{\dagger}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M^{\ddagger}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left(M^{\ddagger}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M^{\dagger}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M^{\circ}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Involution pair relationships
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+opposite(opposite(M)) - by involution
+\begin_inset Formula 
+\[
+\left(M^{\circ}\right)^{\circ}=M
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+opposite(reverse(M))
+\begin_inset Formula 
+\begin{align*}
+\left(M^{\dagger}\right)^{\circ} & =\left(\sigma+v-B-\mathcal{T}\right)^{\circ}\\
+ & =\left(\sigma-v-B+\mathcal{T}\right)=M^{\ddagger}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+opposite(redirect(M))
+\begin_inset Formula 
+\begin{align*}
+\left(M^{\ddagger}\right)^{\circ} & =\left(\sigma-v-B+\mathcal{T}\right)^{\circ}\\
+ & =\left(\sigma+v-B-\mathcal{T}\right)=M^{\dagger}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+reverse(opposite(M))
+\begin_inset Formula 
+\begin{align*}
+\left(M^{\circ}\right)^{\dagger} & =\left(\sigma-v+B-\mathcal{T}\right)^{\dagger}\\
+ & =\left(\sigma-v-B+\mathcal{T}\right)=M^{\ddagger}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+reverse(reverse(M)) - by involution
+\begin_inset Formula 
+\[
+\left(M^{\dagger}\right)^{\dagger}=M
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+reverse(redirect(M))
+\begin_inset Formula 
+\begin{align*}
+\left(M^{\ddagger}\right)^{\dagger} & =\left(\sigma-v-B+\mathcal{T}\right)^{\dagger}\\
+ & =\left(\sigma-v+B-\mathcal{T}\right)=M^{\circ}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+redirect(opposite(M))
+\begin_inset Formula 
+\begin{align*}
+\left(M^{\circ}\right)^{\ddagger} & =\left(\sigma-v+B-\mathcal{T}\right)^{\ddagger}\\
+ & =\left(\sigma+v-B-\mathcal{T}\right)=M^{\dagger}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+redirect(reverse(M))
+\begin_inset Formula 
+\begin{align*}
+\left(M^{\dagger}\right)^{\ddagger} & =\left(\sigma+v-B-\mathcal{T}\right)^{\ddagger}\\
+ & =\left(\sigma-v+B-\mathcal{T}\right)=M^{\circ}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+redirect(redirect(M)) - by involution
+\begin_inset Formula 
+\[
+\left(M^{\ddagger}\right)^{\ddagger}=M
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Involution pair relationships are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+M^{\ddagger}=\left(M^{\circ}\right)^{\dagger}=\left(M^{\dagger}\right)^{\circ}=M^{\circ\dagger}=M^{\dagger\circ}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{\dagger}=\left(M^{\ddagger}\right)^{\circ}=\left(M^{\circ}\right)^{\ddagger}=M^{\ddagger\circ}=M^{\circ\ddagger}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M^{\circ}=\left(M^{\dagger}\right)^{\ddagger}=\left(M^{\ddagger}\right)^{\dagger}=M^{\dagger\ddagger}=M^{\ddagger\dagger}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Conjugation
+\end_layout
+
+\begin_layout Standard
+Reserve this term for use in changing sign of any 
+\begin_inset Quotes eld
+\end_inset
+
+imaginary
+\begin_inset Quotes erd
+\end_inset
+
+ components.
+ E.g.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M^{*}$
+\end_inset
+
+ Conjugation - changing sign on 
+\begin_inset Quotes eld
+\end_inset
+
+imaginary part
+\begin_inset Quotes erd
+\end_inset
+
+ of a construction
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $M=\sigma+v+B+\mathcal{T}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M=\left(\sigma+v\right)+\mathcal{I}\left(w+\tau\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M=\left(\sigma+\mathcal{I}\tau\right)+\left(v+\mathcal{I}w\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $S=\sigma+\mathcal{I}v$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $C=\sigma+\mathcal{I}\tau$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $D=v+\mathcal{I}w$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+In 3D, this is the same as the reverse() e.g.
+ 
+\begin_inset Formula $B=\mathcal{I}v$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{T}=\mathcal{I}\sigma$
+\end_inset
+
+ both flip signs.
+\end_layout
+
+\begin_layout Section
+Notations
+\end_layout
+
+\begin_layout Standard
+Ideas
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $X^{\circ}$
+\end_inset
+
+, 
+\begin_inset Formula $X^{\dagger}$
+\end_inset
+
+, 
+\begin_inset Formula $X^{\ddagger}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+MM^{\ddagger}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+MM^{\Leftrightarrow}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+MM^{\Updownarrow}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+MM^{\Updownarrow}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $X^{*}$
+\end_inset
+
+,
+\begin_inset Formula $X^{\bullet}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\widetilde{X}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\mathring{X}$
+\end_inset
+
+, 
+\begin_inset Formula $\overbrace{X}$
+\end_inset
+
+, 
+\begin_inset Formula $\bar{X}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\overline{X+A}$
+\end_inset
+
+, 
+\begin_inset Formula $\widetilde{X+A}$
+\end_inset
+
+, 
+\begin_inset Formula $\overbrace{X+A}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+###
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-3"
+
+\end_inset
+
+Chappell JM, Iqbal A, Gunn LJ, Abbott D (2015) Functions of Multivector
+ Variables.
+ PLoS ONE 10(3): e0116943.
+ doi:10.1371/journal.pone.0116943, https://journals.plos.org/plosone/article/file?id=
+10.1371/journal.pone.0116943&type=printable.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-4"
+
+\end_inset
+
+Adolfas Dargys, Arturas Acus, 
+\begin_inset Quotes eld
+\end_inset
+
+Exponentials of general multivector (MV) in 3D Clifford algebras
+\begin_inset Quotes erd
+\end_inset
+
+, arXiv:2104.01905, Feb 2021, https://arxiv.org/pdf/2104.01905.pdf
+\end_layout
+
+\end_body
+\end_document

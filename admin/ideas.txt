@@ -109,21 +109,21 @@ Parts
 Composite can have 16 combinations (from null, to Multi)
 
 *	....  - 0 Data____ : .0
-!	...s  - 1 Data___S : .1
-!	..v.  - 2 Data__V_ : .2
-	..vs  - 3 Data__VS : x3
-!	.b..  - 4 Data_B__ : d2
-*	.b.s  - 5 Data_B_S : .5
+!	...s  - 1 Data___S : .1  Scalar
+!	..v.  - 2 Data__V_ : .2  Vector
+	..vs  - 3 Data__VS : x3  BiVector
+!	.b..  - 4 Data_B__ : d2  TriVector
+*	.b.s  - 5 Data_B_S : .5  Spinor
 	.bv.  - 6 Data_BV_ : 
 	.bvs  - 7 Data_BVS : 
 !	t...  - 8 DataT___ : d1
-c	t..s  - 9 DataT__S : .9
-*	t.v.  - A DataT_V_ : d5
+c	t..s  - 9 DataT__S : .9  Complex
+*	t.v.  - A DataT_V_ : d5  ImSpin
 	t.vs  - B DataT_VS : 9+v
 	tb..  - C DataTB__ : d3
 	tb.s  - D DataTB_S : 9+b
 	tbv.  - E DataTBV_ : 9+b
-m	tbvs  - F DataTBVS : .F
+m	tbvs  - F DataTBVS : .F  MultiVector
 
 
 ! - blades
@@ -131,4 +131,13 @@ m	tbvs  - F DataTBVS : .F
 c - complex numbers
 m - multivectors
 
+Add Complex type? e.g. (Scalar+TriVector) - is a type that forms a field
+of it's own (e.g. analogous Spinors). Downside is that it introduces a
+large number of operator overload requirements.
+
+E.g. Complex would be an *undirected* complex type, whereas Spinor is
+an "embedded" (and directed) complex type.
+
+OTOH - Complex is already avaiable std::complex<> - but that does not
+interact with engabra::g3.
 

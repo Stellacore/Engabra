@@ -31,8 +31,12 @@
 
 */
 
+// Unitary operations
 #include "g3opsUni.hpp"
-#include "g3opsBin.hpp"
+
+// Binary operations
+#include "g3opsAdd.hpp"
+#include "g3opsMul.hpp"
 
 
 #endif // engabra_g3ops_INCL_

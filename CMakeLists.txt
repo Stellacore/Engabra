@@ -47,21 +47,20 @@ set(BUILD_FLAGS_FOR_GCC
 	-Winit-self
 	-fno-nonansi-builtins
 	-pedantic-errors
+	#
+	-fmax-errors=1  # keep template error message generation under control
 	)
 set(BUILD_FLAGS_FOR_VISUAL
 	""
 	)
 
 
-#[[
-# general configuration
-# Note: can use target_compile_features() to customize for individual target
-add_compile_options(
-	-std=c++17
-	-pedantic
-	)
-#]]
 
+##
+## -- simple demo programs (more elaborate ones in engabraDemo project)
+##
+
+add_subdirectory(demos)
 
 ##
 ## -- configure packaging utilities

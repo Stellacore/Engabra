@@ -7,17 +7,21 @@
 set(engabraPublicHeaders
 
 	g3compare.hpp
-	g3consts.hpp
-	g3funcs.hpp
+	g3const.hpp
+	g3func.hpp
 	g3io.hpp
-	g3opsBinAdd.hpp
-	g3opsBin.hpp
+	g3opsAdd.hpp
 	g3ops.hpp
+	g3opsMul.hpp
 	g3opsUni.hpp
-	g3types.hpp
+	g3publish.hpp
+	g3traits.hpp
+	g3type.hpp
 	g3validity.hpp
 
 	engabra.hpp
+
+	g3opsMul.inl
 
 	)
 

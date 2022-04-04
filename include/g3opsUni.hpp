@@ -29,22 +29,70 @@
 /*! \file
 \brief Contains unitary operator functions for basic types
 
-This file provides operator that act on a single entity of any GA type.
-\arg negation (additive inverse)
-\arg reverse (often denoted with a dagger or tilde)
+This file provides operators that act on a single entity of any GA type.
 
-esage and behavior of the reverse() and unitary negation operator is
+There are several involution operators. These are:
+
+\arg negation: via operator-().
+	Changes sign on all grades.
+	(denoted by leading negative sign)
+\arg reverse(): flip the \b permutation \b order of vector factors in a blade.
+	Changes sign on bivectors and trivectors.
+	(often denoted with a dagger or tilde)
+\arg oddverse(): flip orientation of \b odd \b grade entities.
+	Is associated with reflecting all basis vectors (of a coordinate frame)
+	through the origin. This changes the sign of any blade entity that is the
+	product of an odd number of vectors.
+	When applied to Complex type, this is the same as "complex conjugate".
+	Changes sign on vectors and trivectors.
+	(often denoted with a asterix superscript)
+\arg dirverse(): flip orientation of \b spatially \b directed quantities
+	leaving scalars or pseudo-scalars unchanged.
+	Changes sign on vectors and bivectors - aka "Clifford conjugate"
+	(often denoted with an overbar)
+
+The pattern of negations is illustrated in the following code.
+\snippet test_g3opsUni.cpp DoxyExample02
+
+Note on Naming: the name "conjugate" could perhaps be used instead of
+"dirverse". However, that would lead to confusion between:
+
+\arg [Clifford] conjugate - dirverse(Complex{})
+\arg [Complex] conjugate - reverse(Complex{}) == oddverse(Complex{})
+
+To avoid the ambiguity which type of interpretation of conjugate should
+be used, the new name, "dirverse", has been introduced to eliminate the
+ambiguity.
+
+All of the above operations are involutions (successive application
+twice returns to original starting value) - i.e.
+
+\arg x = op(op(x)) : for all of operator-(), reverse(), oddverse(), dirverse().
+
+The various involution operations are compositionally commutative with
+each other. E.g. for any entity, 'x'
+
+\arg opA(opB(x)) == opB(opA(x))
+
+For the three operations, reverse(), oddverse(), dirverse(), composition
+of any two operations produces the same result as the third operation. I.e.:
+
+\arg reverse() == oddverse(dirverse()) == dirverse(oddverse())
+\arg oddverse() == dirverse(reverse()) == reverse(dirverse())
+\arg dirverse() == reverse(oddverse()) == oddverse(reverse())
+
+*/
+
+/*
+Usage and behavior of the reverse() and unitary negation operator is
 demonstrated in this section of unit test code.
 \snippet test_g3opsUni.cpp DoxyExample01
-
 */
 
-/* TODO? TBD
-\arg conjugate
-\arg involute
-*/
 
-#include "g3types.hpp"
+
+#include "g3type.hpp"
+#include "g3traits.hpp"
 
 #include <algorithm>
 
@@ -59,7 +107,10 @@ namespace g3
 	//
 
 	//! Unitary negation
-	template <typename Blade>
+	template
+		< typename Blade
+		, std::enable_if_t<is::blade<Blade>::value, bool> = true
+		>
 	inline
 	Blade
 	operator-
@@ -76,77 +127,400 @@ namespace g3
 		return outBlade;
 	}
 
-	//! Specialization - Unitary negation (Spinor)
+	//! Specialization - Unitary negation
 	inline
 	Spinor
 	operator-
-		( Spinor const & anySpin
+		( Spinor const & spin
 		)
 	{
-		return Spinor{ anySpin.theSca, -anySpin.theBiv };
+		return Spinor{ -spin.theSca, -spin.theBiv };
+	}
+
+	//! Specialization - Unitary negation
+	inline
+	ImSpin
+	operator-
+		( ImSpin const & imsp
+		)
+	{
+		return ImSpin{ -imsp.theVec, -imsp.theTri };
+	}
+
+	//! Specialization - Unitary negation
+	inline
+	MultiVector
+	operator-
+		( MultiVector const & mv
+		)
+	{
+		return MultiVector{ -mv.theSca, -mv.theVec, -mv.theBiv, -mv.theTri };
 	}
 
 	//
-	// Unitary reversion
+	// Unitary reversion (Biv & Tri)
 	//
+
+	//! Reverse of double (is same as input)
+	inline
+	double
+	reverse
+		( double const & dub
+		)
+	{
+		return dub;
+	}
 
 	//! Reverse of Scalar (is same as input)
 	inline
 	Scalar
 	reverse
-	(Scalar const & blade)
+		( Scalar const & sca
+		)
 	{
-		return blade;
+		return sca;
 	}
 
 	//! Reverse of Vector (is same as input)
 	inline
 	Vector
 	reverse
-		(Vector const & blade)
+		( Vector const & vec
+		)
 	{
-		return blade;
+		return vec;
 	}
 
 	//! Reverse of BiVector (negates the input)
 	inline
 	BiVector
 	reverse
-		(BiVector const & blade)
+		( BiVector const & biv
+		)
 	{
-		return -blade;
+		// could use "return -biv" - but may as well save compiler work/time
+		return BiVector{ -biv.theData[0], -biv.theData[1], -biv.theData[2] };
 	}
 
 	//! Reverse of TriVector (negates the input)
 	inline
 	TriVector
 	reverse
-		(TriVector const & blade)
+		( TriVector const & tri
+		)
 	{
-		return -blade;
+		return TriVector{ -tri.theData[0] };
 	}
 
 	//! Reverse of Spinor (same scalar, negative bivector)
 	inline
 	Spinor
 	reverse
-		(Spinor const & spin)
+		( Spinor const & spin
+		)
 	{
-		return Spinor{spin.theSca, -spin.theBiv};
+		// return Spinor{ spin.theSca, -spin.theBiv };
+		return Spinor
+			{ reverse(spin.theSca)
+			, reverse(spin.theBiv)
+			};
 	}
 
 	//! Reverse of ImSpin (same vector, negative trivector)
 	inline
 	ImSpin
 	reverse
-		(ImSpin const & imsp)
+		( ImSpin const & imsp
+		)
 	{
-		return ImSpin{imsp.theVec, -imsp.theTri};
+		// return ImSpin{ imsp.theVec, -imsp.theTri };
+		return ImSpin
+			{ reverse(imsp.theVec)
+			, reverse(imsp.theTri)
+			};
+	}
+
+	//! Reverse of MultiVector (same sca,vec, negated biv,tri)
+	inline
+	MultiVector
+	reverse
+		( MultiVector const & mv
+		)
+	{
+		// return MultiVector{ mv.theSca, mv.theVec, -mv.theBiv, -mv.theTri };
+		return MultiVector
+			{ reverse(mv.theSca)
+			, reverse(mv.theVec)
+			, reverse(mv.theBiv)
+			, reverse(mv.theTri)
+			};
 	}
 
 	//
-	// TODO - perhaps add conjugation an involution?
+	// Oddverse(): Flip coordinate frame basis vectors (Vec & Tri)
 	//
+
+	//! Same as sca
+	inline
+	Scalar
+	oddverse
+		( Scalar const & sca
+		)
+	{
+		return sca;
+	}
+
+	//! Changes sign on vector
+	inline
+	Vector
+	oddverse
+		( Vector const & vec
+		)
+	{
+		return Vector{ -vec.theData[0], -vec.theData[1], -vec.theData[2] };
+	}
+
+	//! Same as biv
+	inline
+	BiVector
+	oddverse
+		( BiVector const & biv
+		)
+	{
+		return biv;
+	}
+
+	//! Changes sign on trivector
+	inline
+	TriVector
+	oddverse
+		( TriVector const & tri
+		)
+	{
+		return TriVector{ -tri.theData[0] };;
+	}
+
+	//! Same as spin
+	inline
+	Spinor
+	oddverse
+		( Spinor const & spin
+		)
+	{
+		return spin;
+	}
+
+	//! Changes sign on imsp (both vector and trivector grades)
+	inline
+	ImSpin
+	oddverse
+		( ImSpin const & imsp
+		)
+	{
+		return ImSpin
+			{ oddverse(imsp.theVec)
+			, oddverse(imsp.theTri)
+			};
+	}
+
+	//! Changes sign on vector and trivector grades
+	inline
+	MultiVector
+	oddverse
+		( MultiVector const & mv
+		)
+	{
+		// return MultiVector{ mv.theSca, -mv.theVec, mv.theBiv, -mv.theTri };
+		return MultiVector
+			{ oddverse(mv.theSca)
+			, oddverse(mv.theVec)
+			, oddverse(mv.theBiv)
+			, oddverse(mv.theTri)
+			};
+	}
+
+
+	//
+	// Dirverse(): Flip directed spatial entities (Vec & Biv)
+	//
+
+	//! Same as sca
+	inline
+	Scalar
+	dirverse
+		( Scalar const sca
+		)
+	{
+		return sca;
+	}
+
+	//! Changes sign of vec
+	inline
+	Vector
+	dirverse
+		( Vector const vec
+		)
+	{
+		return Vector{ -vec.theData[0], -vec.theData[1], -vec.theData[2] };
+	}
+
+	//! Changes sign of biv
+	inline
+	BiVector
+	dirverse
+		( BiVector const biv
+		)
+	{
+		return BiVector{ -biv.theData[0], -biv.theData[1], -biv.theData[2] };
+	}
+
+	//! Same as tri
+	inline
+	TriVector
+	dirverse
+		( TriVector const tri
+		)
+	{
+		return tri;
+	}
+
+	//! Changes sign of bivector grade (same as reverse)
+	inline
+	Spinor
+	dirverse
+		( Spinor const spin
+		)
+	{
+		// return Spinor{ spin.theSca, -spin.theBiv };
+		return Spinor
+			{ dirverse(spin.theSca)
+			, dirverse(spin.theBiv)
+			};
+	}
+
+	//! Negative of imsp (changes sign on both vector and bivector grades)
+	inline
+	ImSpin
+	dirverse
+		( ImSpin const imsp
+		)
+	{
+		// return ImSpin{ -imsp.theVec, imsp.theTri };
+		return ImSpin
+			{ dirverse(imsp.theVec)
+			, dirverse(imsp.theTri)
+			};
+			
+	}
+
+	//! Changes sign on spatially directed vector and bivector grades
+	inline
+	MultiVector
+	dirverse
+		( MultiVector const & mv
+		)
+	{
+		// return MultiVector{ mv.theSca, -mv.theVec, -mv.theBiv, mv.theTri };
+		return MultiVector
+			{ dirverse(mv.theSca)
+			, dirverse(mv.theVec)
+			, dirverse(mv.theBiv)
+			, dirverse(mv.theTri)
+			};
+	}
+
+	//
+	// Dual entities (unit trivector times argument)
+	//
+
+	//! TriVector that is dual to double
+	inline
+	TriVector
+	dual
+		( double const & dub
+		)
+	{
+		return TriVector{ dub };
+	}
+
+	//! TriVector that is dual to Scalar
+	inline
+	TriVector
+	dual
+		( Scalar const & sca
+		)
+	{
+		return TriVector{ sca.theData };
+	}
+
+	//! BiVector that is dual to Vector
+	inline
+	BiVector
+	dual
+		( Vector const & vec
+		)
+	{
+		return BiVector{ vec.theData };
+	}
+
+	//! Vector that is dual to BiVector
+	inline
+	Vector
+	dual
+		( BiVector const & biv
+		)
+	{
+		return Vector
+			{ - biv.theData[0]
+			, - biv.theData[1]
+			, - biv.theData[2]
+			};
+	}
+
+	//! Scalar that is dual to TriVector
+	inline
+	Scalar
+	dual
+		( TriVector const & tri
+		)
+	{
+		return Scalar{ - tri.theData[0] };
+	}
+
+	//! ImSpin that is dual to Spinor
+	inline
+	ImSpin
+	dual
+		( Spinor const & spin
+		)
+	{
+		return ImSpin{ dual(spin.theBiv), dual(spin.theSca) };
+	}
+
+	//! Spinor that is dual to ImSpin
+	inline
+	Spinor
+	dual
+		( ImSpin const & imsp
+		)
+	{
+		return Spinor{ dual(imsp.theTri), dual(imsp.theVec) };
+	}
+
+	//! MultiVector that is dual to mv
+	inline
+	MultiVector
+	dual
+		( MultiVector const & mv
+		)
+	{
+		return MultiVector
+			( dual(mv.theTri)
+			, dual(mv.theBiv)
+			, dual(mv.theVec)
+			, dual(mv.theSca)
+			);
+	}
 
 } // [g3]
 

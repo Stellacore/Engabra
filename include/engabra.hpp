@@ -27,29 +27,48 @@
 #define engabra_g3_INCL_
 
 /*! \file
-\brief Main package include file - incorporates other common includes.
+\brief Main package include file - incorporates other dependent includes.
+
+For typical use, only this file need be included.
+
 */
 
 
 #include "g3compare.hpp"
-#include "g3consts.hpp"
 #include "g3types.hpp"
+#include "g3const.hpp"
 #include "g3func.hpp"
-#include "g3io.hpp"
+#include "g3io.hpp" // TODO -- (slow compile?)
 #include "g3ops.hpp"
-#include "g3types.hpp"
+#include "g3publish.hpp"
+#include "g3type.hpp"
 #include "g3validity.hpp"
 
 
 
-/*! Project enclosing namespace.
+/*! \brief Project overall enclosing namespace.
+ *
+ * \b Overview
  *
  * Overall, "engabra" is the containing namespace for the project. The
  * three-dimensional geometric algebra (G3) which is the focus of this
  * project effort, is contained in the "g3" subordinate namespace. This
  * supports several common ways of utilizing the library. E.g.
  *
- * For a generic "token" in the namespace (e.g. class, func, constant, etc)
+ * The following examples illustrate different ways of using engabra
+ * namespace qualification explicitly and implicitly.
+ *
+ * \b Typical \b Use
+ *
+ * A fairly useful and relatively safe approach for namespace resolution
+ * involves the including g3publish.hpp (is included by engabra.hpp),
+ * typing a single project level using directive, and then explicitly
+ * qualifying with the short "g3" sub-namespace. I.e. as
+ *
+ * \snippet test_engabra.cpp DoxyExample00
+ * \snippet test_g3publish.cpp DoxyExample02
+ *
+ * \b Examples
  *
  * Use of fully qualified names. This is should be fairly bullet-proof
  * with respect to potential external package name conflicts.
@@ -63,12 +82,6 @@
  * scopes - but there's a high risk of namespace conflicts with many of the
  * very common token names (e.g. Vector, zero, etc).
  * \snippet test_engabra.cpp DoxyExample03
- *
- * \snippet test_engabra.cpp DoxyExample04
- * And the most abbreviated form (e.g. inside small local scopes)
- * using namespace engabra::g3;
- * token
- *
  */
 namespace engabra
 {

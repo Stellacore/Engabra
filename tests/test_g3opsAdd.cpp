@@ -24,58 +24,87 @@
 
 
 /*! \file
-\brief Unit tests (and example) code for engabra::opsBinAdd
+\brief Unit tests (and example) code for engabra::opsAdd
 */
 
 
 #include "test_common.hpp" // testing environment common utilities
 
-#include "g3opsBinAdd.hpp"
+#include "g3opsAdd.hpp"
 #include "engabra.hpp"
 
-#include <iostream> // For test message output
+// For test message output
+#include <iostream>
+#include <sstream>
 
 
 namespace
 {
 	// Keep test code focused on internal structure under main project name
 	using namespace engabra;
+	using g3::nearlyEquals;
+	using g3::io::fixed;
+
 
 	//! Check operations on basis blades
-	std::size_t
+	std::string
 	test1
 		()
 	{
-		std::size_t errCount{ 0u };
+		std::ostringstream oss;
 
 
 		// [DoxyExample01]
-
-		// ###TODO interesting test code here
-		double const somethingIntersting{ g3::null<double>() };
-
+		// example addition/subraction of two blades
+		g3::Vector const vecA{ 1., 2., 3. };
+		g3::Vector const vecB{ 9., 7., 5. };
+		g3::Vector const gotSum{ vecA + vecB };
+		g3::Vector const gotDif{ vecA - vecB };
 		// [DoxyExample01]
 
-		++errCount;
+		g3::Vector const expSum{ 10., 9., 8. };
+		g3::Vector const expDif{ -8., -5., -2. };
 
-		return errCount;
+		if (! nearlyEquals(gotSum, expSum))
+		{
+			g3::Vector const difSum{ gotSum - expSum };
+			oss << "Failure of Sum/Vector test" << std::endl;
+			oss << "exp: " << expSum << std::endl;
+			oss << "got: " << gotSum << std::endl;
+			oss << "dif: " << fixed(difSum,3,18) << std::endl;
+		}
+
+		if (! nearlyEquals(gotDif, expDif))
+		{
+			oss << "Failure of Dif/Vector test" << std::endl;
+			oss << "exp: " << expDif << std::endl;
+			oss << "got: " << gotDif << std::endl;
+		}
+
+		return oss.str();;
 	}
 }
 
-//! Check behavior of TODO
+//! Check behavior of NS
 int
 main
 	()
 {
 	int status{ tst::CTest::fail };
-	std::size_t errCount{ 0u };
+	std::stringstream oss;
 
-	errCount += test1();
-//	errCount += test2();
+	oss << test1();
+	// oss << test2();
 
-	if (0u == errCount) // Only pass if no errors were encountered
+	if (oss.str().empty()) // Only pass if no errors were encountered
 	{
 		status = tst::CTest::pass;
+	}
+	else
+	{
+		// else report error messages
+		std::cerr << "### FAILURE in test file: " << __FILE__ << std::endl;
+		std::cerr << oss.str();
 	}
 	return status;
 }

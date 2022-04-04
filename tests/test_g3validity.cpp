@@ -41,17 +41,41 @@ namespace
 	using namespace engabra;
 
 	//! Check underlying null/validity construct
-	std::size_t
+	std::string
+	test0
+		()
+	{
+		std::ostringstream oss;
+
+		std::array<double, 3u> const null{ 1., 2., g3::nan };
+		if (  g3::isValid(null))
+		{
+			oss << "Failure of good validity test" << std::endl;
+		}
+
+		std::array<double, 3u> const good{ 1., 2., 3. };
+		if (! g3::isValid(good))
+		{
+			oss << "Failure of null validity test" << std::endl;
+		}
+
+		return oss.str();
+	}
+
+	//! Check underlying null/validity construct
+	std::string
 	test1
 		()
 	{
-		std::size_t errCount{ 0u };
+		std::ostringstream oss;
 
 		// [DoxyExample01]
+
 		// Basic null pattern usage example (illustration with 'double')
-		double someValue{ g3::null<double>() }; // default to 'null'
+		double someValue{ g3::null<double>() }; // default to null (e.g. fail)
 		someValue = 1.25; // simulate success of some computation
-		if (g3::isValid(someValue)) // test if returned values is usable
+		// check value validity to know if success (any time later) 
+		if (g3::isValid(someValue))
 		{
 			// operation/assignment was successful
 		}
@@ -59,8 +83,7 @@ namespace
 		// [DoxyExample01]
 		else
 		{
-			++errCount;
-			std::cerr << "Failure of 'example01' test\n";
+			oss << "Failure of 'example01' test\n";
 		}
 
 		// A null value tests to "not-isValid"
@@ -74,31 +97,28 @@ namespace
 		if (! isNull)
 		{
 			// the default null value should not be valid
-			++errCount;
-			std::cerr << "Failure of 'isNull' test" << std::endl;
+			oss << "Failure of 'isNull' test" << std::endl;
 		}
 		if (! isGood)
 		{
-			++errCount;
-			std::cerr << "Failure of 'isGood' test" << std::endl;
+			oss << "Failure of 'isGood' test" << std::endl;
 		}
 
 		// Be sure zero is considered a good
 		if (! g3::isValid(0.))
 		{
-			++errCount;
-			std::cerr << "Failure of 'isZero' test" << std::endl;
+			oss << "Failure of 'isZero' test" << std::endl;
 		}
 
-		return errCount;
+		return oss.str();
 	}
 
 	//! Check underlying null/validity construct
-	std::size_t
+	std::string
 	test2
 		()
 	{
-		std::size_t errCount{ 0u };
+		std::ostringstream oss;
 		// [DoxyExample02]
 
 		g3::Scalar const nullScalar{ g3::null<g3::Scalar>() };
@@ -121,11 +141,10 @@ namespace
 
 		if (! allNull)
 		{
-			++errCount;
-			std::cerr << "Failure of 'allNull' test for basic types\n";
+			oss << "Failure of 'allNull' test for basic types\n";
 		}
 
-		return errCount;
+		return oss.str();
 	}
 
 }
@@ -136,14 +155,21 @@ main
 	()
 {
 	int status{ tst::CTest::fail };
-	std::size_t errCount{ 0u };
+	std::ostringstream oss;
 
-	errCount += test1();
-	errCount += test2();
+	oss << test0();
+	oss << test1();
+	oss << test2();
 
-	if (0u == errCount) // Only pass if no errors were encountered
+	if (oss.str().empty()) // Only pass if no errors were encountered
 	{
 		status = tst::CTest::pass;
+	}
+	else
+	{
+		// else report error messages
+		std::cerr << "### FAILURE in test file: " << __FILE__ << std::endl;
+		std::cerr << oss.str();
 	}
 	return status;
 }

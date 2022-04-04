@@ -2,6 +2,28 @@
 # Available/Alternative GA libraries
 
 
+## Alternatives
+
+### Terathon Math Library
+
+"C++ math library for 2D/3D/4D vector, matrix, quaternion, and geometric algebra."
+
+	- https://github.com/EricLengyel/Terathon-Math-Library
+
+### LGA
+
+"A C++ library to do geometric and linear algebra."
+
+	- https://github.com/mifortin/LGA
+
+### ConstGA
+
+Uses C++ constant expressions to do Geometric Algebra. Removes
+all calculations that result in zeros at compile time.
+
+	- https://github.com/RobinKa/ConstGA
+
+
 ## Differentiators
 
 	- use focus (not sciency or code trickery) - i.e. practical
@@ -25,7 +47,6 @@
 		- e.g. discovered it, think it's cool,
 			and want to use it on *REAL* project/app work.
 
-## Other packages
 
 ### Resource lists
 

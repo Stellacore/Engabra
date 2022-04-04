@@ -1,0 +1,152 @@
+/*
+
+Terminology between usages (e.g. different countries, different disciplines)
+can vary somewhat. For example, should "conjugate" be interpreted to mean 
+one of the "complex conjugate" type operations, or "Clifford conjugate".
+
+Important to know what a function does from its name. Important to not
+think it does something different - even if that means to use a nonstandard
+name.
+
+To avoid potential confusion in words that are used differently in different
+contexts, engabra strives to use unambiguous terms/words - even if that
+requires to introduce a few new or unusual words. This includes:
+
+Direction vs Chirality vs Orientation vs Permutation
+
+Algebraic concepts include - in engabra terminology:
+
+\arg Direction - associated with a "B wrt A" relationship
+\arg Chirality - associated with disambiguation standard (arbitrary)
+\arg Orientation - associated with in/co-variance to geometric transformation
+\arg Permutation - associated with ordering of factors
+
+
+	Orientation: wrt relationship - sca,vec,biv,tri
+
+\arg Scalar - has Orientation - plus/minus difference between two
+\arg Vector - has Orientation - tip/tail relationship
+\arg BiVector - has Orientation - sweep ordering
+\arg TriVector - has Orientation - plus/minus (chirality entity in 3D)
+
+	Permutation - cyclic vs acyclic ordering of factors - biv,tri
+
+\arg Scalar - does not have Permutation (zero factors)
+\arg Vector - does not have Permutation (one factor)
+\arg BiVector - has permutation (two factors)
+\arg TriVector - has permutation (three factors)
+
+	Chrality: handedness in algebraic space or subspace - vec,tri
+
+\arg Scalar -does not have Chirality
+\arg Vector - has Chirality
+\arg BiVector - does not have Chirality
+\arg TriVector - has Chirality
+
+	Direction: in/co-variance to (geo)spatial transformation - vec,biv
+
+\arg Scalar - does not have Direction - invariant to geometric transform
+\arg Vector - has Direction - changes under rotation/reflection
+\arg BiVector - has Direction - changes under rotation/reflection
+\arg TriVector - does not have Direction - invariant to geometric transform
+
+
+Inversion of:
+
+\arg Negation - unitary-() - sign flip: sca,vec,biv,tri
+\arg Orientation - oriverse() - sign flip: [sca],vec,biv,tri
+\arg Chirality - chiverse() - sign flip: vec,tri
+\arg Direction - dirverse() - sign flip: vec,biv
+\arg Permutation - reverse() - sign flip: biv,tri
+
+
+Orientation of field (chirality of scalar)
+Scalar chirality selection happens before generating the GA space.
+Interp: scalar used to build vectors in other directions
+----
+-+--
+--+-
+---+
+
+Interp: Use this "postive-scalar field" interpretation
++--- : oriverse()
+++-- : reverse()  [reversion]
++-+- : opposite()  [space inversion]
++--+ : dirverse()  [clifford conjugation - reverse*opposite]
+
+
+
+Conjugation in the sense of pairwise relationships (wrt flip vs noflip)
+\arg Complex Conjugation : inverse of permutation
+\arg Clifford Conjugation : inverse of direction
+
+Complex Conjugates - change sign on items that square to -1
++OO- : Complex - classic complex conjugate operations
++O-O : Spinor - quaternion conjugate operations
+O+O- : ImSpin - Imaginary * conjugate of spinor
+++-- : MultiVector - useful for defining inner product
+
+Clifford Conjugates - change sign on directed entities (geometry co-variant)
+Is related to geometry inversion
+Composite of reverse*opposite
++--+ : MultiVector - useful for defining amplitude and inverse
+
+
+
+Direction is interpreted to be associated with space. E.g. in
+multidimensional contexts. Vector and Bivectors are therefore are entities
+with intrinsic directions.
+
+Orientation is interpreted to be associated with chirality or "handedness".
+In GA, all entities have an orientation. The operation of unitary negation
+is associated with inverting the orientation.
+
+In physical terms, orientation is interpreted as a "with respect to"
+association. E.g. Given two scalar values associated with observation A
+and observation B, have opposite orientation if the difference is interpreted
+as B wrt A (BwA) or if it is interpreted as AwB.
+
+Scalars don't really have a direction, since they are invariant to
+geometric changes such as translation, rotation, and reflection.
+
+The orientation of Vectors is similar. E.g. for BwA, the ending "tip" is at B
+relative to the starting tail at A.
+
+Direction is associated with rotation of this vector. E.g. where is it
+"pointing" relative to some other reference object. The orientation is
+associated with the tip/tail interpretation, while the direction is associated
+with some external object (e.g. another GA entity, a coordinate frame basis,
+etc).
+
+BiVectors have orientation associated with the order in which two generating
+vectors are defined. E.g. vector BwA or AwB (TODO sweep direction?).
+The Direction of BiVectors is interpreted with respect to some external
+entity.
+
+The G3 TriVector is the pseudo-scalar for algebra in 3D space. Therefore,
+in 3D space, trivectors, like scalars, have orientation, but do not have
+direction.
+
+E.g.
+Direction - relative to external reference. Can be changed.
+Is an extrinsic property.
+
+Orientation - internal property.
+
+Pose?
+
+Reference WRT?
+
+
+E.g.
+
+\arg Scalar: orientation is attached to counting direction. E.g. positive
+values have one orientation, negative values have another. Unitary negation
+changes the orientation of a scalar.
+
+\arg Vector: orientation is 
+
+Complex - type consisting of scalar and pseudo-scalar
+Dirplex - type consisting of Vector and BiVector
+
+*/

@@ -23,33 +23,29 @@
 // 
 
 
-#ifndef engabra_g3opsBinAdd_INCL_
-#define engabra_g3opsBinAdd_INCL_
+#ifndef engabra_Engabra_INCL_
+#define engabra_Engabra_INCL_
 
 /*! \file
-\brief Binary operators associated with additive processes.
+\brief Main package include file (equivalent alternative to \<engabra.hpp\>)
 
-Example:
-\snippet test_g3opsBinAdd.cpp DoxyExample01
+This file simply includes "engabra.hpp". It is provided solely as an
+option for public interface style. E.g. when preferring to include
+the package as:
+
+	#include <Engabra>
+
+instead of
+
+	#include <engabra.hpp>
+
+Either approach is functionally equivalent.
 
 */
 
-
-namespace engabra
-{
-
-namespace g3
-{
-
-// TODO - document
-//! Namespace for TODO
-namespace opsBinAdd
-{
-
-} // [opsBinAdd]
-} // [g3]
-
-} // [engabra]
+#include "engabra.hpp"
 
 
-#endif // engabra_g3opsBinAdd_INCL_
+#endif // engabra_Engabra_INCL_
+
+/* vim: set filetype=cpp : */

@@ -27,12 +27,57 @@
 #define engabra_g3io_INCL_
 
 /*! \file
-\brief Various I/O functions for G3 entities and consistent formatting.
+\brief Provides I/O function support for G3 entities.
+
+\b Overview
+
+This file provides basic input/output operators for various engabra::g3
+types. Unlike most engabra package functions, the stream operators,
+operator<<() and operator>>() are declared in the global namespace so
+that they can interact freely with the global streams environment. Other,
+more custom, i/o utility functions are encapsulated in the engabra::g3::io
+sub namespace.
+
+\b Output
+
+The stream output functions, operator<<(), produce text with a format
+that is fairly reasonable for many practical and engineering type
+applications in which numeric values are within a few orders magnitude
+of unity.  For encoding numbers with more extreme value ranges, there are
+several specific encoding functions in the g3::io subnamespace that
+provide more general flexibility. These include:
+
+\arg io::fixed() - provide string representation in fixed-format with
+easy control over number of leading and trailing decimal digits. E.g.
+useful for generating aligned and tabular data displays.
+
+\arg io::enote() - provide string representation in (scientific) e-notation
+with full numeric precision for 'double' value types. E.g. useful for
+serializing data values for ascii file storage or transmittal.
+
+\b Input
+
+The stream input/extraction, operator>>(), functions support reading
+various engabra::g3 types from standard library streams. These operators
+are implemented to support the null pattern paradigm, so that extracted
+values can also be evaluated for validity independent of stream status.
+
+For example:
+\snippet test_g3io.cpp DoxyExample01
+
+\b Utilities
+
+The g3::io::priv subnamespace provides utility functions primarily used for
+package implementation.
+
 */
 
 
-#include "g3types.hpp"
+#include "g3traits.hpp"
+#include "g3type.hpp"
+#include "g3validity.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <iomanip>
 #include <iostream>
@@ -45,9 +90,22 @@ namespace engabra
 namespace g3
 {
 
-//! Internal namespace: GA element input/ouput (published to engabra::g3)
+/*! \brief Support for input/output operations
+ *
+ * Includes several utilities mostly to support implementation and
+ * testing. However, some of these may also be useful in applications
+ * such as:
+ *
+ * \arg g3::io::fixed() - functions that provide string encoding
+ * for various entities with easy control over number of leading and
+ * trailing decimal digits.
+ */
 namespace io
 {
+
+namespace priv
+{
+
 	/*! \brief Holds attributes for rudimentary numeric formatting.
 	 *
 	 * This structure provides a means for formatting the various GA
@@ -79,7 +137,7 @@ namespace io
 		//! Construct with nominally-sane default format configuration.
 		DoubleFormat () = default;
 
-		//! Format numbers with <sign><numDigLead>.<numDigFrac>.
+		//! Format numbers with \<sign\>\<numDigLead\>.\<numDigFrac\>.
 		inline
 		explicit
 		DoubleFormat
@@ -118,7 +176,7 @@ namespace io
 		 */
 		inline
 		void
-		prepareStream
+		prepareFixed
 			( std::ostream & ostrm
 			) const
 		{
@@ -132,15 +190,47 @@ namespace io
 
 	}; // DoubleFormat
 
-	//! Use fmt formatter to prepare stream (calls fmt.prepareStream())
+	/*! \brief Prepare stream to be suitable for inserting eNotation string
+	 *
+	 * E.g. to configure std::cout to print next number in e-notation
+	 * with 12 digits after decimal point.
+	 * \code
+	 * prepareEnote(std::cout, 12u);
+	 * \endcode
+	 *
+	 * \sa engabra::g3::io::operator<<()
+	 */
+	inline
+	void
+	prepareEnote
+		( std::ostream & ostrm
+		, std::size_t const & numDigits = 15u
+		/*< Default value is
+		 about right for IEEE-754 double (give or take
+		 a bit). E.g. 1 before and 15 after is 16 decimal
+		 digits (vs theoretical number of digits at 15.95)
+		 */
+		)
+	{
+		// sign, leading, point, rest
+		std::size_t const numField{ 1u + 1u + 1u + numDigits };
+		ostrm
+			<< " "   // force a leading space
+			<< std::scientific
+			<< std::setprecision(numDigits)
+			<< std::setw(numField)
+			;
+	}
+
+	//! Local use formatter to prepare streams (calls fmt.prepareFixed())
 	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
-		, engabra::g3::io::DoubleFormat const & fmt
+		, DoubleFormat const & fmt
 		)
 	{
-		fmt.prepareStream(ostrm);
+		fmt.prepareFixed(ostrm);
 		return ostrm;
 	}
 
@@ -180,7 +270,226 @@ namespace io
 		ostrm << oss.str();
 	}
 
+	//
+	// Stream handling utilities
+	//
+
+	//! True if previous string operation(s) succeeded and isValid(value)
+	inline
+	bool
+	isInputOkay
+		( std::istream & istrm
+		, double const & value
+		)
+	{
+		return
+			(  (! istrm.fail())
+			&& isValid(value)
+			);
+	}
+
+} // [priv]
+
+	//
+	// Fixed-Format String encodings for various entities
+	//
+
+	//! Conversion to string with requested leading and trailing digits.
+	inline
+	std::string
+	fixed
+		( double const & dub
+		, std::size_t const & digBefore = 3u
+		, std::size_t const & digAfter = 6u
+		)
+	{
+		std::stringstream oss;
+		g3::io::priv::DoubleFormat const fmt{ digBefore, digAfter };
+		oss << fmt << dub;
+		return oss.str();
+	}
+
+	//! Fixed format string with requested leading and trailing digits.
+	template
+		< typename Blade
+		, std::enable_if_t< is::blade<Blade>::value, bool > = true
+		>
+	inline
+	std::string
+	fixed
+		( Blade const & blade
+		, std::size_t const & digBefore = 3u
+		, std::size_t const & digAfter = 6u
+		)
+	{
+		std::stringstream oss;
+
+		for (std::size_t ndx{0u} ; ndx < blade.theData.size() ; ++ndx)
+		{
+			// spaces are handled by fixed()
+			oss << fixed(blade[ndx], digBefore, digAfter);
+		}
+		return oss.str();
+	}
+
+	//! Fixed format string specialization for Spinor
+	inline
+	std::string
+	fixed
+		( Spinor const & spin
+		, std::size_t const & digBefore = 3u
+		, std::size_t const & digAfter = 6u
+		)
+	{
+		std::stringstream oss;
+		oss
+			<< fixed<Scalar>(spin.theSca, digBefore, digAfter)
+			<< "  "
+			<< fixed<BiVector>(spin.theBiv, digBefore, digAfter)
+			;
+		return oss.str();
+	}
+
+	//! Fixed format string specialization for ImSpin
+	inline
+	std::string
+	fixed
+		( ImSpin const & imsp
+		, std::size_t const & digBefore = 3u
+		, std::size_t const & digAfter = 6u
+		)
+	{
+		std::stringstream oss;
+		oss
+			<< fixed<Vector>(imsp.theVec, digBefore, digAfter)
+			<< "  "
+			<< fixed<TriVector>(imsp.theTri, digBefore, digAfter)
+			;
+		return oss.str();
+	}
+
+	//! Fixed format string specialization for MultiVector
+	inline
+	std::string
+	fixed
+		( MultiVector const & mv
+		, std::size_t const & digBefore = 3u
+		, std::size_t const & digAfter = 6u
+		)
+	{
+		std::stringstream oss;
+		oss
+			<< fixed<Scalar>(mv.theSca, digBefore, digAfter)
+			<< "  "
+			<< fixed<Vector>(mv.theVec, digBefore, digAfter)
+			<< "  "
+			<< fixed<BiVector>(mv.theBiv, digBefore, digAfter)
+			<< "  "
+			<< fixed<TriVector>(mv.theTri, digBefore, digAfter)
+			;
+		return oss.str();
+	}
+
+	//
+	// E-Notation String encodings for various entities
+	//
+
+	//! Conversion to string with full IEEE-754 'double' precision
+	inline
+	std::string
+	enote
+		( double const & dub
+		, std::size_t const & digAfter = 15u
+		)
+	{
+		std::stringstream oss;
+		priv::prepareEnote(oss, digAfter);
+		oss << dub;
+		return oss.str();
+	}
+
+	//! Conversion to string with full IEEE-754 'double' precision
+	template
+		< typename Blade
+		, std::enable_if_t< is::blade<Blade>::value, bool > = true
+		>
+	inline
+	std::string
+	enote
+		( Blade const & blade
+		, std::size_t const & digAfter = 15u
+		)
+	{
+		std::stringstream oss;
+		for (std::size_t ndx{0u} ; ndx < blade.theData.size() ; ++ndx)
+		{
+			if (0u < ndx)
+			{
+				oss << " ";
+			}
+			priv::prepareEnote(oss, digAfter);
+			oss << blade[ndx];
+		}
+		return oss.str();
+	}
+
+	//! Conversion to string with full IEEE-754 'double' precision
+	inline
+	std::string
+	enote
+		( Spinor const & spin
+		, std::size_t const & digAfter = 15u
+		)
+	{
+		std::stringstream oss;
+		oss
+			<< enote<Scalar>(spin.theSca, digAfter)
+			<< "  "
+			<< enote<BiVector>(spin.theBiv, digAfter)
+			;
+		return oss.str();
+	}
+
+	//! Conversion to string with full IEEE-754 'double' precision
+	inline
+	std::string
+	enote
+		( ImSpin const & imsp
+		, std::size_t const & digAfter = 15u
+		)
+	{
+		std::stringstream oss;
+		oss
+			<< enote<Vector>(imsp.theVec, digAfter)
+			<< "  "
+			<< enote<TriVector>(imsp.theTri, digAfter)
+			;
+		return oss.str();
+	}
+
+	//! Conversion to string with full IEEE-754 'double' precision
+	inline
+	std::string
+	enote
+		( MultiVector const & mv
+		, std::size_t const & digAfter = 15u
+		)
+	{
+		std::stringstream oss;
+		oss
+			<< enote<Scalar>(mv.theSca, digAfter)
+			<< "  "
+			<< enote<Vector>(mv.theVec, digAfter)
+			<< "  "
+			<< enote<BiVector>(mv.theBiv, digAfter)
+			<< "  "
+			<< enote<TriVector>(mv.theTri, digAfter)
+			;
+		return oss.str();
+	}
+
 } // [io]
+
 } // [g3]
 
 } // [engabra]
@@ -189,6 +498,10 @@ namespace io
 //! Global i/o functions within anonymous namespace
 namespace
 {
+	//
+	// Output operators
+	//
+
 	//! Put a scalar to stream - with some formatting
 	inline
 	std::ostream &
@@ -197,7 +510,7 @@ namespace
 		, engabra::g3::Scalar const & blade
 		)
 	{
-		engabra::g3::io::put(ostrm, blade.theData);
+		engabra::g3::io::priv::put(ostrm, blade.theData);
 		return ostrm;
 	}
 
@@ -209,7 +522,7 @@ namespace
 		, engabra::g3::Vector const & blade
 		)
 	{
-		engabra::g3::io::put(ostrm, blade.theData);
+		engabra::g3::io::priv::put(ostrm, blade.theData);
 		return ostrm;
 	}
 
@@ -221,7 +534,7 @@ namespace
 		, engabra::g3::BiVector const & blade
 		)
 	{
-		engabra::g3::io::put(ostrm, blade.theData);
+		engabra::g3::io::priv::put(ostrm, blade.theData);
 		return ostrm;
 	}
 
@@ -233,7 +546,7 @@ namespace
 		, engabra::g3::TriVector const & blade
 		)
 	{
-		engabra::g3::io::put(ostrm, blade.theData);
+		engabra::g3::io::priv::put(ostrm, blade.theData);
 		return ostrm;
 	}
 
@@ -261,18 +574,118 @@ namespace
 		return ostrm;
 	}
 
-	/*
+	//! Put a full multivector to stream - with some formatting
 	inline
 	std::ostream &
 	operator<<
 		( std::ostream & ostrm
-		, engabra::g3::io::DoubleFormat const & fmt
+		, engabra::g3::MultiVector const & mv
 		)
 	{
-		fmt.prepareStream(ostrm);
+		ostrm
+			<< mv.theSca
+			<< " " << mv.theVec
+			<< " " << mv.theBiv
+			<< " " << mv.theTri
+			;
 		return ostrm;
 	}
-	*/
+
+	//
+	// Input (extraction) operators
+	//
+
+	/*! \brief Extract individual data array elements from input stream.
+	 *
+	 * Checks that stream operations are successful and that each extracted
+	 * data value is valid.
+	 */
+	template <std::size_t Dim>
+	inline
+	std::istream &
+	operator>>
+		( std::istream & istrm
+		, std::array<double, Dim> & data
+		)
+	{
+		using engabra::g3::io::priv::isInputOkay;
+
+		istrm >> data[0];
+		bool okay{ isInputOkay(istrm, data[0]) };
+		for (std::size_t ndx{1u}
+			; okay && (ndx < Dim) ; ++ndx)
+		{
+			istrm >> data[ndx];
+			okay = isInputOkay(istrm, data[ndx]);
+		}
+		if (! okay) // if anything went wrong...
+		{
+			// place all null data into entire return instance
+			std::fill(data.begin(), data.end(), engabra::g3::nan);
+		}
+		return istrm;
+	}
+
+	//! Extract stream data into a Blade
+	template
+		< typename Blade
+		, std::enable_if_t< engabra::g3::is::blade<Blade>::value, bool> = true
+		>
+	inline
+	std::istream &
+	operator>>
+		( std::istream & istrm
+		, Blade & blade
+		)
+	{
+		istrm >> blade.theData; // includes validity checking of elements
+		return istrm;
+	}
+
+	//! Specialization of extraction operator for Spinor
+	inline
+	std::istream &
+	operator>>
+		( std::istream & istrm
+		, engabra::g3::Spinor & spin
+		)
+	{
+		// includes validity checking of elements
+		istrm >> spin.theSca.theData;
+		istrm >> spin.theBiv.theData;
+		return istrm;
+	}
+
+	//! Specialization of extraction operator for ImSpin
+	inline
+	std::istream &
+	operator>>
+		( std::istream & istrm
+		, engabra::g3::ImSpin & imsp
+		)
+	{
+		// includes validity checking of elements
+		istrm >> imsp.theVec.theData;
+		istrm >> imsp.theTri.theData;
+		return istrm;
+	}
+
+	//! Specialization of extraction operator for MultiVector
+	inline
+	std::istream &
+	operator>>
+		( std::istream & istrm
+		, engabra::g3::MultiVector & mv
+		)
+	{
+		// includes validity checking of elements
+		istrm >> mv.theSca.theData;
+		istrm >> mv.theVec.theData;
+		istrm >> mv.theBiv.theData;
+		istrm >> mv.theTri.theData;
+		return istrm;
+	}
+
 
 } // [anon]
 

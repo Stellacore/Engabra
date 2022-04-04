@@ -32,20 +32,23 @@
 
 #include "engabra.hpp"
 
-#include <iostream> // For test message output
+// For test message output
+#include <iostream>
+#include <sstream>
 
 
 namespace
 {
 	// Keep test code focused on internal structure under main project name
 	using namespace engabra;
+	using g3::nearlyEquals;
 
 	//! Check TODO
-	std::size_t
+	std::string
 	test1
 		()
 	{
-		std::size_t errCount{ 0u };
+		std::ostringstream oss;
 
 		//
 		// Typical compare result
@@ -68,11 +71,10 @@ namespace
 
 		if ((! okayNear) || (! okayAway))
 		{
-			++errCount;
-			std::cerr << std::endl;
-			std::cerr << "Failure of nearlyEqual example test" << '\n';
-			std::cerr << "okayNear: " << std::boolalpha << okayNear << '\n';
-			std::cerr << "okayAway: " << std::boolalpha << okayAway << '\n';
+			oss << std::endl;
+			oss << "Failure of nearlyEqual example test" << '\n';
+			oss << "okayNear: " << std::boolalpha << okayNear << '\n';
+			oss << "okayAway: " << std::boolalpha << okayAway << '\n';
 		}
 
 		//
@@ -93,10 +95,9 @@ namespace
 
 			if ((! okayNear) || (! okayAway))
 			{
-				++errCount;
-				std::cerr << "Failure of nearlyEqualsAbs Norm test\n";
-				std::cerr << "okayNear: " << std::boolalpha << okayNear << '\n';
-				std::cerr << "okayAway: " << std::boolalpha << okayAway << '\n';
+				oss << "Failure of nearlyEqualsAbs Norm test\n";
+				oss << "okayNear: " << std::boolalpha << okayNear << '\n';
+				oss << "okayAway: " << std::boolalpha << okayAway << '\n';
 			}
 		}
 
@@ -109,10 +110,9 @@ namespace
 
 			if ((! okayNear) || (! okayAway))
 			{
-				++errCount;
-				std::cerr << "Failure of nearlyEqualsRel Norm test\n";
-				std::cerr << "okayNear: " << std::boolalpha << okayNear << '\n';
-				std::cerr << "okayAway: " << std::boolalpha << okayAway << '\n';
+				oss << "Failure of nearlyEqualsRel Norm test\n";
+				oss << "okayNear: " << std::boolalpha << okayNear << '\n';
+				oss << "okayAway: " << std::boolalpha << okayAway << '\n';
 			}
 		}
 
@@ -143,10 +143,9 @@ namespace
 
 			if ((! okayNear) || (! okayAway))
 			{
-				++errCount;
-				std::cerr << "Failure of nearlyEqualsRel Huge test\n";
-				std::cerr << "okayNear: " << std::boolalpha << okayNear << '\n';
-				std::cerr << "okayAway: " << std::boolalpha << okayAway << '\n';
+				oss << "Failure of nearlyEqualsRel Huge test\n";
+				oss << "okayNear: " << std::boolalpha << okayNear << '\n';
+				oss << "okayAway: " << std::boolalpha << okayAway << '\n';
 			}
 		}
 
@@ -170,10 +169,9 @@ namespace
 
 			if ((! okayNear) || (! okayAway))
 			{
-				++errCount;
-				std::cerr << "Failure of nearlyEqualsAbs Tiny test\n";
-				std::cerr << "okayNear: " << std::boolalpha << okayNear << '\n';
-				std::cerr << "okayAway: " << std::boolalpha << okayAway << '\n';
+				oss << "Failure of nearlyEqualsAbs Tiny test\n";
+				oss << "okayNear: " << std::boolalpha << okayNear << '\n';
+				oss << "okayAway: " << std::boolalpha << okayAway << '\n';
 			}
 		}
 
@@ -186,15 +184,145 @@ namespace
 
 			if ((! okayNear) || (! okayAway))
 			{
-				++errCount;
-				std::cerr << "Failure of nearlyEqualsRel Tiny test\n";
-				std::cerr << "okayNear: " << std::boolalpha << okayNear << '\n';
-				std::cerr << "okayAway: " << std::boolalpha << okayAway << '\n';
+				oss << "Failure of nearlyEqualsRel Tiny test\n";
+				oss << "okayNear: " << std::boolalpha << okayNear << '\n';
+				oss << "okayAway: " << std::boolalpha << okayAway << '\n';
 			}
 		}
 
-		return errCount;
+		return oss.str();
 	}
+
+	//! Check more complex entities
+	std::string
+	test2
+		()
+	{
+		std::ostringstream oss;
+
+		g3::Vector const vecA{ 2., -3., 5. };
+		if (! nearlyEquals(vecA, vecA))
+		{
+			oss << "Failure of nearlyEquals Vector/Same test" << '\n';
+		}
+		g3::Vector const vecB{ vecA[0], vecA[1], vecA[2]+1. };
+		if (  nearlyEquals(vecA, vecB))
+		{
+			oss << "Failure of nearlyEquals Vector/Diff test" << '\n';
+		}
+
+		g3::MultiVector const mvA(0.1,  1.1, 1.2, 1.3,  2.1, 2.2, 2.3,  3.1);
+		if (!  nearlyEquals(mvA, mvA))
+		{
+			oss << "Failure of multivector nearlyEquals self test" << '\n';
+		}
+
+		g3::MultiVector mvB{};
+		for (std::size_t ndx{0u} ; ndx < 8u ; ++ndx)
+		{
+			constexpr double eps{ 10.*std::numeric_limits<double>::epsilon() };
+			mvB = mvA;
+			mvB[ndx] += eps;
+			if (  nearlyEquals(mvA, mvB))
+			{
+				oss << "Failure of multivector nearlyEquals test" << '\n';
+				oss << "for ndx: " << ndx << std::endl;
+			}
+
+		}
+
+		return oss.str();;
+	}
+
+
+	//! Check nearlyEquals with array that has large dynamic range
+	std::string
+	test3
+		()
+	{
+		std::ostringstream oss;
+
+		constexpr double magBig{ 1000000. };
+		constexpr double tol{ .001 };
+
+		// test fudge factor for generating data
+		// likely related to sqrt(mach.epsilon) for RSS stats in nearlyEquals?
+		constexpr double eps{ 1.e-6 };
+
+		constexpr double magSame{ .5 * tol * magBig };
+		constexpr double magDiff{ (1. + eps) * tol * magBig };
+
+		g3::Vector const vecBase{ 0.,      0., magBig };
+		g3::Vector const vecSame{ 0., magSame, magBig };
+		g3::Vector const vecDiff{ 0., magDiff, magBig };
+
+		// expect same at this tol
+		if (! g3::nearlyEquals(vecBase, vecSame, tol))
+		{
+			g3::Vector const dif{ (1./magBig) * (vecBase - vecSame) };
+			oss << "Failure of nearlyEquals Same big and small test\n";
+			using namespace engabra::g3::io;
+			oss << "vecBase: " << fixed(vecBase, 5u, 16u) << '\n';
+			oss << "vecSame: " << fixed(vecSame, 5u, 16u) << '\n';
+			oss << "    dif: " << fixed(dif, 5u, 16u) << '\n';
+			oss << "    tol: " << fixed(tol, 5u, 16u) << '\n';
+		}
+
+		// expect different at this tol
+		if (  g3::nearlyEquals(vecBase, vecDiff, tol))
+		{
+			g3::Vector const dif{ (1./magBig) * (vecBase - vecDiff) };
+			oss << "Failure of nearlyEquals Diff big and small test\n";
+			using namespace engabra::g3::io;
+			oss << "vecBase: " << fixed(vecBase, 5u, 16u) << '\n';
+			oss << "vecDiff: " << fixed(vecDiff, 5u, 16u) << '\n';
+			oss << "    dif: " << fixed(dif, 5u, 16u) << '\n';
+			oss << "    tol: " << fixed(tol, 5u, 16u) << '\n';
+		}
+
+		return oss.str();;
+	}
+
+	//! Special case reported as error
+	std::string
+	test4
+		()
+	{
+		std::ostringstream oss;
+
+		using namespace engabra::g3;
+
+		double const tol{ 100. * std::numeric_limits<double>::epsilon() };
+		double const gtol{ 10. * tol };
+		Vector const meaVec
+			{ -0.0000000000000035, -5.3033008588991040, 5.3033008588991093 };
+		Vector const estVec
+			{ -0.0000000000000033, -5.3033008588991049, 5.3033008588991084 };
+
+		// as vector, RSS test should report that vectors equal
+		if (! nearlyEquals(meaVec, estVec, gtol))
+		{
+			oss << "Failure of expected equality test" << '\n';
+		}
+
+		// however components tests should differ on the small value
+		if (  nearlyEquals(meaVec[0], estVec[0], gtol))
+		{
+			oss << "Failure on component[0]\n";
+		}
+		// while testing same on the larger values
+		if (! nearlyEquals(meaVec[1], estVec[1], gtol))
+		{
+			oss << "Failure on component[1]\n";
+		}
+		if (! nearlyEquals(meaVec[2], estVec[2], gtol))
+		{
+			oss << "Failure on component[2]\n";
+		}
+
+		return oss.str();
+	}
+
 }
 
 //! Check behavior of TODO
@@ -203,14 +331,22 @@ main
 	()
 {
 	int status{ tst::CTest::fail };
-	std::size_t errCount{ 0u };
+	std::stringstream oss;
 
-	errCount += test1();
-//	errCount += test2();
+	oss << test1();
+	oss << test2();
+	oss << test3();
+	oss << test4();
 
-	if (0u == errCount) // Only pass if no errors were encountered
+	if (oss.str().empty()) // Only pass if no errors were encountered
 	{
 		status = tst::CTest::pass;
+	}
+	else
+	{
+		// else report error messages
+		std::cerr << "### FAILURE in test file: " << __FILE__ << std::endl;
+		std::cerr << oss.str();
 	}
 	return status;
 }

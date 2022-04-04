@@ -1,7 +1,7 @@
 
 //! \file Dummy source to test build process
 
-#include "g3types.hpp"
+#include "g3type.hpp"
 
 #include <iostream>
 
