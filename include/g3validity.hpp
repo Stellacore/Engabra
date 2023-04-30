@@ -149,6 +149,26 @@ namespace g3
 		return { isValid(imsp.theVec) && isValid(imsp.theTri) };
 	}
 
+	//! True if instance is not null - specialization for ComPlex
+	inline
+	bool
+	isValid
+		( ComPlex const & cplx
+		)
+	{
+		return { isValid(cplx.theSca) && isValid(cplx.theTri) };
+	}
+
+	//! True if instance is not null - specialization for DirPlex
+	inline
+	bool
+	isValid
+		( DirPlex const & dplx
+		)
+	{
+		return { isValid(dplx.theVec) && isValid(dplx.theBiv) };
+	}
+
 	//! True if instance is not null - specialization for MultiVector
 	inline
 	bool

@@ -26,6 +26,14 @@ GA software libraries).  The fundamental idea behind Engabra is that
 the library is useful for real world computation, modeling and simulation.
 >>>>>>> d698e59 (README.md - title intro tweaking, improved many descriptions in types and operations)
 
+The focus on 3D space allows providing relationships and operations that
+may not be available in other dimensions. For example splitting multivectors
+into the sum of ComPlex and DirPlex values and using these to implement
+generalized inversion operations as well as other functions that may not
+be defined in higher dimensional spaces (e.g. circular trigonometric
+functions, logarithms of vectors).
+
+
 Quick jump links to below:
 * [Key Features](#Key-Features)
 * [GA Data Types](#GA-Data-Types)
@@ -34,19 +42,190 @@ Quick jump links to below:
 * [Basic Library Use](#Basic-Library-Use)
 	* [Code Build Commands](#Code-Build-Commands)
 
+## Key Features
+
+The main utility/distinction of Engabra is that it has a very practical
+focus for use in coding applications that provide real-world engineering
+solutions - in contrast to a mathematically interesting one. Engabra is
+meant for use in real-world software development. It focus on ease of
+use, practicality, and performance - from perspective of developer as well
+as applications.
+
+#### _Practical_:
+
+The types and functions are structured and intended for real-world
+engineering type solutions.
+
+* Focused on actual use (compared with experimentation or academic
+explorations)
+
+* All entities have direct physical interpretations and associations
+(compared with e.g. various higher-dimensional conformal algebras used
+in academic contexts)
+
+* Dumb-simple-stupid class definitions and function operators generally
+allow compiler to do type checking and produce easily interpretable
+warnings and error messages.
+
+* In some places, this means there are concrete implementations of
+overloaded functions, but this is preferable to having complex, confusing
+and error prone templating syntaxes.
+
+* Utilizes explicit constructors and mitigates implicit casting to avoid
+potential confusing behaviors - keeps consuming code expression very
+WYSIWYG.
+
+* Engabra is an entirely stand-alone library. No other packages need be
+installed to use it - other than C++ compiler (e.g. g++, clang, msvc)
+and general development tools of course.
+
+#### _Platforms and Environments_:
+
+The code is standard C++ and should work fine on nearly any platform that
+supports a modern C++ standard compiler (C++17 or later).
+
+* Code implementation is relatively 'vanilla' and simple (e.g. no use of
+fancy optimizations or 'tricks'). The library should build on nearly any
+(64-bit) device or platform.
+
+	* Note: (as of 2023.Q1) implementation has only been built for
+	environments using 64-bit double representations. It is unverified
+	how/if compatible the implementation is with 32-bit double sizes.
+
+* The CMake build process supports compiling and packaging on a wide
+variety of different operating systems, distributions and hardware
+platforms.
+
+	* _Note_ the descriptions herein and associated
+	file/directory/command name conventions are consistent with a
+	\*nix environment.  However, this should not be construed as any
+	sort of limitation on the library, only that a \*nix environment
+	was used to author many of the text files and descriptions.
+
+#### _Natural Code Syntax_:
+
+For the most part, the library is very easy and natural to utilize in
+consuming code.
+
+* There are no complex templating expressions involved or required in the
+consuming code (other than a few relatively natural use cases - e.g.
+such as defining useful generic type instances like "null<Vector>()"
+or "zero<BiVector>()" and a few other natural/typical template usage)
+
+* There are NO strange operators to memorize.
+
+	* Operator overloading only uses the obvious and standard operators
+	(e.g. "\*" for multiplication, "+" for addition, etc).
+
+	* For operations not standard to C++ syntax, explicit function
+	names are used (e.g. dot(), wedge(), reverse(), dual()}
+
+	* Division ambiguity is avoid in favor of more explicit constructs
+	involving element inverses. I.e. there is no support for the "/"
+	operator. Instead, multivector "quotients" are supported with
+	explicit and specific operations via the inverse function. E.g.
+	"inverse(vecA)*vecB" or "vecA*inverse(vecB)" according to
+	whichever is actually intended.
+
+#### _Performance_:
+
+Engabra is fast to use in practice.
+
+* Fast to compile -- although templates are used heavily within internal
+_implementation_ of Engabra the instantiations are very simple so that
+compiler can resolve and instantiate code very quickly. Note that,
+in spite of the use of templates within the implementation, consuming
+code is generally insulated from them - other than a few cases where
+using templates could be expected for any library (mostly in customizing
+constant types)
+
+* Fast run time -- The run time performance is quite good. Although
+there are no particularly special coding techniques used (and certainly
+no expectation for special hardware capabilities), the implementation
+code makes copious use of 'const' and 'inline' specifications so that
+compilers can optimize the code very well.
+
+* Emphasizes 'const' paradigm to support better __compiler optimization__
+as well as easier and more efficient use in multi-threaded applications.
+
+	* NOTE: For runtime performance, be sure to compile with
+	optimization enabled. This will remove many "inline" function
+	implementations and optimize away many copy operations (that
+	are present only for clarify of library implementation code).
+
+#### _Limited Overrides_:
+
+With numeric libraries, it is tempting to try to override all standard C++
+math operations. However, this is not necessary for useable library
+since many of the same results can often be expressed in alternative
+manner.
+
+For example, various comparison operators can always be expressed as
+an appropriate combination of operator<() and logical operators (e.g.
+"(a \> b)" can be coded easily as "(b \< a)".  This may require a small
+adaptation in style and habits.
+
+A side benefit is that consuming code is frequently easier to read
+because there are fewer operators, and the resulting code patterns tend
+to be more standardized and uniform.
+
+Operators (intentionally) not supported include:
+
+* The increment and decrement pre/post-fix operators -- these are
+primarily useful for integer type operations.  Although these could
+perhaps be applied to scalar and pseudo-scalar (trivector) grades,
+there's little algebraic benefit in doing so.
+
+	operator++() : use explicit "foo = foo + ..." instead;
+	operator--() : use explicit "foo = foo - ..." instead
+
+* Division operators -- Given the non-commutative nature of GA (at least
+for multiplicative operations, it's generally more clear to be explicit
+what is meant. E.g.
+
+	operator/() -- use combination of inverse() and multiplication - e.g.
+
+	// one of these depending on specific intent
+	result = numerator * inverse(denominator); // division from right
+	result = inverse(denominator) * numerator; // division from left
+
+	// for scalars, instead of "foo = bar / sca;" use something like
+	foo = (1./sca) * bar;
+	foo = inverse(sca) * bar;
+
+* Compound assignment operators. Given modern compiler optimization
+capabilities, the "in-place" operators often provide more of a typing
+shortcut than any performance difference. For GA types, there is the
+additional concern that multiplication and "division" do not generally
+commute, and there are no variants such as a hypothetical "operator=\*()"
+or "operator=/()" to address this, which would be potentially confusing
+in any case. Instead utilize explicit "operate then assign" syntax such
+as:
+
+	operator+=() -- use "foo = foo + bar;"
+	operator-=() -- use "foo = foo - bar;"
+	operator*=() -- use "foo = foo * bar;", "foo = bar * foo;"
+	operator/=() -- use "foo = foo * inverse(bar)", "foo = inverse(bar) * foo;"
+
+
 ### Examples
 
 #### Transform positions, forces, and moments between coordinate frames
 
-A an example, consider transforming a coordinate position (vector),
-a force (vector) and a moment (bivector) that are expressed in a world
-coordinate frame in order to obtain an expressions for the force and
-moment now expressed in the coordinate frame of some specific structural
-element.
+As an example Engabra use, the following provides an example of
+accomplishing fairly general coordinate transformation operations. It
+illustrates instantiation of various types as well as interacting
+with rigid body attitude using both sequential and simultaneous angle
+conventions.
+
+Consider transforming a coordinate position (vector), a force (vector)
+and a moment (bivector) that are expressed with respect to some 'world'
+reference coordinate frame in order to obtain an expressions for the force
+and moment in the coordinate frame of some specific structural element.
 
 ```C++
-// Here the using directive makes this code example more condensed and compact.
-// Items with scope resolved by the using operator include:
+// Here the using directive makes this code snippet condensed and compact.
+// Items having scope resolved by the using operator include:
 // - the main data types (Vector, Bivector, Spinor, ...)
 // - useful constants including
 //   -- basis vectors {e1, e2, e3}
@@ -92,165 +271,27 @@ std::cout << "structure attitude 3D angle: " << ang3D << std::endl;
 // TODO - add example here
 ```
 
-## Key Features
-
-The main utility/distinction of Engabra is that it has a very practical
-focus for use in coding applications that provide real-world engineering
-solutions.
-
-#### _Practical_:
-
-Structured and intended for real-world engineering type solutions.
-
-* Focused on actual use (compared with experimentation or academic
-explorations)
-
-* All entities have direct physical interpretations and associations
-(compared with e.g. various higher-dimensional conformal algebras used
-in academic contexts)
-
-* Dumb-simple-stupid class definitions and function operators generally
-allow compiler to do type checking and produce easily interpretable
-warnings and error messages.
-
-* Uses explicit constructors and avoids implicit casting to avoid
-potential confusing behaviors - keeps consuming code expression very
-WYSIWYG.
-
-* Engabra is an entirely stand-alone library. No other packages need be
-installed to use it - other than C++ compiler (e.g. g++, clang, msvc)
-and general development environment of course.
-
-#### _Platforms and Environments_:
-
-The code is portable C++ and should work fine on nearly any platform that
-supports a modern standard C++ compiler.
-
-* Code implementation is relatively 'vanilla' and standard so that
-the library should build on nearly any (64-bit) device or platform.
-
-	* Note: (as of 2023.Q1) implementation has only been built for
-	environments using 64-bit double representations. It is unverified
-	how/if compatible the implementation is with 32-bit double sizes.
-
-* The CMake build process should allow compiling and packaging on a variety
-of different operating systems, distributions and hardware platforms.
-
-	* _Note_ that the descriptions herein and associated
-	file/directory/command name conventions are consistent with a
-	\*nix environment.  However, this should not be construed as any
-	sort of limitation on the library, only that a \*nix environment
-	was used to author many of the text files and descriptions.
-
-#### _Natural Code Syntax_:
-
-For the most part, the library is very easy and natural to use in consuming
-code.
-
-* There are no fancy templating expressions involved or required in the
-consuming code (other than a few relatively natural use cases - e.g.
-such as defining a few useful type instances such as "null<Vector>()"
-or "zero<BiVector>()" and the like)
-
-* There are NO strange operators to memorize.
-
-	* Operator overloading only uses the obvious and standard operators
-	(e.g. "\*" for multiplication, "+" for addition, etc).
-
-	* For operations not standard to C++ syntax, clarifying function
-	names are used (e.g. dot(), wedge(), reverse(), dual()}
-
-	* Division ambiguity is avoid in favor of more explicit constructs
-	involving element inverses. I.e. specifie either "inverse(vecA)*vecB" or
-	"vecA*inverse(vecB)" according to whichever is actually intended.
-
-#### _Performance_:
-
-Engabra is very fast to use in practice.
-
-* Fast to compile -- although templates are used heavily within the
-_implementation_ of Engabra the instantiations are dirt simple so that
-compiler can resolve and instantiate code very quickly. Note that, in
-spite of the use of templates within the implementation, consuming code
-is generally free from them - other than a few cases where using templates
-could be expected for any library (mostly in customizing constant types)
-
-* Fast run time -- The run time performance is quite good. Although there
-are no special coding techniques used (and certainly no expectation for
-special hardware), the implementation code makes copious use of 'const'
-and 'inline' specifications so that compilers can optimize the implementation
-code very well.
-
-* Emphasizes 'const' paradigm to support better __compiler optimization__
-as well as easier and more efficient use in multi-threaded applications.
-
-	* NOTE: For runtime performance, be sure to compile with
-	optimization enabled. This will remove many "inline" function
-	implementations and optimize away many copy operations (that
-	are present only for clarify of library implementation code).
-
-#### _Limited Overrides_:
-
-With numeric libraries, it is tempting to try to override all standard C++
-math operations. However, this is not necessary for a functioning library
-since many of the same results can often be expressed in alternative
-manner.
-
-For example, various comparision operators can always be expressed as
-an appropriate combination of operator<() and logical operators (e.g.
-"(a \> b)" can be coded easily as "(b \< a)".
-
-A side benfit is that the code is generally easier to read because there
-are fewer operators to distract thought, and resulting code patterns are
-more standardized and uniform.
-
-Operators (intentionally) not supported include:
-
-* The increment and decrement pre/post-fix operators -- these are
-primarily useful for integer type operations.  Although these could
-perhaps be applied to scalar and pseudo-scalar (trivector) grades,
-there's little algebraic benefit in doing so.
-
-	operator++() -- use explicit "foo = foo + ..." instead;
-	operator--() -- use explicit "foo = foo - ..." instead
-
-* Division operators -- Given the non-commutative nature of GA (at least
-for multiplictative operations, it's generally more clear to be explicit
-what is meant. E.g.
-
-	operator/() -- use combination of inverse() and multiplication - e.g.
-
-	// one of these depending on specific intent
-	result = numerator * inverse(denominator); // division from right
-	result = inverse(denominator) * numerator; // division from left
-
-	// for scalars, instead of "foo = bar / sca;" use something like
-	foo = (1./sca) * bar;
-	foo = inverse(sca) * bar;
-
-* Compound assignment operators. Given modern compiler optimizaiton 
-capabilities, these are often no more than a typing shortcut.
-
-	operator+=() -- use "foo = foo + bar;" instead
-	operator-=() -- use "foo = foo - bar;" instead
-	operator*=() -- use "foo = foo * bar;" instead
-	operator/=() -- use "foo = foo + inverse(bar);" instead
-
-
 ## GA Data Types
-
-#### Fundamental Types
 
 Fundamental Types: For detail refer to (doxygen-generated) reference
 documentation for classes in file 'g3type.hpp'
+
+#### Underlying Data Field
 
 * __double__ -- native C++ type (for convenience and performance where
 constructing a class 'scalar' type is unnecessary). (In algebraic speak,
 this is the "field" over which the 3D geometric algebra is defined).
 
-* __Scalar__ -- (class wrapper around native double - that mirrors overall
-Engabra conventions.  This is a classic single value (subscripts [0]) and of
-grade 0.
+	* TODO/TBD - is this used in 'using' or 'typedef' somewhere? What
+	about using library with other types - e.g. 'float' ?
+
+#### Fundamental Types - Blades
+
+* __Scalar__ -- This is mostly a class wrapper around native type in
+order to provide consistency with Engabra conventions. This has a single
+value (supports subscripting but has only single component [0]) and is
+of grade 0. Scalars generally quantities, or "how much" of something,
+and also represent magnitudes of other elements.
 
 * __Vector__ -- A (classic) vector (line like) with three components
 (subscripts [0-2]) and of grade 1. Vectors are particularly suited for
@@ -258,67 +299,75 @@ expressing position relationships, forces, velocities and accelerations.
 
 * __BiVector__ -- A bivector (plane like) with three components (subscripts
 [0-2]) and of grade 2.  BiVectors are particularly suited for encoding
-(directed 3-dimensional) angles, moments, and rotation operations in 3D space.
+directed, planar concepts - including angles, moments, and rotation
+operations in 3D space. Bivectors square to non-positive values and
+often act like a pure "imaginary" number, but with a planar direction
+encoded within them as well.
 
 * __TriVector__ -- a trivector (volume like) with one component (subscript [0])
-and of grade 3.
+and of grade 3. Trivectors square to non-positive values and provide a
+directionless pure-imaginary number.
+
+#### Most General Type
+
+* __MultiVector__ -- This is the most general element of the (3D)
+geometric algebra.  Comprised of a Scalar (.theSca member), a Vector
+(.theVec member), a BiVector (.theBiv member), and a TriVector (.theTri
+member). Note that any and all other types and general operations of the
+entire algebra (and this library) can be implemented entirely in terms
+of MultiVectors. The components can also be accessed via subscripts
+[0-7] in order of Scalar([0]), Vector([1-3]), BiVector([4-6]),
+TriVector([7]) components.
+
+	__NOTE__: If/where the library currently does not support some
+	specialized type or combination of operations, you always
+	have the option to implement whatever you want in terms of
+	multivector operations by first promoting the available types to
+	MultiVectors, coding the operations with multivector operations
+	and then casting or accessing/extracting the appropriate grade
+	portions of the results!!
 
 #### Common Composite Types
 
-* __Spinor__ -- Member of the self-consistent and self-closed G2 sub-algebra.
-Composed of a Scalar (.theSca member) and Bivector (.theBiv member). This 3D
+Aside from the general MultiVector composition, there are several
+more simple composite types that are particularly useful for certain
+applications.
+
+* __Spinor__ -- Member of the G2 sub-algebra. The Spinor type is comprised
+of a Scalar (.theSca member) and Bivector (.theBiv member). This 3D
 spinor type is isomorphic with quaternions. (This type is often associated
 with the product of two vectors). The individual components can also be
-accessed via subscripts [0-3] in order Scalar then Vector components.
+accessed via subscripts [0-3] with [0] accessing the Scalar and [1-3]
+accessing the Vector components.
 
-* __ImSpin__ -- An "imaginary spinor" type that is dual to
-Spinor. Composed of a Vector (.theVec member) and TriVector (.theTri
+* __ImSpin__ -- An "imaginary spinor" type that is dual to Spinor.
+It is comprised of a Vector (.theVec member) and TriVector (.theTri
 member). This type is often associated with the product of three
 vectors). Individual components can also be accessed via subscripts
-[0-3] in order Vector then TriVector components.
-
-* __MultiVector__ -- The most general element of the (3D) geometric
-algebra.  Composed of a Scalar (.theSca member), a Vector (.theVec
-member), a BiVector (.theBiv member), and a TriVector (.theTri
-member). Note that any and all other types and general operations of the
-entire algebra can be implemented entirely in terms of MultiVectors. The
-components can also be accessed via subscripts [0-7] in order of Scalar,
-Vector, BiVector, TriVector components.
-
-	__NOTE__: If the library currently does not support some
-	specialized type or combination of operations, you can always
-	implement whatever you want simply by promoting types to
-	MultiVectors, coding the operations with multivector operations
-	and then accessing/extracting the appropriate grade portions of
-	the results!!
+[0-3] with [0-2] accessing the Vector components and [3] accessing
+the TriVector component.
 
 #### Commutative and non-commutative decomposition types
 
-* __Complex__: with Sca + Tri -- this complex type multiplicatively
+* __ComPlex__: with Sca + Tri -- this complex type multiplicatively
 commutes with all other types. This type has the same behavior as does
-the standard library "std::complex\<double\>" type. This type can be 
-constructed from (and cast to) std::complex.
+the standard library "std::complex\<double\>" type and can be 
+constructed from, and cast to, std::complex.
 
-* __DirPlex__: with Vec + Biv -- this "complex vector" type contains
-the spatially directed grades (vector and bivector). In general,
-multiplication with this type is non-commutative. The DirPlex type
-provides a natural representation for describing electromagnetic fields
-(with the vector representing the electric components, and bivector
-representing the magnetic ones).
+* __DirPlex__: with Vec + Biv -- this "complex vector" type comprises
+the spatially directed grades, vector and bivector. In general,
+multiplication with this type is non-commutative.
 
-In general general 3D multivector can be decomposed as:
+In general an arbitrary 3D multivector can be decomposed as:
 
-	Complex const complex{...}; // isomorphic with classic complex numbers
-	Complex const dirplex{...}; // the physically directed grades (vec,biv)
+	// isomorphic with classic complex numbers
+	ComPlex const complex{ someMulti.theSca, someMulti.theTri };
+
+	// the physically directed grades (vec,biv)
+	DirPlex const dirplex{ someMulti.theVec, someMulti.theBiv };
+
+	// together ComPlex and DirPlex types comprise a full multivector
 	MultiVector const multi{ complex + dirplex };
-
-In this representation, the "complex" type commutes with the dirplex typeC
-commute. E.g. for this construction,
-
-	MultiVector const comdir{ complex * dirplex };
-	MultiVector const dircom{ complex * dirplex };
-
-The instances "comdir" and "dircom" will be theoretically identical.
 
 #### Relatively Unusual Composites (to be implemented as needed)
 
@@ -343,18 +392,69 @@ data types.
 
 Compound entities have members of multiple grades (for example, a Spinor
 is composed of a Scalar and a BiVector grade member). These constituent
-grades may be accessed directly as member variables. The member variable
-naming is consistent across all compound types.
+grades may be accessed directly with the associated member variables. The
+member variable naming is consistent across all compound types.
 
 	__theSca__: The scalar grade constituent member.
 	__theVec__: The vector grade constituent member.
 	__theBiv__: The bivector grade constituent member.
 	__theTri__: The trivector grade constituent member.
 
+From one perspective these provide the blade decomposition of a general
+MultiVector. I.e.
+
+* MultiVector = Scalar + Vector + BiVector + TriVector
+
+	* The Scalar part is most frequently associated with the magnitude
+	(size, strength) of quantities and other elements in the algebra,
+	e.g. length of vector, size of an angle, etc.
+
+	* The Vector part is probably the single type most heavily used
+	for engineering applications.
+
+	* The BiVector part is probably most useful to engineering
+	applications for representing angles in 3D space and describing
+	the (eqatorial) plane of rotation.
+
+	* The TriVector part is probably not used much on its own for
+	engineering applications, but when combined with the Scalar part,
+	provides the rich capabilities of the "complex" number system
+	used to describe waves, and oscillations.
+
+The compound types can be considered as different partitioning of af
+general MultiVector
+
+* MultiVector = Spinor + ImSpin
+
+	* The Spinor part is generally the most useful since these types
+	are intimately connected with rotation operations and describing
+	the attitude of components and structures. This has great utility
+	in practice.
+
+	* The ImSpin type is often associated with intermediate data
+	types that occur during GA operations. Frequently it arises in
+	the context of the product of three Vector entities.
+
+* MultiVector = ComPlex + DirPlex
+
+	* This partition is particuarly useful for separating the
+	multiplicatively commutative portions from a multivector and is
+	particuarly important for defining and implementing many of the
+	algebraic functions within this library.
+
+	* The ComPlex type is compatible with std::complex<double>.
+	One of the common uses of this type is for electrical circuit
+	and modeling vibration and oscillation of structures.
+
+	* The DirPlex items is a bit unusual. It has application in
+	physics for representing electro magnetic fields, but is perhaps
+	not that useful for engineering applications.
+
 
 #### Component Access
 
-The individual components are accessible with the subscript operator:
+The individual components of all types are accessible with the
+subscript operator.
 
 * __operator[]()__: The indices start at zero and increase as follows:
 
@@ -365,6 +465,8 @@ The individual components are accessible with the subscript operator:
 	Spinor     : (0), (1, 2, 3)
 	ImSpinor   : (0, 1, 2), (3)
 	MultiVector: (0), (1, 2, 3), (4, 5, 6), (7)
+	ComPlex    : (0), (1)
+	DirPlex    : (0, 1, 2), (3, 4, 5)
 
 
 ## GA Entity Operations
@@ -395,26 +497,33 @@ conjugate".  To avoid confusion, a couple functions are given novel names
 that should help remove any ambiguity. I.e. the following self-descriptive
 functions provide various grade sign changing operations:
 
-* __reverse()__: -- as expected, changes algebraic sign on imaginary-like
-grade constituents (bivector and trivector grades). This is associated
-with changing the order of multiplication between vector factors in
-a product - i.e. what might be called a kind of "procedural inversion".
+* __reverse()__: -- Product permutation operation: Changes algebraic
+sign on imaginary-like grade constituents (bivector and trivector
+grades). This is associated with changing the order of multiplication
+between vector factors in a product - i.e. what might be called a kind of
+"procedural inversion".
 
-* __oddverse()__: -- changes algebraic sign on odd grade constituents
-(vector and trivector grades) - (aka "Complex Conjugate"). This is
-associated with reflecting all basis vectors through the origin - i.e.
-"space inversion" or "geometric point involution".
+* __oddverse()__: -- Space involution operation: changes algebraic sign
+on odd grade constituents (vector and trivector grades) - (aka "Complex
+Conjugate"). This is associated with reflecting all basis vectors through
+the origin - i.e.  "space inversion" or "geometric point involution".
 
-* __dirverse()__: -- changes algebraic sign on directed grade constituents
-(vector and bivector grades) - (aka "Clifford Conjugate") - i.e. what might
-be called a kind of "direction involution".
+* __dirverse()__: -- Composite involution operation: changes algebraic
+sign on directed grade constituents (vector and bivector grades) - (aka
+"Clifford Conjugate") - i.e. what might be called a kind of "direction
+involution".
 
-* __dual()__: -- as expected, this returns the dual of it's argument. In
-3D space, the dual type relationships include:
+* __dual()__: -- Operator that interchanges "Real" and "Imaginary"
+properties: This returns the result of multiplying its argument
+by the unit magnitude imaginary TriVector. The operation provides
+the mathematical dual of its argument. In 3D space, the dual type
+relationships include:
 
 	* Scalar <-> TriVector
 	* Vector <-> BiVector
 	* Spinor <-> ImSpin
+	* ComPlex <-> ComPlex  (but with 'real' and 'imaginary' roles exchanged
+	* DirPlex <-> DirPlex  (but with Vector and BiVector roles exchanged
 
 
 #### GA Functions
@@ -423,10 +532,12 @@ be called a kind of "direction involution".
 
 These are constexpr entities.
 
-* __nan__: double value representing Not-A-Number (quiet_nan). This is used
+* __nan__: double value representing Not-A-Number (quiet_NaN). This is used
 to indicate null instances by populating members with nan values.
 
 * __null()__: various constexpr functions that create "null" instances.
+
+	* TODO/TBD note template use
 
 These involve run-time evaluation:
 
@@ -455,7 +566,11 @@ These are constexpr entities/functions.
 
 * __zero()__: create zero instances of various types
 
+	* TODO/TBD note template use
+
 * __one()__: create various types instances with scalar grade value set to 1.
+
+	* TODO/TBD note template use
 
 * Useful _double_ type (radian) angle values
 
@@ -483,7 +598,7 @@ specialized comparisons available include:
 ##### Convenience functions
 
 These are for types in __closed subalgebras__. This includes types:
-Scalar, Spinor, Complex, MultiVector.
+Scalar, Spinor, Complex, and MultiVector.
 
 * __sq()__ : Square of argument (i.e. arg\*arg)
 
@@ -493,18 +608,45 @@ Scalar, Spinor, Complex, MultiVector.
 
 Blade magnitude and direction (direction only valid for non-zero blades)
 
-* __magnitude()__: a native __double__ value representing the magnitude
-of the argument (i.e. sqrt(magSq(arg))
+* Magnitude - This is a real (Scalar) type that is always non-negative and
+represents the "size" or "strength" of an entity.  In GA, the magnitude
+(aka "norm"): (associated with the square root of the scalar part of
+the product of an entity and its reverse):
 
-* __magSq()__: a native __double__ value that is the square of the
-magnitude of the argument (i.e. arg\*reverse(arg));
+	* __magnitude()__: a native __double__ value representing the
+	magnitude of the argument (i.e. sqrt(magSq(arg))
 
-* __direction()__: for non-zero arguments, returns a unitary magnitude
-instance of the same type as argument (i.e. arg/magnitude(arg))
+	* __magSq()__: a native __double__ value that is the square of
+	the magnitude of the argument (i.e. arg\*reverse(arg));
 
-* __pairMagDirFrom()__: returns both magnitude and direction of argument
-(i.e. std::pair\<magnitude(arg), direction(arg)\>). This saves a couple
-computation operations in the fiarly common case when both are needed.
+* Amplitude - This is a ComPlex type that has a rather abstract
+interpretation. Its main use is in defining an inverse of other types.
+
+	NOTE: Amplitude (as used here) is only defined for Geometric Algebras
+	over spatial dimensions of size three (as the case here) or less. The
+	amplitude may not exist in all cases.
+
+	* TODO - Amplitude is one component of polar form.
+
+	* __amplitude()__: a ComPlex quantity that 
+
+		TODO ...
+
+* Direction - Decomposition of 
+
+	* TODO - Direction is one component of polar form.
+
+	* __direction()__: for non-zero arguments, returns a unitary magnitude
+	instance of the same type as argument (i.e. arg/magnitude(arg))
+
+		TODO... should this be in terms of amplitude?
+
+* Polar Form - Decomposition of general multivector into
+Amplitude and (TODO??) Direction
+
+	* __pairMagDirFrom()__: returns both magnitude and direction of argument
+	(i.e. std::pair\<magnitude(arg), direction(arg)\>). This saves a couple
+	computation operations in the fiarly common case when both are needed.
 
 
 ##### Unitary Operators
@@ -596,19 +738,29 @@ Vector, BiVector, or TriVector type).
 
 ### Clone, Build and Install
 
-Clone this repository to local system then follow [instructions
-below](#Code-Build-Commands) to build, test, package and install (or
-any some of those).
+Clone this repository to local system then use the [CMake](www.cmake.org)
+to package or install - e.g. using the
+[example commands below](#Code-Build-Commands)
 
-### Installation and basic use
+### Using installed package within another CMake project
 
-Install: package
+If you have a code project that is also using CMake, you can request
+cmake to automatically include Engabra by doing the following.
 
-Utilize: include headers and link against library
+In the SomeProject/CMakeLists.txt file include:
 
-### Using with other CMake projects
+	# Use CMake command to locate and attach Engabra package
+	find_package(Engabra REQUIRED NO_MODULE)
+	# Informational messages to confirm status and report version ID
+	message(Engabra Found: ${Engabra_FOUND})
+	message(Engabra Version: ${Engabra_VERSION})
 
-CMake: using cmake find and in other projects
+	# Include Engabra in target build - e.g.
+	target_link_libraries(
+		${SomeTarget}
+		PRIVATE
+			Engabra::Engabra
+		)
 
 ### Getting Help
 
@@ -825,7 +977,7 @@ Build Example:
 	$ sudo apt-get remove engabra   # Remove
 
 ### Compiling Demo Programs
-	* cmake --build . --target all -j 16
+	* cmake --build . --target all -j `nproc`
 
 Assuming that Engabra is cloned to /repos/engabra, then
 

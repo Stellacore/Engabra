@@ -50,6 +50,10 @@ Composite entities include:
 	It comprises a Scalar and a BiVector constituent parts.
 \arg ImSpin - An "imaginary spinor" which is dual to Spinor. It comprises
 	a Vector and a Trivector constituent parts.
+\arg ComPlex - A complex type - like std::complex\<double\> - but with data
+	members of Engabra types (Scalar and TriVector).
+\arg DirPlex - A directed element type (aka a "complex vector" type)
+	comprised of a Vector and BiVector data member.
 \arg MultiVector - the most general type in the algebra is the full
 multivector comprising (Scalar+Vector+BiVector+TriVector).
 
@@ -88,9 +92,9 @@ dereferencing these members. E.g. for compound (non-blade) entity,
 
 
 #include <array>
-#include <cstddef>
-
 #include <cmath>
+#include <complex>
+#include <cstddef>
 #include <limits>
 
 
@@ -483,6 +487,79 @@ namespace priv
 		}
 	};
 
+	/*! \brief A "classic" complex type integrated with Scalar, TriVector types.
+	 *
+	 * This is the generic "complex" type for 3D space and has the same
+	 * mathematical properties as does std::complex\<double\>. The main role
+	 * of this type is to provide a class that is consistent with the
+	 * data types and conventions of the other Engabra types and functions.
+	 *
+	 * Instances can be constructed from, and cast into, std::complex\<double\>
+	 * types.
+	 *
+	 * A general multivector may be partitioned into two parts as:
+	 * \arg <MultiVector> = <ComPlex> + <DirPlex>
+	 * The ComPlex portion, comprises Scalar and TriVector grades and
+	 * is multiplicatively commutative with all other elements of the
+	 * algebra.
+	 */
+	struct ComPlex
+	{
+		// Uninitialized by default
+		Scalar theSca; //!< 0-Vector grade part (the "real" part)
+		TriVector theTri; //!< 3-Vector grade ("imaginary" pseudo-scalar part)
+
+		//! Default construct a null instant (that is not isValid())
+		ComPlex
+			() = default;
+
+		//! Member value constructor.
+		explicit
+		ComPlex
+			( Scalar const & sca
+			, TriVector const & tri
+			)
+			: theSca{ sca }
+			, theTri{ tri }
+		{ }
+
+		//! \brief Construct from std::complex<double> type.
+		explicit
+		ComPlex
+			( std::complex<double> const & stdcplx
+			)
+			: theSca{ std::real(stdcplx) }
+			, theTri{ std::imag(stdcplx) }
+		{ }
+
+		// TODO add operator[] for subscripts
+
+	};
+
+	/*! \brief Spatially directed grades (aka a "complex vector")
+	 *
+	 * The DirPlex type provides a natural representation for
+	 * describing electromagnetic fields (with the vector representing
+	 * the electric components, and bivector representing the magnetic
+	 * ones).
+	 *
+	 * A general multivector may be partitioned into two parts as:
+	 * \arg <MultiVector> = <ComPlex> + <DirPlex>
+	 * The DirPlex portion, comprises Vector and BiVector grades. In
+	 * general, the DirPlex does NOT commute with other general types
+	 * (other than the always commutative Scalar, TriVector, and ComPlex
+	 * types).
+	 */
+	struct DirPlex
+	{
+		// Uninitialized by default
+		Vector theVec; //!< 1-Vector grade part
+		BiVector theBiv; //!< 2-Vector grade part
+
+		// TODO add operator[] for subscripts
+
+	};
+
 	/*! \brief Full multivector for G3 (Scalar+Vector+Bivector+Trivector)
 	 *
 	 * MultiVector - This is the composition with one member representing
@@ -496,7 +573,7 @@ namespace priv
 	 */
 	struct MultiVector
 	{
-		// initialize to null by default
+		// Uninitialized by default
 		Scalar theSca; //!< 0-Vector grade part
 		Vector theVec; //!< 1-Vector grade part
 		BiVector theBiv; //!< 2-Vector grade part
@@ -521,7 +598,7 @@ namespace priv
 			, theTri{ tri }
 		{ }
 
-		//! Explicit construction from fundamental type.
+		//! Explicit construction from native type.
 		inline
 		explicit
 		MultiVector
@@ -533,7 +610,7 @@ namespace priv
 			, theTri{ 0. }
 		{ }
 
-		//! Explicit construction from fundamental type.
+		//! Explicit construction from fundamental blade type.
 		inline
 		explicit
 		MultiVector
@@ -545,7 +622,7 @@ namespace priv
 			, theTri{ 0. }
 		{ }
 
-		//! Explicit construction from fundamental type.
+		//! Explicit construction from fundamental blade type.
 		inline
 		explicit
 		MultiVector
@@ -557,7 +634,7 @@ namespace priv
 			, theTri{ 0. }
 		{ }
 
-		//! Explicit construction from fundamental type.
+		//! Explicit construction from fundamental blade type.
 		inline
 		explicit
 		MultiVector
@@ -569,7 +646,7 @@ namespace priv
 			, theTri{ 0. }
 		{ }
 
-		//! Explicit construction from fundamental type.
+		//! Explicit construction from fundamental blade type.
 		inline
 		explicit
 		MultiVector
@@ -581,7 +658,7 @@ namespace priv
 			, theTri{ tri }
 		{ }
 
-		//! Explicit construction from fundamental type.
+		//! Explicit construction from fundamental compound type.
 		inline
 		explicit
 		MultiVector
@@ -593,7 +670,7 @@ namespace priv
 			, theTri{ 0. }
 		{ }
 
-		//! Explicit construction from fundamental type.
+		//! Explicit construction from fundamental compound type.
 		inline
 		explicit
 		MultiVector
@@ -603,6 +680,30 @@ namespace priv
 			, theVec{ imsp.theVec }
 			, theBiv{ 0., 0., 0. }
 			, theTri{ imsp.theTri }
+		{ }
+
+		//! Explicit construction from fundamental compound type.
+		inline
+		explicit
+		MultiVector
+			( ComPlex const & cplx
+			)
+			: theSca{ cplx.theSca }
+			, theVec{ 0., 0., 0. }
+			, theBiv{ 0., 0., 0. }
+			, theTri{ cplx.theTri }
+		{ }
+
+		//! Explicit construction from fundamental compound type.
+		inline
+		explicit
+		MultiVector
+			( DirPlex const & dplx
+			)
+			: theSca{ 0. }
+			, theVec{ dplx.theVec }
+			, theBiv{ dplx.theBiv }
+			, theTri{ 0. }
 		{ }
 
 		//! Construct by component values (very low level, not a typical usage)

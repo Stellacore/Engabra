@@ -305,7 +305,7 @@ namespace g3
 		return same;
 	}
 
-	//! True if all components of each entity are numerically nearly equal.
+	//! True if all components of each entity are numerically nearly same.
 	template
 		< typename Blade
 		, std::enable_if_t< is::blade<Blade>::value, bool> = true
@@ -321,7 +321,7 @@ namespace g3
 		return nearlyEquals(bladeA.theData, bladeB.theData, tol);
 	}
 
-	//! True if all components of each Spinor are numerically nearly equal.
+	//! True if all components of each Spinor are numerically nearly same.
 	inline
 	bool
 	nearlyEquals
@@ -336,7 +336,7 @@ namespace g3
 			);
 	}
 
-	//! True if all components of each ImSpin are numerically nearly equal.
+	//! True if all components of each ImSpin are numerically nearly same.
 	inline
 	bool
 	nearlyEquals
@@ -351,7 +351,37 @@ namespace g3
 			);
 	}
 
-	//! True if all components of each MultiVector are numerically nearly equal.
+	//! True if all components of each ComPlex are numerically nearly same.
+	inline
+	bool
+	nearlyEquals
+		( ComPlex const & cplxA
+		, ComPlex const & cplxB
+		, double const & tol = { std::numeric_limits<double>::epsilon() }
+		)
+	{
+		return
+			(  nearlyEquals(cplxA.theSca, cplxB.theSca, tol)
+			&& nearlyEquals(cplxA.theTri, cplxB.theTri, tol)
+			);
+	}
+
+	//! True if all components of each DirPlex are numerically nearly same.
+	inline
+	bool
+	nearlyEquals
+		( DirPlex const & dplxA
+		, DirPlex const & dplxB
+		, double const & tol = { std::numeric_limits<double>::epsilon() }
+		)
+	{
+		return
+			(  nearlyEquals(dplxA.theVec, dplxB.theVec, tol)
+			&& nearlyEquals(dplxA.theBiv, dplxB.theBiv, tol)
+			);
+	}
+
+	//! True if all components of each MultiVector are numerically nearly same.
 	inline
 	bool
 	nearlyEquals

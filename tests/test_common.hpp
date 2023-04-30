@@ -25,6 +25,13 @@ SOFTWARE.
 */
 
 
+#include "g3compare.hpp"
+
+#include <iostream>
+#include <limits>
+#include <string>
+
+
 //! Code common to unit testing infrastructure
 namespace tst
 {
@@ -41,5 +48,24 @@ namespace tst
 		static constexpr int pass{ 0 }; // main() return for success
 		static constexpr int fail{ 1 }; // main() return for test failure
 	};
+
+	//! Compare 'got' results with 'expected' value - if error, put to stream
+	void
+	checkGotExp
+		( std::ostream & ostrm
+		, double const & got
+		, double const & exp
+		, std::string const & title
+		, double const & tol = { std::numeric_limits<double>::epsilon() }
+		)
+	{
+		if (! engabra::g3::nearlyEquals(got, exp, tol))
+		{
+			ostrm << "Failure of " << title << " test\n";
+			ostrm << "exp: " << exp << std::endl;
+			ostrm << "got: " << got << std::endl;
+		}
+	}
+
 }
 

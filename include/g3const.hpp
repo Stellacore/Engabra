@@ -194,6 +194,25 @@ namespace g3
 		return ImSpin{ null<Vector>(), null<TriVector>() };
 	}
 
+	//! Null value - specialization for ComPlex
+	template <>  // NOTE: can't be const because of ctors
+	ComPlex
+	null<ComPlex>()
+	{
+		constexpr Scalar sca{ null<Scalar>() };
+		constexpr TriVector tri{ null<TriVector>() };
+		return ComPlex{ sca, tri };
+	}
+
+	//! Null value - specialization for DirPlex
+	template <>
+	constexpr
+	DirPlex
+	null<DirPlex>()
+	{
+		return DirPlex{ null<Vector>(), null<BiVector>() };
+	}
+
 	//
 	// Zero values
 	//

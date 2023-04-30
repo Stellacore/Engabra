@@ -101,7 +101,7 @@ namespace g3
 	/*! \brief Squaring operation (result of multiplying argument by itself)
 	 *
 	 * Only applicable for types that represent a closed sub-algebra.
-	 * E.g. double, Scalar, Spinor, Complex, MultiVector.
+	 * E.g. double, Scalar, Spinor, ComPlex, MultiVector.
 	 */
 	template <typename Type>
 	constexpr
@@ -116,7 +116,7 @@ namespace g3
 	/*! \brief Cubing operation (multiplying by self 3-times)
 	 *
 	 * Only applicable for types that represent a closed sub-algebra.
-	 * E.g. double, Scalar, Spinor, Complex, MultiVector.
+	 * E.g. double, Scalar, Spinor, ComPlex, MultiVector.
 	 */
 	template <typename Type>
 	constexpr
@@ -182,6 +182,30 @@ namespace g3
 		return {vecSq + triSq };
 	}
 
+	//! Squared magnitude - specialization for ComPlex
+	inline
+	double
+	magSq
+		( ComPlex const & cplx
+		)
+	{
+		Scalar const & sca = cplx.theSca;
+		TriVector const & tri = cplx.theTri;
+		return { magSq(sca) + magSq(tri) };
+	}
+
+	//! Squared magnitude - specialization for DirPlex
+	inline
+	double
+	magSq
+		( DirPlex const & dplx
+		)
+	{
+		Vector const & vec = dplx.theVec;
+		BiVector const & biv = dplx.theBiv;
+		return { magSq(vec) + magSq(biv) };
+	}
+
 	//! Squared magnitude - specialization for MultiVector
 	inline
 	double
@@ -229,6 +253,183 @@ namespace g3
 			result.second = (1./mag) * blade;
 		}
 		return result;
+	}
+
+	//
+	// Amplitudes
+	//
+
+	//! Squared amplitude - specialization for Scalar
+	inline
+	ComPlex
+	ampSq
+		( Scalar const & sca
+		)
+	{
+		return ComPlex{ Scalar{ magSq(sca) }, zero<TriVector>() };
+	}
+
+	//! Squared amplitude - specialization for Vector
+	inline
+	ComPlex
+	ampSq
+		( Vector const & vec
+		)
+	{
+		return ComPlex{ Scalar{ -magSq(vec) }, zero<TriVector>() };
+	}
+
+	//! Squared amplitude - specialization for BiVector
+	inline
+	ComPlex
+	ampSq
+		( BiVector const & biv
+		)
+	{
+		// NOTE: biv*biv is negative, then negate again for return
+		return ComPlex{ Scalar{ magSq(biv) }, zero<TriVector>() };
+	}
+
+	//! Squared amplitude - specialization for TriVector
+	inline
+	ComPlex
+	ampSq
+		( TriVector const & tri
+		)
+	{
+		// NOTE: tri*tri is negative
+		return ComPlex{ Scalar{ -magSq(tri) }, zero<TriVector>() };
+	}
+
+	//! Squared amplitude - specialization for Spinor
+	inline
+	ComPlex
+	ampSq
+		( Spinor const & spin
+		)
+	{
+		Scalar const & sca = spin.theSca;
+		BiVector const & biv = spin.theBiv;
+		//   = [magSq(s) -magSq(v) --magSq(B) -magSq(T)] +[2sT -2(vB).theTri]
+		//   = [magSq(s) --magSq(B)] +[]
+		double const scaPart{ magSq(sca) + magSq(biv) };
+		return ComPlex{ Scalar{ scaPart }, zero<TriVector>() };
+	}
+
+	//! Squared amplitude - specialization for ImSpin
+	inline
+	ComPlex
+	ampSq
+		( ImSpin const & imsp
+		)
+	{
+		Vector const & vec = imsp.theVec;
+		TriVector const & tri = imsp.theTri;
+		//   = [magSq(s) -magSq(v) --magSq(B) -magSq(T)] +[2sT -2(vB).theTri]
+		//   = [-magSq(v) -magSq(T)] +[]
+		double const scaPart{ -(magSq(vec) + magSq(tri)) };
+		return ComPlex{ Scalar{ scaPart }, zero<TriVector>() };
+	}
+
+	//! Squared amplitude - specialization for ComPlex
+	inline
+	ComPlex
+	ampSq
+		( ComPlex const & cplx
+		)
+	{
+		Scalar const & sca = cplx.theSca;
+		TriVector const & tri = cplx.theTri;
+
+		// note that dirverse(cplx)==cplx, so that ampSq(cplx)=sq(cplx)
+		// cplx = s + T
+		// cSq = [ss + TT] + [2sT]
+
+		double const scaPart{ magSq(sca) - magSq(tri) };
+
+		double const triScaTri{ (sca.theData[0] * tri.theData[0]) };
+		double const triPart{ 2.*triScaTri };
+
+		return ComPlex{ Scalar{ scaPart }, TriVector{ triPart } };
+	}
+
+	//! Squared amplitude - specialization for DirPlex
+	inline
+	ComPlex
+	ampSq
+		( DirPlex const & dplx
+		)
+	{
+		Vector const & vec = dplx.theVec;
+		BiVector const & biv = dplx.theBiv;
+
+		// Note that dirverse(dplx)==-dplx, so that ampSq(dplx)=-sq(dplx)
+		// dplx = v + B
+		// dSq = [vv + BB] + [vB + Bv]
+		// dSq = [magSq(v) - magSq(B)] + [2v^B]
+
+		double const scaPart{ magSq(vec) - magSq(biv) };
+
+		double const triVecBiv{ priv::prodComm(vec.theData, biv.theData) };
+		double const triPart{ 2.*triVecBiv };
+
+		return ComPlex{ Scalar{ -scaPart }, TriVector{ -triPart } };
+	}
+
+	//! Squared amplitude - specialization for MultiVector
+	inline
+	ComPlex
+	ampSq
+		( MultiVector const & mv
+		)
+	{
+		Scalar const & sca = mv.theSca;
+		Vector const & vec = mv.theVec;
+		BiVector const & biv = mv.theBiv;
+		TriVector const & tri = mv.theTri;
+
+		// original: M = s + v + B + T
+		// dirverse(M) = s - v - B + T
+		// ampSq
+		//   = ss -sv -sB +sT
+		//   +vs -vv -vB +vT
+		//   +Bs -Bv -BB +BT
+		//   +Ts -Tv -TB +TT
+		// Terms with commuting scalar and trivector factors cancel
+		//   = ss +sT
+		//   -vv -vB
+		//   -Bv -BB
+		//   +Ts +TT
+		// Leading to
+		//   = [ss -vv -BB +TT] +[2sT -(vB +Bv)]
+		//   = [ss -vv -BB +TT] +[2sT -2(vB).theTri]
+		//   = [magSq(s) -magSq(v) --magSq(B) -magSq(T)] +[2sT -2(vB).theTri]
+
+		double const sqSca{ magSq(sca) };
+		double const sqVec{ magSq(vec) };
+		double const sqBiv{ - magSq(biv) };
+		double const sqTri{ - magSq(tri) };
+		double const scaPart{ sqSca - sqVec - sqBiv + sqTri };
+
+		double const triScaTri{ (sca.theData[0] * tri.theData[0]) };
+		double const triVecBiv{ priv::prodComm(vec.theData, biv.theData) };
+		double const triPart{ 2.*triScaTri - 2.*triVecBiv };
+
+		return ComPlex{ Scalar{ scaPart }, TriVector{ triPart } };
+	}
+
+	//! Amplitude of item - sqrt(item*dirverse(item))
+	template <typename Type>
+	inline
+	ComPlex
+	amplitude
+		( Type const & item
+		)
+	{
+		ComPlex const cSq{ ampSq(item) };
+		std::complex<double> zSq
+			{ cSq.theSca.theData[0], cSq.theTri.theData[0] };
+		return ComPlex{ std::sqrt(zSq) };
 	}
 
 	//

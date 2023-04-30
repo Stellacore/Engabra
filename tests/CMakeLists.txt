@@ -9,6 +9,7 @@ set(unitTests
 
 	test_g3traits
 	test_g3type
+	test_g3type_plex
 	test_g3io
 
 	test_g3compare
@@ -22,7 +23,9 @@ set(unitTests
 	test_g3opsUni
 
 	test_g3func
+	test_g3func_amp
 	test_g3func_exp
+	test_g3func_mag
 
 	)
 

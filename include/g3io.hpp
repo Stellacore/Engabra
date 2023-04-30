@@ -502,7 +502,7 @@ namespace
 	// Output operators
 	//
 
-	//! Put a scalar to stream - with some formatting
+	//! Put a scalar to stream - with basic formatting
 	inline
 	std::ostream &
 	operator<<
@@ -514,7 +514,7 @@ namespace
 		return ostrm;
 	}
 
-	//! Put a vector to stream - with some formatting
+	//! Put a vector to stream - with basic formatting
 	inline
 	std::ostream &
 	operator<<
@@ -538,7 +538,7 @@ namespace
 		return ostrm;
 	}
 
-	//! Put a trivector to stream - with some formatting
+	//! Put a trivector to stream - with basic formatting
 	inline
 	std::ostream &
 	operator<<
@@ -550,7 +550,7 @@ namespace
 		return ostrm;
 	}
 
-	//! Put a spinor to stream - with some formatting
+	//! Put a spinor to stream - with basic formatting
 	inline
 	std::ostream &
 	operator<<
@@ -562,7 +562,7 @@ namespace
 		return ostrm;
 	}
 
-	//! Put a imaginary-spinor to stream - with some formatting
+	//! Put a imaginary-spinor to stream - with basic formatting
 	inline
 	std::ostream &
 	operator<<
@@ -571,6 +571,30 @@ namespace
 		)
 	{
 		ostrm << imsp.theVec << " " << imsp.theTri;
+		return ostrm;
+	}
+
+	//! Put a complex type to stream - with basic formatting
+	inline
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::ComPlex const & cplx
+		)
+	{
+		ostrm << cplx.theSca << " " << cplx.theTri;
+		return ostrm;
+	}
+
+	//! Put a dirplex type to stream - with basic formatting
+	inline
+	std::ostream &
+	operator<<
+		( std::ostream & ostrm
+		, engabra::g3::DirPlex const & dplx
+		)
+	{
+		ostrm << dplx.theVec << " " << dplx.theBiv;
 		return ostrm;
 	}
 
@@ -667,6 +691,33 @@ namespace
 		// includes validity checking of elements
 		istrm >> imsp.theVec.theData;
 		istrm >> imsp.theTri.theData;
+		return istrm;
+	}
+
+	//! Specialization of extraction operator for ComPlex
+	inline
+	std::istream &
+	operator>>
+		( std::istream & istrm
+		, engabra::g3::ComPlex & cplx
+		)
+	{
+		istrm >> cplx.theSca.theData;
+		istrm >> cplx.theTri.theData;
+		return istrm;
+	}
+
+	//! Specialization of extraction operator for DirPlex
+	inline
+	std::istream &
+	operator>>
+		( std::istream & istrm
+		, engabra::g3::DirPlex & dplx
+		)
+	{
+		// includes validity checking of elements
+		istrm >> dplx.theVec.theData;
+		istrm >> dplx.theBiv.theData;
 		return istrm;
 	}
 
