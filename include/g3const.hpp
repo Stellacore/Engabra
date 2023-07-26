@@ -287,6 +287,24 @@ namespace g3
 		return ImSpin{ zero<Vector>(), zero<TriVector>() };
 	}
 
+	//! Zero as a ComPlex instance
+	template <>
+	constexpr
+	ComPlex
+	zero<ComPlex>()
+	{
+		return ComPlex{ zero<Scalar>(), zero<TriVector>() };
+	}
+
+	//! Zero as a DirPlex instance
+	template <>
+	constexpr
+	DirPlex
+	zero<DirPlex>()
+	{
+		return DirPlex{ zero<Vector>(), zero<BiVector>() };
+	}
+
 	//! Zero as a MultiVector instance
 	template <>
 	inline  // NOTE: can't be constexpr since MultiVector has ctors
@@ -311,7 +329,25 @@ namespace g3
 	Type
 	one()
 	{
-		return Type{ 1. };
+		return Type{ 1 };
+	}
+
+	//! Unit value for vector is all zeros
+	template<>
+	constexpr
+	Vector
+	one<Vector>()
+	{
+		return Vector{ zero<Vector>() };
+	}
+
+	//! Unit value for bivector is all zeros
+	template<>
+	constexpr
+	BiVector
+	one<BiVector>()
+	{
+		return BiVector{ zero<BiVector>() };
 	}
 
 	//! Unit value (identity multiplier)

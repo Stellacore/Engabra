@@ -28,7 +28,7 @@
 */
 
 
-#include "test_common.hpp" // testing environment common utilities
+#include "checks.hpp" // testing environment common utilities
 
 #include "g3func.hpp"
 
@@ -74,8 +74,8 @@ namespace
 		TriVector const tri{ 23. };
 
 		// compound test values
-		ImSpin const imsp{ (vec * biv) };
-		Spinor const spin{ dual(imsp) };
+		Spinor const spin{ sca, biv };
+		ImSpin const imsp{ vec, tri };
 		ComPlex const cplx{ sca, tri };
 		DirPlex const dplx{ vec, biv };
 		MultiVector const mvec{ sca, vec, biv, tri };
@@ -84,20 +84,32 @@ namespace
 		double const gotMag_vec{ magnitude(vec) };
 		double const gotMag_biv{ magnitude(biv) };
 		double const gotMag_tri{ magnitude(tri) };
-		double const gotMag_imsp{ magnitude(imsp) };
 		double const gotMag_spin{ magnitude(spin) };
+		double const gotMag_imsp{ magnitude(imsp) };
 		double const gotMag_cplx{ magnitude(cplx) };
 		double const gotMag_dplx{ magnitude(dplx) };
 		double const gotMag_mvec{ magnitude(mvec) };
 
 		// [DoxyExample01]
 
+		// first confirm multivector magnitude operation
+		double const mvec_magSq
+			{ sq(2.)
+			+ sq(3.) + sq(5.) + sq(7.)
+			+ sq(11.) + sq(13.) + sq(17.)
+			+ sq(23.)
+			};
+		double const mvec_mag{ std::sqrt(mvec_magSq) };
+		tst::checkGotExp(oss, magSq(mvec), mvec_magSq, "mv magSq verify");
+		tst::checkGotExp(oss, gotMag_mvec, mvec_mag, "mv mag verify");
+
+		// use multivector magnitude to test others - via expMag()
 		double const expMag_sca{ expMag(sca) };
 		double const expMag_vec{ expMag(vec) };
 		double const expMag_biv{ expMag(biv) };
 		double const expMag_tri{ expMag(tri) };
-		double const expMag_imsp{ expMag(imsp) };
 		double const expMag_spin{ expMag(spin) };
+		double const expMag_imsp{ expMag(imsp) };
 		double const expMag_cplx{ expMag(cplx) };
 		double const expMag_dplx{ expMag(dplx) };
 		double const expMag_mvec{ expMag(mvec) };
@@ -106,11 +118,23 @@ namespace
 		tst::checkGotExp(oss, gotMag_vec, expMag_vec, "magnitude(vec)");
 		tst::checkGotExp(oss, gotMag_biv, expMag_biv, "magnitude(biv)");
 		tst::checkGotExp(oss, gotMag_tri, expMag_tri, "magnitude(tri)");
-		tst::checkGotExp(oss, gotMag_imsp, expMag_imsp, "magnitude(imsp)");
 		tst::checkGotExp(oss, gotMag_spin, expMag_spin, "magnitude(spin)");
+		tst::checkGotExp(oss, gotMag_imsp, expMag_imsp, "magnitude(imsp)");
 		tst::checkGotExp(oss, gotMag_cplx, expMag_cplx, "magnitude(cplx)");
 		tst::checkGotExp(oss, gotMag_dplx, expMag_dplx, "magnitude(dplx)");
 		tst::checkGotExp(oss, gotMag_mvec, expMag_mvec, "magnitude(mvec)");
+
+		// check magSq() function explicitly as well
+		double const tol{ 2. * std::numeric_limits<double>::epsilon() };
+		tst::checkGotExp(oss, magSq(sca), sq(expMag_sca), "magSq(sca)", tol);
+		tst::checkGotExp(oss, magSq(vec), sq(expMag_vec), "magSq(vec)", tol);
+		tst::checkGotExp(oss, magSq(biv), sq(expMag_biv), "magSq(biv)", tol);
+		tst::checkGotExp(oss, magSq(tri), sq(expMag_tri), "magSq(tri)", tol);
+		tst::checkGotExp(oss, magSq(spin), sq(expMag_spin), "magSq(spin)", tol);
+		tst::checkGotExp(oss, magSq(imsp), sq(expMag_imsp), "magSq(imsp)", tol);
+		tst::checkGotExp(oss, magSq(cplx), sq(expMag_cplx), "magSq(cplx)", tol);
+		tst::checkGotExp(oss, magSq(dplx), sq(expMag_dplx), "magSq(dplx)", tol);
+		tst::checkGotExp(oss, magSq(mvec), sq(expMag_mvec), "magSq(mvec)", tol);
 
 		return oss.str();;
 	}

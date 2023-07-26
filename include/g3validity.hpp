@@ -44,14 +44,14 @@ The use of the null values allows coding with a "null pattern
 paradigm". (Cf. https://en.wikipedia.org/wiki/Null_object_pattern)
 
 For example:
-\snippet test_g3validity.cpp DoxyExample01
+\snippet test_g3validity_all.cpp DoxyExample01
 
 Note that, in engabra, instances need to be \a explicitly initialized
 to null (for most engabra entities, default construction leaves the
 contents UN-initialized).
 
 All g3 types support this same pattern
-\snippet test_g3validity.cpp DoxyExample02
+\snippet test_g3validity_all.cpp DoxyExample02
 
 */
 
@@ -74,10 +74,10 @@ namespace g3
 	/*! \brief True if dub is a reasonable value, e.g. is (! null)
 	 * True if argument has a useful numeric value (zero or 'isnormal').
 	 *
-	 * Typical usage pattern is to initialize/deafult a value to null
+	 * Typical usage pattern is to initialize/default a value to null
 	 * (via one of the templated functions), and then optionally assign a
-	 * useful result (e.g. only if something succeeds). Latter, the
-	 * validity of the value (e.g. success of assignment operation) can be
+	 * useful result (e.g. provided something succeeds). Then, later, the
+	 * validity of the value (e.g. success of any prior operation) can be
 	 * evaluated by calling this function.
 	 */
 	inline
@@ -86,13 +86,8 @@ namespace g3
 		( double const & dub
 		)
 	{
-		bool okay{ (0. == dub) }; // allow zero as valid
-		if (! okay)
-		{
-			// normal meaning NOT any of {zero, subnormal, infinite, NaN}
-			okay = std::isnormal(dub);
-		}
-		return okay;
+		// require a normal value - also allowing zero as valid
+		return (std::isnormal(dub) || (0. == dub));
 	}
 
 	//

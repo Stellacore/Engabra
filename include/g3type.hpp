@@ -61,21 +61,21 @@ multivector comprising (Scalar+Vector+BiVector+TriVector).
 
 The \b default constructions are fast but \b do \b NOT \b initialize
 content values.
-\snippet test_g3type.cpp DoxyExample01
+\snippet test_g3type_ctor.cpp DoxyExample01
 
 Instances can be initialized to explicit null values (e.g. to
 support the "null object" design pattern (ref. g3validity.hpp)
-\snippet test_g3type.cpp DoxyExample02
+\snippet test_g3type_ctor.cpp DoxyExample02
 
 Instances can be initialized to zero values (a single concept of 'zero'
 applies to geometric algebra entities of all grades).
-\snippet test_g3type.cpp DoxyExample03
+\snippet test_g3type_ctor.cpp DoxyExample03
 
 Instances can be initialized with specific numeric values.
-\snippet test_g3type.cpp DoxyExample04
+\snippet test_g3type_ctor.cpp DoxyExample04
 
 Composite entities can also be constructed using constituent entities:
-\snippet test_g3type.cpp DoxyExample05
+\snippet test_g3type_ctor.cpp DoxyExample05
 
 \b Grade \b Selection
 
@@ -485,6 +485,7 @@ namespace priv
 				return priv::sGlobalNaN;
 			}
 		}
+
 	};
 
 	/*! \brief A "classic" complex type integrated with Scalar, TriVector types.
@@ -498,10 +499,13 @@ namespace priv
 	 * types.
 	 *
 	 * A general multivector may be partitioned into two parts as:
-	 * \arg <MultiVector> = <ComPlex> + <DirPlex>
+	 * \arg (MultiVector) = (ComPlex) + (DirPlex)
 	 * The ComPlex portion, comprises Scalar and TriVector grades and
 	 * is multiplicatively commutative with all other elements of the
 	 * algebra.
+	 *
+	 * Think of "ComPlex" type as the "Com"muting grade"Plex"
+	 * of a general multivector.
 	 */
 	struct ComPlex
 	{
@@ -509,30 +513,56 @@ namespace priv
 		Scalar theSca; //!< 0-Vector grade part (the "real" part)
 		TriVector theTri; //!< 3-Vector grade ("imaginary" pseudo-scalar part)
 
-		//! Default construct a null instant (that is not isValid())
+		//! \brief Instance from std::complex<double> type.
+		inline
+		static
 		ComPlex
-			() = default;
-
-		//! Member value constructor.
-		explicit
-		ComPlex
-			( Scalar const & sca
-			, TriVector const & tri
-			)
-			: theSca{ sca }
-			, theTri{ tri }
-		{ }
-
-		//! \brief Construct from std::complex<double> type.
-		explicit
-		ComPlex
+		from
 			( std::complex<double> const & stdcplx
 			)
-			: theSca{ std::real(stdcplx) }
-			, theTri{ std::imag(stdcplx) }
-		{ }
+		{
+			return ComPlex
+				{ Scalar{ std::real(stdcplx) }
+				, TriVector{ std::imag(stdcplx) }
+				};
+		}
 
-		// TODO add operator[] for subscripts
+		//! Cast to std::complex<double>
+		inline
+		operator std::complex<double>
+			() const
+		{
+			return std::complex<double>{ theSca.theData[0], theTri.theData[0] };
+		}
+
+		/*! \brief Subscript-style access to individual components
+		 *
+		 * Components are numbered sequentially e.g.
+		 * \arg [0] - is the scalar grade (aka 'real')
+		 * \arg [1] - is the trivector grade (aka 'imaginary')
+		 *
+		 * Valid argument values are ndx=={0, 1}
+		 */
+		inline
+		double const &
+		operator[]
+			( std::size_t const & ndx
+			) const
+		{
+			if (ndx < 1u)
+			{
+				return theSca.theData[0];
+			}
+			else
+			if (ndx < 2u)
+			{
+				return theTri.theData[0];
+			}
+			else
+			{
+				return priv::sGlobalNaN;
+			}
+		}
 
 	};
 
@@ -544,11 +574,14 @@ namespace priv
 	 * ones).
 	 *
 	 * A general multivector may be partitioned into two parts as:
-	 * \arg <MultiVector> = <ComPlex> + <DirPlex>
+	 * \arg (MultiVector) = (ComPlex) + (DirPlex)
 	 * The DirPlex portion, comprises Vector and BiVector grades. In
 	 * general, the DirPlex does NOT commute with other general types
 	 * (other than the always commutative Scalar, TriVector, and ComPlex
 	 * types).
+	 *
+	 * Think of "DirPlex" type as the "Dir"ected grade"Plex"
+	 * of a general multivector.
 	 */
 	struct DirPlex
 	{
@@ -556,7 +589,34 @@ namespace priv
 		Vector theVec; //!< 1-Vector grade part
 		BiVector theBiv; //!< 2-Vector grade part
 
-		// TODO add operator[] for subscripts
+		/*! \brief Subscript-style access to individual components
+		 *
+		 * Components are numbered sequentially e.g.
+		 * \arg [0,1,2] - are the vector grade components
+		 * \arg [3,4,5] - are the bivector grade components
+		 *
+		 * Valid argument values are ndx=={0, 1, 2, 3, 4, 5}
+		 */
+		inline
+		double const &
+		operator[]
+			( std::size_t const & ndx
+			) const
+		{
+			if (ndx < 3u)
+			{
+				return theVec.theData[ndx];
+			}
+			else
+			if (ndx < 6u)
+			{
+				return theBiv.theData[ndx - 3u];
+			}
+			else
+			{
+				return priv::sGlobalNaN;
+			}
+		}
 
 	};
 
@@ -682,7 +742,7 @@ namespace priv
 			, theTri{ imsp.theTri }
 		{ }
 
-		//! Explicit construction from fundamental compound type.
+		//! Explicit construction from compound type.
 		inline
 		explicit
 		MultiVector
@@ -694,7 +754,7 @@ namespace priv
 			, theTri{ cplx.theTri }
 		{ }
 
-		//! Explicit construction from fundamental compound type.
+		//! Explicit construction from compound type.
 		inline
 		explicit
 		MultiVector
@@ -704,6 +764,19 @@ namespace priv
 			, theVec{ dplx.theVec }
 			, theBiv{ dplx.theBiv }
 			, theTri{ 0. }
+		{ }
+
+		//! Explicit construction from Commuting and Directional constituents.
+		inline
+		explicit
+		MultiVector
+			( ComPlex const & cplx
+			, DirPlex const & dplx
+			)
+			: theSca{ cplx.theSca }
+			, theVec{ dplx.theVec }
+			, theBiv{ dplx.theBiv }
+			, theTri{ cplx.theTri }
 		{ }
 
 		//! Construct by component values (very low level, not a typical usage)
@@ -729,10 +802,11 @@ namespace priv
 		 *
 		 * This is generally more for testing. For general use, it's
 		 * typically more clear and convenient to work directly with
-		 * the member instances (or more generally, with the multivector
-		 * instance itself as a whole).
+		 * the member instances: theSca, theVec, theBiv, theTri ((or
+		 * more generally, with the multivector instance itself as a
+		 * whole).
 		 *
-		 * Valid arguments are ndx={0,...,7}. The coordinates correspond
+		 * Valid arguments are ndx={0,...,7} where the indices correspond
 		 * to unitary basis directions {e0,e1,e2,e3,e21,e31,e12,e123}
 		 */
 		inline
@@ -764,8 +838,8 @@ namespace priv
 		/*! \brief Direct write access components by index.
 		 *
 		 * As with the const version of subscript access, this is
-		 * more of a low-level mechanics method primarily useful only
-		 * in special cases.
+		 * more of a low-level mechanics method primarily useful for
+		 * implementation or in special cases.
 		 */
 		inline
 		double &

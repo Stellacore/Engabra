@@ -25,41 +25,49 @@ SOFTWARE.
 */
 
 
-#include "test_common.hpp"
-
-#include "engabra.hpp"
+#include "g3io.hpp"
+#include "g3compare.hpp"
 
 #include <iostream>
+#include <limits>
+#include <string>
 
 
-namespace
+//! Code common to unit testing infrastructure
+namespace tst
 {
-	std::size_t
-	test1
-		()
+	/*! CTest (by default) checks for these main return values
+	 *
+	 * An environment variable can be set (before running ctest) to
+	 * have CTest report output from test programs on failure. E.g.
+	 * \arg $ make && CTEST_OUTPUT_ON_FAILURE=1 ctest
+	 * \arg $ make && CTEST_OUTPUT_ON_FAILURE=1 bash -c 'ctest <args> <etc>'
+	 *
+	 */
+	struct CTest
 	{
-		std::size_t errCount{ 0u };
+		static constexpr int pass{ 0 }; // main() return for success
+		static constexpr int fail{ 1 }; // main() return for test failure
+	};
 
-		std::cout << "Hi\n";
-		std::cerr << "ErrorHere\n";
-
-		return errCount;
-	}
-}
-
-int
-main
-	()
-{
-	int status{ tst::CTest::fail };
-	std::size_t errCount{ 0u };
-
-	errCount += test1();
-
-	if (0u == errCount) // Only pass if no errors were encountered
+	//! Compare 'got' results with 'expected' value - if error, put to stream
+	template <typename Type>
+	void
+	checkGotExp
+		( std::ostream & ostrm
+		, Type const & got
+		, Type const & exp
+		, std::string const & title
+		, double const & tol = { std::numeric_limits<double>::epsilon() }
+		)
 	{
-		status = tst::CTest::pass;
+		if (! engabra::g3::nearlyEquals(got, exp, tol))
+		{
+			ostrm << "Failure of " << title << " test\n";
+			ostrm << "exp: " << exp << std::endl;
+			ostrm << "got: " << got << std::endl;
+		}
 	}
-	return status;
+
 }
 

@@ -30,9 +30,9 @@
 \brief Constructs useful for template constructions.
 
 Example using helper types to qualify template instantiation:
-\snippet test_g3traits.cpp DoxyExample00
+\snippet test_g3traits_all.cpp DoxyExample00
 
-\snippet test_g3traits.cpp DoxyExample01
+\snippet test_g3traits_all.cpp DoxyExample01
 */
 
 
@@ -91,6 +91,82 @@ namespace is
 
 	//! TriVector is a blade (3-vector)
 	template <> struct blade<TriVector> : std::true_type {};
+
+	//
+	// Specific type tests
+	//
+
+	//! True for Scalar type (only)
+	template <typename Type>
+	struct Scalar : std::false_type
+	{
+	};
+	//! True for Scalar argument (is::multiVector<...>)
+	template <> struct Scalar<g3::Scalar> : std::true_type {};
+
+	//! True for Vector type (only)
+	template <typename Type>
+	struct Vector : std::false_type
+	{
+	};
+	//! True for Vector argument (is::multiVector<...>)
+	template <> struct Vector<g3::Vector> : std::true_type {};
+
+	//! True for BiVector type (only)
+	template <typename Type>
+	struct BiVector : std::false_type
+	{
+	};
+	//! True for BiVector argument (is::multiVector<...>)
+	template <> struct BiVector<g3::BiVector> : std::true_type {};
+
+	//! True for TriVector type (only)
+	template <typename Type>
+	struct TriVector : std::false_type
+	{
+	};
+	//! True for TriVector argument (is::multiVector<...>)
+	template <> struct TriVector<g3::TriVector> : std::true_type {};
+
+	//! True for Spinor type (only)
+	template <typename Type>
+	struct Spinor : std::false_type
+	{
+	};
+	//! True for Spinor argument (is::multiVector<...>)
+	template <> struct Spinor<g3::Spinor> : std::true_type {};
+
+	//! True for ImSpin type (only)
+	template <typename Type>
+	struct ImSpin : std::false_type
+	{
+	};
+	//! True for ImSpin argument (is::multiVector<...>)
+	template <> struct ImSpin<g3::ImSpin> : std::true_type {};
+
+	//! True for ComPlex type (only)
+	template <typename Type>
+	struct ComPlex : std::false_type
+	{
+	};
+	//! True for ComPlex argument (is::multiVector<...>)
+	template <> struct ComPlex<g3::ComPlex> : std::true_type {};
+
+	//! True for DirPlex type (only)
+	template <typename Type>
+	struct DirPlex : std::false_type
+	{
+	};
+	//! True for DirPlex argument (is::multiVector<...>)
+	template <> struct DirPlex<g3::DirPlex> : std::true_type {};
+
+	//! True for MultiVector type (only)
+	template <typename Type>
+	struct MultiVector : std::false_type
+	{
+	};
+	//! True for MultiVector argument (is::multiVector<...>)
+	template <> struct MultiVector<g3::MultiVector> : std::true_type {};
 
 } // [is]
 

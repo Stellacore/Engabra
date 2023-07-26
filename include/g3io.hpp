@@ -63,7 +63,7 @@ are implemented to support the null pattern paradigm, so that extracted
 values can also be evaluated for validity independent of stream status.
 
 For example:
-\snippet test_g3io.cpp DoxyExample01
+\snippet test_g3io_all.cpp DoxyExample01
 
 \b Utilities
 
@@ -213,12 +213,19 @@ namespace priv
 		)
 	{
 		// sign, leading, point, rest
-		std::size_t const numField{ 1u + 1u + 1u + numDigits };
+		std::size_t const numField
+			{ 1u // sign
+			+ 1u // leading digit
+			+ 1u // decimal
+			+ 1u // 'e'
+			+ 1u // sign
+			+ 2u // exp digits
+			+ numDigits
+			};
 		ostrm
-			<< " "   // force a leading space
+			<< std::setw(numField)
 			<< std::scientific
 			<< std::setprecision(numDigits)
-			<< std::setw(numField)
 			;
 	}
 

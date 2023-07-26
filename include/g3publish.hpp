@@ -52,9 +52,9 @@ case.
 \b Use
 
 Include this file (ref note below)
-\snippet test_g3publish.cpp DoxyExample01
+\snippet test_g3publish_all.cpp DoxyExample01
 After the "publication" all operators are available in global namespace.
-\snippet test_g3publish.cpp DoxyExample02
+\snippet test_g3publish_all.cpp DoxyExample02
 
 \note The publish behavior is incoporated into the library by default
 (i.e. g3publish.hpp in included by engabra.hpp). Therefore, it is more

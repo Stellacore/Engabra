@@ -23,7 +23,7 @@
 // 
 
 
-#include "test_common.hpp" // testing environment common utilities
+#include "checks.hpp" // testing environment common utilities
 
 #include "g3type.hpp"
 
@@ -112,24 +112,28 @@ namespace
 		// (e.g. **NO** explicit initilization - may have arbitrary values)
 		//
 		g3::Scalar anUnsetScalar;  // NOT initialized, must be set later
-		g3::Vector anUnsetVector;
-		g3::BiVector anUnsetBiVector;
-		g3::TriVector anUnsetTriVector;
-		g3::Spinor anUnsetSpinor;
-		g3::ImSpin anUnsetImSpin;
+		g3::Vector anUnsetVector;  // NOT initialized
+		g3::BiVector anUnsetBiVector;  // NOT initialized
+		g3::TriVector anUnsetTriVector;  // NOT initialized
+		g3::Spinor anUnsetSpinor;  // NOT initialized
+		g3::ImSpin anUnsetImSpin;  // NOT initialized
+		g3::ComPlex anUnsetComPlex;  // NOT initialized
+		g3::DirPlex anUnsetDirPlex;  // NOT initialized
+		g3::MultiVector anUnsetMultiVector;  // NOT initialized
 
 			// [DoxyExample01]
 
 		// bad data i/o should produce null instances
-		std::istringstream iss{ "a b c d e f g h %@ *(" };
-		iss
-			>> anUnsetScalar
-			>> anUnsetVector
-			>> anUnsetBiVector
-			>> anUnsetTriVector
-			>> anUnsetSpinor
-			>> anUnsetImSpin
-			;
+		static std::string const garbage("_ a b c d e f g h @ (");
+		{ std::istringstream iss(garbage); iss >> anUnsetScalar; }
+		{ std::istringstream iss(garbage); iss >> anUnsetVector; }
+		{ std::istringstream iss(garbage); iss >> anUnsetBiVector; }
+		{ std::istringstream iss(garbage); iss >> anUnsetTriVector; }
+		{ std::istringstream iss(garbage); iss >> anUnsetSpinor; }
+		{ std::istringstream iss(garbage); iss >> anUnsetImSpin; }
+		{ std::istringstream iss(garbage); iss >> anUnsetComPlex; }
+		{ std::istringstream iss(garbage); iss >> anUnsetDirPlex; }
+		{ std::istringstream iss(garbage); iss >> anUnsetMultiVector; }
 
 		bool const allNull
 			{  (! isValid(anUnsetScalar))
@@ -138,6 +142,9 @@ namespace
 			&& (! isValid(anUnsetTriVector))
 			&& (! isValid(anUnsetSpinor))
 			&& (! isValid(anUnsetImSpin))
+			&& (! isValid(anUnsetComPlex))
+			&& (! isValid(anUnsetDirPlex))
+			&& (! isValid(anUnsetMultiVector))
 			};
 		if (! allNull)
 		{
@@ -153,6 +160,9 @@ namespace
 		g3::TriVector const aNullTriVector{ g3::null<g3::TriVector>() };
 		g3::Spinor const aNullSpinor{ g3::null<g3::Spinor>() };
 		g3::ImSpin const aNullImSpin{ g3::null<g3::ImSpin>() };
+		g3::ComPlex const aNullComPlex{ g3::null<g3::ComPlex>() };
+		g3::DirPlex const aNullDirPlex{ g3::null<g3::DirPlex>() };
+		g3::MultiVector const aNullMultiVector{ g3::null<g3::MultiVector>() };
 
 			// [DoxyExample02]
 		bool const nullOkay
@@ -162,6 +172,9 @@ namespace
 			&& (! g3::isValid(aNullTriVector))
 			&& (! g3::isValid(aNullSpinor))
 			&& (! g3::isValid(aNullImSpin))
+			&& (! g3::isValid(aNullComPlex))
+			&& (! g3::isValid(aNullDirPlex))
+			&& (! g3::isValid(aNullMultiVector))
 			};
 		if (! nullOkay)
 		{
@@ -177,6 +190,9 @@ namespace
 		g3::TriVector const aZeroTriVector{ g3::zero<g3::TriVector>() };
 		g3::Spinor const aZeroSpinor{ g3::zero<g3::Spinor>() };
 		g3::ImSpin const aZeroImSpin{ g3::zero<g3::ImSpin>() };
+		g3::ComPlex const aZeroComPlex{ g3::zero<g3::ComPlex>() };
+		g3::DirPlex const aZeroDirPlex{ g3::zero<g3::DirPlex>() };
+		g3::MultiVector const aZeroMultiVector{ g3::zero<g3::MultiVector>() };
 
 			// [DoxyExample03]
 
@@ -187,6 +203,9 @@ namespace
 			&& (! g3::nearlyEquals(aZeroTriVector, aNullTriVector))
 			&& (! g3::nearlyEquals(aZeroSpinor, aNullSpinor))
 			&& (! g3::nearlyEquals(aZeroImSpin, aNullImSpin))
+			&& (! g3::nearlyEquals(aZeroComPlex, aNullComPlex))
+			&& (! g3::nearlyEquals(aZeroDirPlex, aNullDirPlex))
+			&& (! g3::nearlyEquals(aZeroMultiVector, aNullMultiVector))
 			};
 		if (! okayZeroNull)
 		{
@@ -201,8 +220,16 @@ namespace
 		g3::Vector const aVector{ 1.0, 1.1, 1.2 };
 		g3::BiVector const aBiVector{ 2.0, 2.1, 2.2 };
 		g3::TriVector const aTriVector{ 3.0 };
-		g3::Spinor const aSpinor{ 0.0,  2.0, 2.1, 2.2 };
-		g3::ImSpin const aImSpin{ 1.0, 1.1, 1.2,  3.0 };
+		g3::Spinor const aSpinor{ 0.0 ,  2.0, 2.1, 2.2 };
+		g3::ImSpin const aImSpin{ 1.0, 1.1, 1.2 ,  3.0 };
+		g3::ComPlex const aComPlex{ 1.0 ,  3.0 };
+		g3::DirPlex const aDirPlex{ 1.0, 1.1, 1.2 ,  2.0, 2.1, 2.2 };
+		g3::MultiVector const aMultiVector
+			{ 0.1
+			, 1.0, 1.1, 1.2
+			, 2.0, 2.1, 2.2
+			, 3.0
+			};
 
 			// [DoxyExample04]
 
@@ -211,6 +238,10 @@ namespace
 		// Composite type initialization with constituents
 		g3::Spinor const buildSpinor{ aScalar, aBiVector };
 		g3::ImSpin const buildImSpin{ aVector, aTriVector };
+		g3::ComPlex const buildComPlex{ aScalar, aTriVector };
+		g3::DirPlex const buildDirPlex{ aVector, aBiVector };
+		g3::MultiVector const buildMultiVector
+			{ aScalar, aVector, aBiVector, aTriVector };
 
 			// [DoxyExample05]
 
@@ -222,8 +253,15 @@ namespace
 			&& isValid(aTriVector)
 			&& isValid(aSpinor)
 			&& isValid(aImSpin)
+			&& isValid(aComPlex)
+			&& isValid(aDirPlex)
+			&& isValid(aMultiVector)
+			//
 			&& isValid(buildSpinor)
 			&& isValid(buildImSpin)
+			&& isValid(buildComPlex)
+			&& isValid(buildDirPlex)
+			&& isValid(buildMultiVector)
 			};
 
 		if (! allValid)

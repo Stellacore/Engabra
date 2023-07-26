@@ -37,3 +37,17 @@ Coding
 	- Case: Should use (Complex and Dirplex) or (ComPlex and DirPlex) but
 	not both. (or ComPlex and AntPlex for commutitive and anti-commutative?)
 
+
+Thoughts and Ideas (while coding
+GravitySpatial/HorizontalAngle EvalHoriAngleDiffs.cpp)
+
+
+would be nice to have a wedge(a,b) that uses antiCommProduct directly
+ (not waste time computing scalar).
+ e.g. maybe like wedgeVecVec(x,x);
+
+Perhaps have .g0(), .g1(), .g2(), .g3() grade selection methods?
+
+Consider convenience function collections - e.g. g3angles (and other such).
+e.g. shortAngleBetween(), longAngleBeteen(), 1D,2D families of angles, etc.
+

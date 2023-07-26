@@ -5,7 +5,11 @@
 cmake_minimum_required(VERSION 3.13)
 
 set(engabraProjName "engabra")
+# Set based on features, updates and patches
 set(engabraProjVersion "0.1.0")
+# Get source code identifier (e.g. hash code from git repo)
+include(./cmake/func_setReleaseTag.cmake)
+setReleaseTag(engabraSourceIdentity)
 
 project(
 	${engabraProjName}
@@ -13,6 +17,7 @@ project(
 	DESCRIPTION "Practical Geometric Algebra Computations for Engineering"
 	LANGUAGES CXX
 	)
+
 
 message("### CMAKE_MAJOR_VERSION: " ${CMAKE_MAJOR_VERSION})
 message("### CMAKE_MINOR_VERSION: " ${CMAKE_MINOR_VERSION})
@@ -34,6 +39,8 @@ set(BUILD_FLAGS_FOR_CLANG
 	""
 	)
 set(BUILD_FLAGS_FOR_GCC
+	"-DEngabra_Project_Version=\"${engabraProjVersion}\""
+	"-DEngabra_Source_Identity=\"${engabraSourceIdentity}\""
 	#
 	-pthread
 	-fomit-frame-pointer

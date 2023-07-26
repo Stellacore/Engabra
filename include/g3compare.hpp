@@ -78,7 +78,7 @@ represent identical physical attitudes in space, while the two numeric
 values do not test as "nearlyEqual" to each other.
 
 Example:
-\snippet test_g3compare.cpp DoxyExample01
+\snippet test_g3compare_all.cpp DoxyExample01
 
 */
 

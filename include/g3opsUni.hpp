@@ -51,8 +51,9 @@ There are several involution operators. These are:
 	Changes sign on vectors and bivectors - aka "Clifford conjugate"
 	(often denoted with an overbar)
 
-The pattern of negations is illustrated in the following code.
-\snippet test_g3opsUni.cpp DoxyExample02
+The algebraic sign pattern of the involution operations is illustrated
+in the following code.
+\snippet test_g3opsUni_all.cpp DoxyExample03
 
 Note on Naming: the name "conjugate" could perhaps be used instead of
 "dirverse". However, that would lead to confusion between:
@@ -81,12 +82,24 @@ of any two operations produces the same result as the third operation. I.e.:
 \arg oddverse() == dirverse(reverse()) == reverse(dirverse())
 \arg dirverse() == reverse(oddverse()) == oddverse(reverse())
 
-*/
-
-/*
+\b reverse()
 Usage and behavior of the reverse() and unitary negation operator is
-demonstrated in this section of unit test code.
-\snippet test_g3opsUni.cpp DoxyExample01
+demonstrated in this section of unit test code. The reverse operation
+changes sign on the imaginary-like, bivector and trivector grades.
+\snippet test_g3opsUni_all.cpp DoxyExample01rev
+
+\b oddverse()
+Usage and behavior of the oddverse() and unitary negation operator is
+demonstrated in this section of unit test code. The oddverse operation
+changes sign on the odd, vector and trivector, grades.
+\snippet test_g3opsUni_all.cpp DoxyExample01odd
+
+\b dirverse()
+Usage and behavior of the dirverse() and unitary negation operator is
+demonstrated in this section of unit test code. The direverse operation
+changes sign on the spatially directed, vector and bivector, grades.
+\snippet test_g3opsUni_all.cpp DoxyExample01dir
+
 */
 
 
@@ -145,6 +158,26 @@ namespace g3
 		)
 	{
 		return ImSpin{ -imsp.theVec, -imsp.theTri };
+	}
+
+	//! Specialization - Unitary negation
+	inline
+	ComPlex
+	operator-
+		( ComPlex const & cplex
+		)
+	{
+		return ComPlex{ -cplex.theSca, -cplex.theTri };
+	}
+
+	//! Specialization - Unitary negation
+	inline
+	DirPlex
+	operator-
+		( DirPlex const & dplex
+		)
+	{
+		return DirPlex{ -dplex.theVec, -dplex.theBiv };
 	}
 
 	//! Specialization - Unitary negation
@@ -212,7 +245,7 @@ namespace g3
 		return TriVector{ -tri.theData[0] };
 	}
 
-	//! Reverse of Spinor (same scalar, negative bivector)
+	//! Reverse of Spinor (same scalar, negated bivector)
 	inline
 	Spinor
 	reverse
@@ -226,7 +259,7 @@ namespace g3
 			};
 	}
 
-	//! Reverse of ImSpin (same vector, negative trivector)
+	//! Reverse of ImSpin (same vector, negated trivector)
 	inline
 	ImSpin
 	reverse
@@ -237,6 +270,32 @@ namespace g3
 		return ImSpin
 			{ reverse(imsp.theVec)
 			, reverse(imsp.theTri)
+			};
+	}
+
+	//! Reverse of ComPlex (same scalar, negated trivector)
+	inline
+	ComPlex
+	reverse
+		( ComPlex const & cplex
+		)
+	{
+		return ComPlex
+			{ reverse(cplex.theSca)
+			, reverse(cplex.theTri)
+			};
+	}
+
+	//! Reverse of DirPlex (same vector, negated trivector)
+	inline
+	DirPlex
+	reverse
+		( DirPlex const & dplex
+		)
+	{
+		return DirPlex
+			{ reverse(dplex.theVec)
+			, reverse(dplex.theBiv)
 			};
 	}
 
@@ -323,6 +382,32 @@ namespace g3
 			};
 	}
 
+	//! Changes sign on trivector grade
+	inline
+	ComPlex
+	oddverse
+		( ComPlex const & cplex
+		)
+	{
+		return ComPlex
+			{ cplex.theSca
+			, oddverse(cplex.theTri)
+			};
+	}
+
+	//! Changes sign on vector grade
+	inline
+	DirPlex
+	oddverse
+		( DirPlex const & dplex
+		)
+	{
+		return DirPlex
+			{ oddverse(dplex.theVec)
+			, dplex.theBiv
+			};
+	}
+
 	//! Changes sign on vector and trivector grades
 	inline
 	MultiVector
@@ -348,7 +433,7 @@ namespace g3
 	inline
 	Scalar
 	dirverse
-		( Scalar const sca
+		( Scalar const & sca
 		)
 	{
 		return sca;
@@ -358,7 +443,7 @@ namespace g3
 	inline
 	Vector
 	dirverse
-		( Vector const vec
+		( Vector const & vec
 		)
 	{
 		return Vector{ -vec.theData[0], -vec.theData[1], -vec.theData[2] };
@@ -368,7 +453,7 @@ namespace g3
 	inline
 	BiVector
 	dirverse
-		( BiVector const biv
+		( BiVector const & biv
 		)
 	{
 		return BiVector{ -biv.theData[0], -biv.theData[1], -biv.theData[2] };
@@ -378,7 +463,7 @@ namespace g3
 	inline
 	TriVector
 	dirverse
-		( TriVector const tri
+		( TriVector const & tri
 		)
 	{
 		return tri;
@@ -388,7 +473,7 @@ namespace g3
 	inline
 	Spinor
 	dirverse
-		( Spinor const spin
+		( Spinor const & spin
 		)
 	{
 		// return Spinor{ spin.theSca, -spin.theBiv };
@@ -402,7 +487,7 @@ namespace g3
 	inline
 	ImSpin
 	dirverse
-		( ImSpin const imsp
+		( ImSpin const & imsp
 		)
 	{
 		// return ImSpin{ -imsp.theVec, imsp.theTri };
@@ -411,6 +496,30 @@ namespace g3
 			, dirverse(imsp.theTri)
 			};
 			
+	}
+
+	//! No change (ComPlex is invariant to direction involution)
+	inline
+	ComPlex
+	dirverse
+		( ComPlex const & cplex
+		)
+	{
+		return cplex;
+	}
+
+	//! Changes sign on both (vector and bivector) grades
+	inline
+	DirPlex
+	dirverse
+		( DirPlex const & dplex
+		)
+	{
+		// return DirPlex{ -dplex.theVec, -dplex.theBiv };
+		return DirPlex
+			{ dirverse(dplex.theVec)
+			, dirverse(dplex.theBiv)
+			};
 	}
 
 	//! Changes sign on spatially directed vector and bivector grades
@@ -505,6 +614,26 @@ namespace g3
 		)
 	{
 		return Spinor{ dual(imsp.theTri), dual(imsp.theVec) };
+	}
+
+	//! ComPlex that is dual to ComPlex
+	inline
+	ComPlex
+	dual
+		( ComPlex const & cplex
+		)
+	{
+		return ComPlex{ dual(cplex.theTri), dual(cplex.theSca) };
+	}
+
+	//! DirPlex that is dual to DirPlex
+	inline
+	DirPlex
+	dual
+		( DirPlex const & dplex
+		)
+	{
+		return DirPlex{ dual(dplex.theBiv), dual(dplex.theVec) };
 	}
 
 	//! MultiVector that is dual to mv

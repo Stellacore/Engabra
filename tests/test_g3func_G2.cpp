@@ -24,11 +24,11 @@
 
 
 /*! \file
-\brief Unit tests (and example) code for engabra::g3func
+\brief Unit tests & examples for engabra::g3func G2 subalgebra specializations.
 */
 
 
-#include "test_common.hpp" // testing environment common utilities
+#include "checks.hpp" // testing environment common utilities
 
 #include "g3func.hpp"
 
@@ -45,58 +45,7 @@ namespace
 	using namespace engabra;
 	using g3::nearlyEquals;
 
-	//! Examples for documentation
-	std::string
-	test0
-		()
-	{
-		std::ostringstream oss;
-
-		// [DoxyExampleUtil]
-		using namespace engabra::g3;
-		Spinor const aSpin{ 1., -.5, .25, .75 };
-
-		Spinor const expSq{ aSpin * aSpin };
-		Spinor const gotSq{ sq(aSpin) };
-
-		Spinor const expCube{ aSpin * aSpin * aSpin };
-		Spinor const gotCube{ cube(aSpin) };
-			// [DoxyExampleUtil]
-
-		if (! nearlyEquals(gotSq, expSq))
-		{
-			oss << "Failure of sq() \n";
-		}
-		if (! nearlyEquals(gotCube, expCube))
-		{
-			oss << "Failure of cube() test\n";
-		}
-
-		// [DoxyExampleMagDir]
-		// Factor element into magnitude and direction parts
-		using namespace engabra::g3;
-		Vector const someVec{ -3., -5., 7. };
-
-		std::pair<double, Vector> const vecMagDir{ pairMagDirFrom(someVec) };
-		double const & mag = vecMagDir.first;
-		Vector const & dir = vecMagDir.second;
-
-		// reconsitute
-		Vector const reconVec{ mag * dir };
-			// [DoxyExampleMagDir]
-
-		constexpr double tol{ 2.* std::numeric_limits<double>::epsilon() };
-		if (! nearlyEquals(reconVec, someVec, tol))
-		{
-			oss << "Failure of mag*dir factor test\n";
-			oss << "expVec: " << someVec << '\n';
-			oss << "gotVec: " << reconVec << '\n';
-		}
-
-		return oss.str();;
-	}
-
-	//! Check exponential functions
+	//! Check exponential function for spinors
 	std::string
 	test1
 		()
@@ -125,7 +74,7 @@ namespace
 		return oss.str();;
 	}
 
-	//! Check logarithm function
+	//! Check logarithm function for spinors
 	std::string
 	test2
 		()
@@ -277,7 +226,7 @@ namespace
 
 }
 
-//! Check behavior of func
+//! Check behavior of functions specialized to G2 (even) subalgebra
 int
 main
 	()
@@ -285,7 +234,6 @@ main
 	int status{ tst::CTest::fail };
 	std::stringstream oss;
 
-	oss << test0();
 	oss << test1();
 	oss << test2();
 	oss << test3();

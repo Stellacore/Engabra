@@ -32,7 +32,7 @@ brute-force series expansion evaluation.
 */
 
 
-#include "test_common.hpp" // testing environment common utilities
+#include "checks.hpp" // testing environment common utilities
 
 #include <iostream> // TODO - remove
 #include "g3func.hpp"

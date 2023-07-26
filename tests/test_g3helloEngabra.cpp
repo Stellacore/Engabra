@@ -24,48 +24,22 @@ SOFTWARE.
 
 */
 
+#include <Engabra> // require top level include file(s)
 
-#include "g3compare.hpp"
+#include "checks.hpp" // Require test environment to be present
 
-#include <iostream>
-#include <limits>
-#include <string>
+#include <iostream> // classic 'hello' style reporting
 
 
-//! Code common to unit testing infrastructure
-namespace tst
+/*! Trivial test program to demonstrate Engabra build/test environment.
+ */
+int
+main
+	()
 {
-	/*! CTest (by default) checks for these main return values
-	 *
-	 * An environment variable can be set (before running ctest) to
-	 * have CTest report output from test programs on failure. E.g.
-	 * \arg $ make && CTEST_OUTPUT_ON_FAILURE=1 ctest
-	 * \arg $ make && CTEST_OUTPUT_ON_FAILURE=1 bash -c 'ctest <args> <etc>'
-	 *
-	 */
-	struct CTest
-	{
-		static constexpr int pass{ 0 }; // main() return for success
-		static constexpr int fail{ 1 }; // main() return for test failure
-	};
-
-	//! Compare 'got' results with 'expected' value - if error, put to stream
-	void
-	checkGotExp
-		( std::ostream & ostrm
-		, double const & got
-		, double const & exp
-		, std::string const & title
-		, double const & tol = { std::numeric_limits<double>::epsilon() }
-		)
-	{
-		if (! engabra::g3::nearlyEquals(got, exp, tol))
-		{
-			ostrm << "Failure of " << title << " test\n";
-			ostrm << "exp: " << exp << std::endl;
-			ostrm << "got: " << got << std::endl;
-		}
-	}
-
+	int status{ tst::CTest::pass }; // value from test environment
+	std::cout << "Engabra_Project_Version: " << engabra::projectVersion << '\n';
+	std::cout << "Engabra_Source_Identity: " << engabra::sourceIdentity << '\n';
+	return status;
 }
 

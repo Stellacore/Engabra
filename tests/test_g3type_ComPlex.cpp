@@ -24,11 +24,11 @@
 
 
 /*! \file
-\brief Unit tests (and example) code for engabra::g3type (ComPlex and DirPlex)
+\brief Unit tests (and example) code for engabra::g3type
 */
 
 
-#include "test_common.hpp" // testing environment common utilities
+#include "checks.hpp" // testing environment common utilities
 
 #include "g3type.hpp"
 
@@ -45,7 +45,7 @@ namespace
 	using namespace engabra;
 	using g3::nearlyEquals;
 
-	//! Check ComPlex basics
+	//! Examples for documentation
 	std::string
 	test0
 		()
@@ -53,93 +53,46 @@ namespace
 		std::ostringstream oss;
 
 		// [DoxyExample01]
+
+		// interaction with std::complex<double>
 		using namespace engabra::g3;
+		ComPlex const exp{ Scalar{ 1. }, TriVector{ 3. } };
+		std::complex<double> const z1{ exp.theSca[0], exp.theTri[0] };
+		ComPlex const got{ ComPlex::from(z1) };
+		std::complex<double> const z2
+			{ static_cast<std::complex<double> >(got) };
 
-		// A null instance
-		ComPlex const aNull{ null<ComPlex>() };
-		// Initialize members
-		ComPlex const cplx1{ Scalar{1.0}, TriVector{1.3} };
-		// Construct from standard complex type
-		ComPlex const cplx2(std::complex<double>(2.0, 2.3));
+		// access individual indices
+		double const & reVal = got[0];
+		double const & imVal = got[1];
 
-		// [DoxyExample01]
+			// [DoxyExample01]
 
-		if ( isValid(aNull))
+		// casting should be numerically exact !
+		if (! ((reVal == std::real(z1)) && (imVal == std::imag(z1))) )
 		{
-			oss << "Failure of ComPlex null validity test\n";
+			oss << "Failure of index component test\n";
+			oss << "z1: " << z1 << '\n';
+			oss << "reVal: " << reVal << '\n';
+			oss << "imVal: " << imVal << '\n';
 		}
 
-		// check stream i/o
-		std::ostringstream obuf;
-		obuf << "cplx1: " << cplx1 << std::endl;
-		obuf << aNull << '\n' << cplx2 << '\n';
-		// std::cout << obuf.str() << '\n';
-
-		std::string name; // to absorb keys
-		std::istringstream ibuf(obuf.str());
-		ComPlex got1{ null<ComPlex>() };
-		ibuf >> name >> got1;
-		if (! isValid(got1))
+		if (! (z2 == z1)) // casting should be exact
 		{
-			oss << "Failure of stream input/output test\n";
+			oss << "Failure of std::complex z2==z1 test\n";
+			oss << "z1: " << z1 << '\n';
+			oss << "z2: " << z2 << '\n';
 		}
 
-		if (! nearlyEquals(got1, cplx1))
-		{
-			oss << "Failure of ComPlex nearlyEquals test\n";
-		}
-
-		return oss.str();;
-	}
-
-	//! Check DirPlex basics
-	std::string
-	test1
-		()
-	{
-		std::ostringstream oss;
-
-		// [DoxyExample02]
-		using namespace engabra::g3;
-
-		// A null instance
-		DirPlex const aNull{ null<DirPlex>() };
-		// Initialize members
-		DirPlex const dplx1
-			{ Vector{ 1.1, 1.2, 1.3 }, BiVector{ 1.4, 1.5, 1.6 } };
-
-		// [DoxyExample02]
-
-		if ( isValid(aNull))
-		{
-			oss << "Failure of DirPlex null validity test\n";
-		}
-
-		// check stream i/o
-		std::ostringstream obuf;
-		obuf << "dplx1: " << dplx1 << '\n';
-		obuf << aNull << '\n';
-
-		std::istringstream ibuf(obuf.str());
-		std::string name; // to absorb keys
-		DirPlex got1;
-		ibuf >> name >> got1;
-		if (! isValid(got1))
-		{
-			oss << "Failure of stream input/output test\n";
-		}
-
-		if (! nearlyEquals(got1, dplx1))
-		{
-			oss << "Failure of DirPlex nearlyEquals test\n";
-		}
+		// check ComPlex conversion results
+		tst::checkGotExp(oss, got, exp, "exp==got");
 
 		return oss.str();;
 	}
 
 }
 
-//! Check behavior of types ComPlex and DirPlex
+//! Check behavior of type::ComPlex
 int
 main
 	()
@@ -148,7 +101,6 @@ main
 	std::stringstream oss;
 
 	oss << test0();
-	oss << test1();
 
 	if (oss.str().empty()) // Only pass if no errors were encountered
 	{

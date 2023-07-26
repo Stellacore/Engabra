@@ -25,7 +25,7 @@ SOFTWARE.
 */
 
 
-#include "test_common.hpp" // testing environment common utilities
+#include "checks.hpp" // testing environment common utilities
 
 #include "g3io.hpp"
 

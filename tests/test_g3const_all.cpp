@@ -23,7 +23,7 @@
 // 
 
 
-#include "test_common.hpp" // testing environment common utilities
+#include "checks.hpp" // testing environment common utilities
 
 #include "g3compare.hpp"
 #include "g3const.hpp"

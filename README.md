@@ -5,7 +5,7 @@
 
 
 # Engabra - ENGineering Geometric AlgeBRA
-*A C++ Library enabling  __Practical__ engineering computation
+*A C++ Library enabling  __practical__ engineering computation
 with Geometric Algebra in 3D space.*
 
 ## Introduction
@@ -1028,12 +1028,13 @@ https://arxiv.org/pdf/1501.04857v2.pdf
 https://arxiv.org/pdf/1205.5195.pdf
 
 * https://www.researchgate.net/publication/281948670_Some_remarks_on_Cl3_and_Lorentz_transformations
-% veterinary faculty guy 
-@unknown{unknown,
-author = {Josipovic, Miroslav},
-year = {2015},
-month = {09},
-pages = {},
-title = {Some remarks on Cl3 and Lorentz transformations},
-doi = {10.13140/RG.2.1.3138.6088}
-}
+
+	% veterinary faculty guy 
+	unknown{unknown,
+	author = {Josipovic, Miroslav},
+	year = {2015},
+	month = {09},
+	pages = {},
+	title = {Some remarks on Cl3 and Lorentz transformations},
+	doi = {10.13140/RG.2.1.3138.6088}
+	}

@@ -70,10 +70,10 @@ grades.
 \b Examples
 
 Utilities:
-\snippet test_g3func.cpp DoxyExampleUtil
+\snippet test_g3func_ga.cpp DoxyExampleUtil
 
 Simultaneous magnitude and direction:
-\snippet test_g3func.cpp DoxyExampleMagDir
+\snippet test_g3func_ga.cpp DoxyExampleMagDir
 
 */
 
@@ -338,19 +338,13 @@ namespace g3
 		( ComPlex const & cplx
 		)
 	{
-		Scalar const & sca = cplx.theSca;
-		TriVector const & tri = cplx.theTri;
-
-		// note that dirverse(cplx)==cplx, so that ampSq(cplx)=sq(cplx)
-		// cplx = s + T
-		// cSq = [ss + TT] + [2sT]
-
-		double const scaPart{ magSq(sca) - magSq(tri) };
-
-		double const triScaTri{ (sca.theData[0] * tri.theData[0]) };
-		double const triPart{ 2.*triScaTri };
-
-		return ComPlex{ Scalar{ scaPart }, TriVector{ triPart } };
+		double const & dubSca = cplx.theSca[0];
+		double const & dubTri = cplx.theTri[0];
+		// ampSq: (sca + tri) * (sca + tri)
+		return
+			{ Scalar{ sq(dubSca) - sq(dubTri) }
+			, TriVector{ 2. * dubSca * dubTri }
+			};
 	}
 
 	//! Squared amplitude - specialization for DirPlex
@@ -390,13 +384,13 @@ namespace g3
 
 		// original: M = s + v + B + T
 		// dirverse(M) = s - v - B + T
-		// ampSq
-		//   = ss -sv -sB +sT
+		// ampSq  (M*dirverse(M))
+		//  = ss -sv -sB +sT
 		//   +vs -vv -vB +vT
 		//   +Bs -Bv -BB +BT
 		//   +Ts -Tv -TB +TT
 		// Terms with commuting scalar and trivector factors cancel
-		//   = ss +sT
+		//  = ss +sT
 		//   -vv -vB
 		//   -Bv -BB
 		//   +Ts +TT
@@ -411,9 +405,9 @@ namespace g3
 		double const sqTri{ - magSq(tri) };
 		double const scaPart{ sqSca - sqVec - sqBiv + sqTri };
 
-		double const triScaTri{ (sca.theData[0] * tri.theData[0]) };
+		double const triScaTri{ sca.theData[0] * tri.theData[0] };
 		double const triVecBiv{ priv::prodComm(vec.theData, biv.theData) };
-		double const triPart{ 2.*triScaTri - 2.*triVecBiv };
+		double const triPart{ 2.*(triScaTri - triVecBiv) };
 
 		return ComPlex{ Scalar{ scaPart }, TriVector{ triPart } };
 	}
@@ -429,7 +423,7 @@ namespace g3
 		ComPlex const cSq{ ampSq(item) };
 		std::complex<double> zSq
 			{ cSq.theSca.theData[0], cSq.theTri.theData[0] };
-		return ComPlex{ std::sqrt(zSq) };
+		return ComPlex::from(std::sqrt(zSq));
 	}
 
 	//
@@ -454,7 +448,7 @@ namespace g3
 	// Inverses
 	//
 
-	//! General inverse of a multivector item
+	//! Algebraic inverse of a blade item
 	template
 		< typename Type
 		, std::enable_if_t< is::blade<Type>::value, bool> = true
@@ -467,6 +461,55 @@ namespace g3
 	{
 		double const mag2{ magSq(someItem) };
 		return Type{ (1./mag2) * reverse(someItem) };
+	}
+
+	//! Algebraic inverse of ComPlex item (or null if no inverse)
+	template
+		< typename Type
+		, std::enable_if_t< is::ComPlex<Type>::value, bool> = true
+		>
+	inline
+	ComPlex
+	inverse
+		( ComPlex const & cplx
+		)
+	{
+		ComPlex inv{ null<ComPlex>() };
+		double const & dubSca = cplx.theSca[0];
+		double const & dubTri = cplx.theTri[0];
+
+		// use complex library functions to evaluate
+		std::complex<double> const zFwd{ dubSca, dubTri };
+		std::complex<double> const zConj{ std::conj(zFwd) };
+		std::complex<double> const zAmpSq{ zFwd * std::conj(zFwd) };
+		constexpr double tolSq{ std::numeric_limits<double>::min() };
+		if (tolSq < std::abs(zAmpSq))
+		{
+			std::complex<double> const zInvAmpSq{ 1. / zAmpSq };
+			std::complex<double> const zInv{ zConj * zInvAmpSq };
+			inv = ComPlex{ std::real(zInv), std::imag(zInv) };
+		}
+		return inv;
+	}
+
+
+	//! Algebraic inverse of MultiVector (or null if no inverse)
+	template
+		< typename Type
+		, std::enable_if_t< is::MultiVector<Type>::value, bool> = true
+		>
+	inline
+	MultiVector
+	inverse
+		( MultiVector const & mv
+		)
+	{
+		ComPlex const amp2{ ampSq(mv) };
+		ComPlex const invAmp{ inverse<ComPlex>(amp2) };
+
+	//	return (invAmp * dirverse(mv)); // TODO needs ComPlex op*()
+		MultiVector const mvDv{ dirverse(mv) };
+		return { invAmp.theSca * mvDv + invAmp.theTri * mvDv };
 	}
 
 

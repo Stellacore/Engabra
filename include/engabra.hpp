@@ -65,26 +65,32 @@ For typical use, only this file need be included.
  * typing a single project level using directive, and then explicitly
  * qualifying with the short "g3" sub-namespace. I.e. as
  *
- * \snippet test_engabra.cpp DoxyExample00
- * \snippet test_g3publish.cpp DoxyExample02
+ * \snippet test_g3engabra.cpp DoxyExample00
+ * \snippet test_g3publish_all.cpp DoxyExample02
  *
  * \b Examples
  *
  * Use of fully qualified names. This is should be fairly bullet-proof
  * with respect to potential external package name conflicts.
- * \snippet test_engabra.cpp DoxyExample01
+ * \snippet test_g3engabra.cpp DoxyExample01
  *
  * Use of implicit project name resolution.
  * This is frequently most convenient (unless 'g3' namespace conflict).
- * \snippet test_engabra.cpp DoxyExample02
+ * \snippet test_g3engabra.cpp DoxyExample02
  *
  * Use of fully implicit names resolution. Perhaps handy inside controlled
  * scopes - but there's a high risk of namespace conflicts with many of the
  * very common token names (e.g. Vector, zero, etc).
- * \snippet test_engabra.cpp DoxyExample03
+ * \snippet test_g3engabra.cpp DoxyExample03
  */
 namespace engabra
 {
+	//! Defined by build environment to identify project version
+	static std::string const projectVersion = Engabra_Project_Version;
+
+	//! Defined by build environment to identify source used
+	static std::string const sourceIdentity = Engabra_Source_Identity;
+
 
 //! Sub-namespace for geometric algebra in 3D space.
 namespace g3
