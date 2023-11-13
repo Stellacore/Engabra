@@ -23,21 +23,23 @@
 // 
 
 
-#ifndef engabra_g3opsAdd_INCL_
-#define engabra_g3opsAdd_INCL_
+#ifndef engabra_g3opsAdd_same_INCL_
+#define engabra_g3opsAdd_same_INCL_
 
 /*! \file
-\brief Binary operators associated with additive processes.
+\brief Binary addition operators for like types.
+
+\note All GA addition operations are fundamentally commutative
+such that (A+B)=(B+A)
 
 Example:
-\snippet test_g3opsAdd.cpp DoxyExample01
+\snippet test_g3opsAdd_same.cpp DoxyExample01
 
 */
 
 
-#include "g3const.hpp"
-#include "g3traits.hpp"
 #include "g3type.hpp"
+#include "g3_private.hpp"
 
 #include <algorithm>
 #include <numeric>
@@ -48,32 +50,6 @@ namespace engabra
 
 namespace g3
 {
-
-namespace priv
-{
-
-	//! Element-by-element operation (A (op) B)
-	template <typename Blade, typename Func>
-	inline
-	Blade
-	binaryElementByElement
-		( Blade const & bladeA
-		, Blade const & bladeB
-		, Func const & op
-		)
-	{
-		Blade outBlade{}; // okay uninitialized, each element is filled
-		std::transform
-			( std::cbegin(bladeA.theData)
-			, std::cend(bladeA.theData)
-			, std::cbegin(bladeB.theData)
-			, std::begin(outBlade.theData)
-			, op
-			);
-		return outBlade;
-	}
-
-} // [add]
 
 	//
 	// Addition of similar types
@@ -130,6 +106,34 @@ namespace priv
 		return ImSpin
 			{ imspA.theVec + imspB.theVec
 			, imspA.theTri + imspB.theTri
+			};
+	}
+
+	//! (ComPlex) result of (ComPlex) + (ComPlex)
+	inline
+	ComPlex
+	operator+
+		( ComPlex const & cplxA
+		, ComPlex const & cplxB
+		)
+	{
+		return ComPlex
+			{ cplxA.theSca + cplxB.theSca
+			, cplxA.theTri + cplxB.theTri
+			};
+	}
+
+	//! (DirPlex) result of (DirPlex) + (DirPlex)
+	inline
+	DirPlex
+	operator+
+		( DirPlex const & dplxA
+		, DirPlex const & dplxB
+		)
+	{
+		return DirPlex
+			{ dplxA.theVec + dplxB.theVec
+			, dplxA.theBiv + dplxB.theBiv
 			};
 	}
 
@@ -217,39 +221,10 @@ namespace priv
 			};
 	}
 
-	//
-	// Addition of composite types
-	//
-
-/*
-	//! Uncommon combination, so promote result to MultiVector.
-	inline
-	MultiVector
-	operator+
-		( Scalar const & sca
-		, Vector const & vec
-		)
-	{
-		return MultiVector{ sca, vec, zero<BiVector>(), zero<TriVector>() };
-	}
-*/
-
-	//! Uncommon combination, so promote result to MultiVector.
-	inline
-	Spinor
-	operator+
-		( Scalar const & sca
-		, BiVector const & biv
-		)
-	{
-		return Spinor{ sca, biv };
-	}
-//		return MultiVector{ sca, zero<Vector>(), zero<TriVector>() };
-
 
 } // [g3]
 
 } // [engabra]
 
 
-#endif // engabra_g3opsAdd_INCL_
+#endif // engabra_g3opsAdd_same_INCL_

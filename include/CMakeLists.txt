@@ -10,7 +10,7 @@ set(engabraPublicHeaders
 	g3const.hpp
 	g3func.hpp
 	g3io.hpp
-	g3opsAdd.hpp
+	g3opsAdd_same.hpp
 	g3ops.hpp
 	g3opsMul.hpp
 	g3opsUni.hpp

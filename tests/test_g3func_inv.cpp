@@ -140,6 +140,7 @@ namespace
 		return oss.str();;
 	}
 
+/*
 	//! Check ### TODO
 	std::string
 	test1
@@ -161,6 +162,7 @@ namespace
 			oss << "Failure of ### test\n";
 		return oss.str();;
 	}
+*/
 
 }
 

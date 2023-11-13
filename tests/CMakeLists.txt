@@ -6,6 +6,8 @@ set(unitTests
 	test_g3engabra
 	test_g3helloEngabra
 
+	test_g3_private  # implementation detail
+
 	test_g3type_ctor
 	test_g3type_ComPlex
 	test_g3type_DirPlex
@@ -27,7 +29,9 @@ set(unitTests
 
 #TODO#	test_g3func_exp
 
-	test_g3opsAdd
+	test_g3opsAdd_same
+	test_g3opsAdd_other
+
 	test_g3opsMul
 	test_g3opsMulAll
 

@@ -41,7 +41,7 @@
 
 namespace
 {
-	// Keep test code focused on internal structure under main project name
+	// Keep test code expressions concise
 	using namespace engabra;
 	using g3::nearlyEquals;
 

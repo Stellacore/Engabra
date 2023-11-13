@@ -379,13 +379,13 @@ data types.
 
 * __ImPara__: with Biv + Tri -- (dual to ParaVec)
 
-* __NoScalar__: -- with Vec + Biv + Tri -- any need?
+* __NoSca__: -- with Vec + Biv + Tri -- any need?
 
-* __NoVector__: -- with Sca + Biv + Tri -- any need?
+* __NoVec__: -- with Sca + Biv + Tri -- any need?
 
-* __NoBiVector__: -- with Sca + Vec + Tri -- any need?
+* __NoBiv__: -- with Sca + Vec + Tri -- any need?
 
-* __NoTriVector__: -- with Sca + Vec + Biv -- any need?
+* __NoTri__: -- with Sca + Vec + Biv -- any need?
 
 
 #### Grade Access

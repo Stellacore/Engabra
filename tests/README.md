@@ -124,15 +124,18 @@ Naming convention test_g3opsUni_<>
 Check addition overload operators.
 Naming convention test_g3opsAdd_<>
 
-	test_g3opsAdd_Scalar
-	test_g3opsAdd_Vector
-	test_g3opsAdd_BiVector
-	test_g3opsAdd_TriVector
-	test_g3opsAdd_Spinor
-	test_g3opsAdd_ImSpin
-	test_g3opsAdd_ComPlex
-	test_g3opsAdd_DirPlex
-	test_g3opsAdd_MultiVector
+	test_g3opsAdd_same - addition of like types (Sca, ..., MultiVector)
+	test_g3opsAdd_other - addition of different types
+
+		Scalar + (other: Vec, Biv, ..., MVec)
+		Vector + (other: Biv, Tri, ..., MVec)
+		BiVector + (other: Tri, Spinor, ..., MVec)
+		TriVector + (other: Spinor, ImSpin, ..., MVec)
+		Spinor + (other: ImSpin, ComPlex, ..., MVec)
+		ImSpin + (other: ComPlex, DirPlex, MVec
+		ComPlex + (other: DirPlex, MVec)
+		DirPlex + (other: MVec)
+
 
 #### Multiplication Operations
 
@@ -199,7 +202,6 @@ General powers and roots of multivectors (exploits polar form)
 
 The following need renaming (and factoring) to conform with above
 
-	test_g3opsAdd.cpp
 	test_g3opsMulAll.cpp
 	test_g3opsMul.cpp
 

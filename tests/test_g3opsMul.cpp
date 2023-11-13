@@ -34,7 +34,7 @@
 
 #include "g3compare.hpp"
 #include "g3io.hpp"
-#include "g3opsAdd.hpp"
+#include "g3opsAdd_same.hpp"
 
 #include <iostream>
 #include <sstream>

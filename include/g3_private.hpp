@@ -1,7 +1,7 @@
 // 
 // MIT License
 // 
-// Copyright (c) 2022 Stellacore Corporation
+// Copyright (c) 2023 Stellacore Corporation
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,20 +23,56 @@
 // 
 
 
-#ifndef engabra_g3ops_INCL_
-#define engabra_g3ops_INCL_
+#ifndef engabra_g3_private_INCL_
+#define engabra_g3_private_INCL_
 
 /*! \file
-\brief File to include all other g3ops*.hpp operator groupings.
+\brief Contains ######
+
+Example:
+\snippet test_g3_private.cpp DoxyExample01
 
 */
 
-// Unitary operations
-#include "g3opsUni.hpp"
 
-// Binary operations
-#include "g3opsAdd_same.hpp"
-#include "g3opsMul.hpp"
+namespace engabra
+{
+
+namespace g3
+{
+
+/*! \brief Engabra implementation detail private namespace.
+*/
+namespace priv
+{
+
+	//! Element-by-element operation on same type (A (op) B)
+	template <typename BladeType, typename Func>
+	inline
+	BladeType
+	binaryElementByElement
+		( BladeType const & bladeA
+		, BladeType const & bladeB
+		, Func const & op
+		)
+	{
+		BladeType outBlade{}; // okay uninitialized, each element is filled
+		std::transform
+			( std::cbegin(bladeA.theData)
+			, std::cend(bladeA.theData)
+			, std::cbegin(bladeB.theData)
+			, std::begin(outBlade.theData)
+			, op
+			);
+		return outBlade;
+	}
+
+} // [priv]
 
 
-#endif // engabra_g3ops_INCL_
+} // [g3]
+
+} // [engabra]
+
+
+#endif // engabra_g3_private_INCL_

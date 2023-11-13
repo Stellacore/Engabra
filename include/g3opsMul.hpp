@@ -105,7 +105,7 @@ the result.  \snippet test_g3opsMul.cpp DoxyExample02
 
 #include "g3type.hpp"
 
-#include "g3opsAdd.hpp"
+#include "g3opsAdd_same.hpp"
 #include "g3opsUni.hpp"
 
 #include <algorithm>
