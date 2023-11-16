@@ -502,6 +502,38 @@ namespace
 
 		return oss.str();;
 	}
+
+	//! Check order-dependent of addition operations
+	std::string
+	testOrdering
+		()
+	{
+		std::ostringstream oss;
+
+		// used in main README.md documentation
+		// [DoxyExampleOrder01]
+
+		// -- Consider this expression which
+		//    requires ParaVec, NoTri intermediate type support
+		// MultiVector const gotMvec{ aSca + aVec + aBiv + aTri };
+		// -- Instead, order arguments to produce
+		//    supported ComPlex and DirPlex temporaries which then
+		//    combine into a MultiVector result
+		MultiVector const gotMvec{ (aSca + aTri) + (aVec + aBiv) };
+		// -- Or cast individual arguments to MultiVector type first
+		MultiVector const expMvec
+			{ MultiVector(aSca)
+			+ MultiVector(aVec)
+			+ MultiVector(aBiv)
+			+ MultiVector(aTri)
+			};
+
+			// [DoxyExampleOrder01]
+		tst::checkGotExp(oss, gotMvec, expMvec, "addSVBT order");
+
+		return oss.str();;
+	}
+
 }
 
 //! Check behavior of operator+() with Scalar and higher rank types
@@ -521,6 +553,7 @@ main
 	oss << testCplx();
 	oss << testDplx();
 	oss << testMvec();
+	oss << testOrdering();
 
 	if (oss.str().empty()) // Only pass if no errors were encountered
 	{

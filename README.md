@@ -358,7 +358,9 @@ constructed from, and cast to, std::complex.
 the spatially directed grades, vector and bivector. In general,
 multiplication with this type is non-commutative.
 
-In general an arbitrary 3D multivector can be decomposed as:
+In general, an arbitrary multivector in 3D space, can be expressed
+(or decomposed) in terms of the sum of commuting ComPlex type and
+directed DirPlex type. E.g.
 
 	// isomorphic with classic complex numbers
 	ComPlex const complex{ someMulti.theSca, someMulti.theTri };
@@ -371,9 +373,12 @@ In general an arbitrary 3D multivector can be decomposed as:
 
 #### Relatively Unusual Composites (to be implemented as needed)
 
-All operations associated with the following special types can be implemented
-completely (albeit slightly less efficiently) using full g3::MultiVector
-data types.
+The following are less commonly utilized types - and are unsupported
+in the current Engabra implementation.
+
+All operations associated with these special types can be implemented
+completely (albeit slightly less efficiently) by casting to g3::MultiVector
+type.
 
 * __ParaVec__: with Sca + Vec -- used for some physics formulations
 
@@ -387,6 +392,40 @@ data types.
 
 * __NoTri__: -- with Sca + Vec + Biv -- any need?
 
+In general, the most noticeable restriction of not having these types is
+encountered when summing different types in an expression. E.g. something
+like:
+
+	MultiVector const foo{ aScalar + aVector + aBivector + aTriVector };
+
+Is a seemingly natural expression. However, the compiler interprets this
+from left to right and first tries to produce a ParaVec result
+containing the scalar and vector grade quantities. This is followed by
+attempting to generate a NoTri type by adding that temporary ParaVec
+type to the bivector argument, and so on.
+
+A workaround for this case is to either reorder the additions to produce
+an addition order that involves only supported types, e.g.
+
+	
+	// temporaries are first a ComPlex and DirPlex type that are
+	// then added together to produce a MultiVector
+	MultiVector const foo
+		{ (aScalar + aTriVector) // a ComPlex temporary
+		+ (aVector + aBivector) // a DirPlex temporary
+		};
+
+or to cast to MultiVector type first, e.g.
+
+	MultiVector const expMvec
+		{ MultiVector(aSca)
+		+ MultiVector(aVec)
+		+ MultiVector(aBiv)
+		+ MultiVector(aTri)
+		}; 
+
+Note that these coding inconveniences disappear as more of the special types
+are implemented.
 
 #### Grade Access
 

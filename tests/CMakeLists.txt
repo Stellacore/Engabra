@@ -34,8 +34,15 @@ set(unitTests
 	test_g3opsSub_same
 	test_g3opsSub_other
 
-	test_g3opsMul
-	test_g3opsMulAll
+	test_g3opsMul_double
+	test_g3opsMul_Scalar
+	test_g3opsMul_Vector
+	test_g3opsMul_BiVector
+	test_g3opsMul_TriVector
+	test_g3opsMul_Spinor
+##	test_g3opsMul_same
+test_g3opsMul
+test_g3opsMulAll
 
 	)
 
