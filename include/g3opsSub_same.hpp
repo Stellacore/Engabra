@@ -23,19 +23,19 @@
 // 
 
 
-#ifndef engabra_g3opsAdd_same_INCL_
-#define engabra_g3opsAdd_same_INCL_
+#ifndef engabra_g3opsSub_same_INCL_
+#define engabra_g3opsSub_same_INCL_
 
 /*! \file
- * \brief Binary addition operators for like types.
- *
- * \note All GA addition operations are fundamentally commutative
- * such that (A+B)=(B+A)
- *
- * Example:
- * \snippet test_g3opsAdd_same.cpp DoxyExample01
- *
- */
+\brief Binary subtraction operators for like types.
+
+\note All GA subtraction operations are fundamentally commutative
+such that (A+B)=(B+A)
+
+Example:
+\snippet test_g3opsAdd_same.cpp DoxyExample01
+
+*/
 
 
 #include "g3type.hpp"
@@ -50,19 +50,26 @@ namespace engabra
 
 namespace g3
 {
-
 	//
-	// Addition of similar types
+	// Subtraction operators
 	//
 
-	//! Addition of two blades (A+B)
+	/*! Subtraction of two blades (A-B).
+	 *
+	 * Includes cases:
+	 * \arg Scalar
+	 * \arg Vector
+	 * \arg BiVector
+	 * \arg TriVector
+	 *
+	*/
 	template
 		< typename Blade
 		, std::enable_if_t< is::blade<Blade>::value, bool> = true
 		>
 	inline
 	Blade
-	operator+
+	operator-
 		( Blade const & bladeA
 		, Blade const & bladeB
 		)
@@ -71,85 +78,79 @@ namespace g3
 			( bladeA
 			, bladeB
 			, [] (double const & elemA, double const & elemB)
-				{ return elemA+elemB; }
+				{ return elemA-elemB; }
 			);
 	}
 
-
-	//
-	// Addition operators
-	//
-
-
-	//! (Spinor) result of (Spinor) + (Spinor)
+	//! Spinor from subtraction: Spinor - -Spinor
 	inline
 	Spinor
-	operator+
+	operator-
 		( Spinor const & spinA
 		, Spinor const & spinB
 		)
 	{
 		return Spinor
-			{ spinA.theSca + spinB.theSca
-			, spinA.theBiv + spinB.theBiv
+			{ spinA.theSca - spinB.theSca
+			, spinA.theBiv - spinB.theBiv
 			};
 	}
 
-	//! (ImSpin) result of (ImSpin) + (ImSpin)
+	//! ImSpin from subtraction: ImSpin - -ImSpin
 	inline
 	ImSpin
-	operator+
+	operator-
 		( ImSpin const & imspA
 		, ImSpin const & imspB
 		)
 	{
 		return ImSpin
-			{ imspA.theVec + imspB.theVec
-			, imspA.theTri + imspB.theTri
+			{ imspA.theVec - imspB.theVec
+			, imspA.theTri - imspB.theTri
 			};
 	}
 
-	//! (ComPlex) result of (ComPlex) + (ComPlex)
+	//! ComPlex from subtraction: ComPlex - -ComPlex
 	inline
 	ComPlex
-	operator+
+	operator-
 		( ComPlex const & cplxA
 		, ComPlex const & cplxB
 		)
 	{
 		return ComPlex
-			{ cplxA.theSca + cplxB.theSca
-			, cplxA.theTri + cplxB.theTri
+			{ cplxA.theSca - cplxB.theSca
+			, cplxA.theTri - cplxB.theTri
 			};
 	}
 
-	//! (DirPlex) result of (DirPlex) + (DirPlex)
+	//! DirPlex from subtraction: DirPlex - -DirPlex
 	inline
 	DirPlex
-	operator+
+	operator-
 		( DirPlex const & dplxA
 		, DirPlex const & dplxB
 		)
 	{
 		return DirPlex
-			{ dplxA.theVec + dplxB.theVec
-			, dplxA.theBiv + dplxB.theBiv
+			{ dplxA.theVec - dplxB.theVec
+			, dplxA.theBiv - dplxB.theBiv
 			};
 	}
 
-	//! Uncommon combination, so promote result to MultiVector.
+	//! MultiVector from subtraction: MultiVector - -MultiVector
 	inline
 	MultiVector
-	operator+
+	operator-
 		( MultiVector const & mvA
 		, MultiVector const & mvB
 		)
 	{
 		return MultiVector
-			{ mvA.theSca + mvB.theSca
-			, mvA.theVec + mvB.theVec
-			, mvA.theBiv + mvB.theBiv
-			, mvA.theTri + mvB.theTri
+			{ mvA.theSca - mvB.theSca
+			, mvA.theVec - mvB.theVec
+			, mvA.theBiv - mvB.theBiv
+			, mvA.theTri - mvB.theTri
 			};
 	}
 
@@ -158,4 +159,4 @@ namespace g3
 } // [engabra]
 
 
-#endif // engabra_g3opsAdd_same_INCL_
+#endif // engabra_g3opsSub_same_INCL_

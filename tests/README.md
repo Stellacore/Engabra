@@ -119,13 +119,16 @@ Naming convention test_g3opsUni_<>
 
 	test_g3opsUni_all.cpp
 
-#### Addition Operations
+#### Addition and Subtraction Operations
 
-Check addition overload operators.
-Naming convention test_g3opsAdd_<>
+Check addition and subtraction overload operators.
+Naming convention test_g3opsAdd_<>, test_g3opsSub_<>
 
 	test_g3opsAdd_same - addition of like types (Sca, ..., MultiVector)
-	test_g3opsAdd_other - addition of different types
+	test_g3opsAdd_other - addition of mixed types
+
+	test_g3opsSub_same - subtraction of like types (Sca, ..., MultiVector)
+	test_g3opsSub_other - subtraction of mixed types
 
 		Scalar + (other: Vec, Biv, ..., MVec)
 		Vector + (other: Biv, Tri, ..., MVec)

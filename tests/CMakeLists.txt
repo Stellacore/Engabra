@@ -31,6 +31,8 @@ set(unitTests
 
 	test_g3opsAdd_same
 	test_g3opsAdd_other
+	test_g3opsSub_same
+	test_g3opsSub_other
 
 	test_g3opsMul
 	test_g3opsMulAll

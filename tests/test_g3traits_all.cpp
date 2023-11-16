@@ -86,6 +86,8 @@ namespace
 			, { isBladeType<TriVector>(), true }
 			, { isBladeType<Spinor>(), false }
 			, { isBladeType<ImSpin>(), false }
+			, { isBladeType<ComPlex>(), false }
+			, { isBladeType<DirPlex>(), false }
 			, { isBladeType<MultiVector>(), false }
 			};
 

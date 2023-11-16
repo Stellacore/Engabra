@@ -36,7 +36,7 @@ it is typically convenient to have many of these available at more global
 scope. E.g. instead of needing to write, for example,
 \code
 	using engabra::g3::operator+; // binary addition
-	using engabra::g3::operator-; // uniary negation
+	using engabra::g3::operator-; // unary negation
 	engabra::g3::Vector const vecC{ vecA + (-vecB) };
 \endcode
 It is desirable to express this simply as e.g.
@@ -71,6 +71,8 @@ in order to interact with std::streams.
 
 
 #include "g3opsAdd_same.hpp"
+#include "g3opsSub_same.hpp"
+
 #include "g3opsMul.hpp"
 #include "g3opsUni.hpp"
 

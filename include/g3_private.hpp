@@ -27,7 +27,7 @@
 #define engabra_g3_private_INCL_
 
 /*! \file
-\brief Contains ######
+\brief Contains internal libary implementation support functions.
 
 Example:
 \snippet test_g3_private.cpp DoxyExample01
@@ -45,6 +45,9 @@ namespace g3
 */
 namespace priv
 {
+	//
+	// Elementwise patterns
+	//
 
 	//! Element-by-element operation on same type (A (op) B)
 	template <typename BladeType, typename Func>
@@ -66,6 +69,57 @@ namespace priv
 			);
 		return outBlade;
 	}
+
+	//
+	// Commutative product patterns
+	//
+
+	//! Commutative product - product of contraction
+	inline
+	double
+	prodComm
+		( std::array<double, 3u> const & argA
+		, std::array<double, 3u> const & argB
+		)
+	{
+		return std::inner_product
+			( std::cbegin(argA)
+			, std::cend(argA)
+			, std::cbegin(argB)
+			, 0.
+			);
+	}
+
+	//! Specialization Commutative product for Scalar/TriVector support
+	inline
+	double
+	prodComm
+		( std::array<double, 1u> const & argA
+		, std::array<double, 1u> const & argB
+		)
+	{
+		return (argA[0] * argB[0]);
+	}
+
+	//
+	// Anti-commutative product patterns
+	//
+
+	//! Anticommutative product - product of extension
+	inline
+	std::array<double, 3u>
+	prodAnti
+		( std::array<double, 3u> const & argA
+		, std::array<double, 3u> const & argB
+		)
+	{
+		return
+			{ argA[1]*argB[2] - argA[2]*argB[1]
+			, argA[2]*argB[0] - argA[0]*argB[2]
+			, argA[0]*argB[1] - argA[1]*argB[0]
+			};
+	}
+
 
 } // [priv]
 

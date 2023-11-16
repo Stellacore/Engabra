@@ -24,21 +24,21 @@
 
 
 /*! \file
-\brief Unit tests (and example) code for engabra::g3opsAdd_Scalar
+\brief Unit tests (and example) code for engabra::g3opsSub_Scalar
 */
 
 
 #include "checks.hpp" // testing environment common utilities
 
-#include "g3opsAdd_Scalar.hpp"
-#include "g3opsAdd_Vector.hpp"
-#include "g3opsAdd_BiVector.hpp"
-#include "g3opsAdd_TriVector.hpp"
-#include "g3opsAdd_Spinor.hpp"
-#include "g3opsAdd_ImSpin.hpp"
-#include "g3opsAdd_ComPlex.hpp"
-#include "g3opsAdd_DirPlex.hpp"
-#include "g3opsAdd_MultiVector.hpp"
+#include "g3opsSub_Scalar.hpp"
+#include "g3opsSub_Vector.hpp"
+#include "g3opsSub_BiVector.hpp"
+#include "g3opsSub_TriVector.hpp"
+#include "g3opsSub_Spinor.hpp"
+#include "g3opsSub_ImSpin.hpp"
+#include "g3opsSub_ComPlex.hpp"
+#include "g3opsSub_DirPlex.hpp"
+#include "g3opsSub_MultiVector.hpp"
 
 #include "g3compare.hpp"
 #include "g3io.hpp"
@@ -94,25 +94,29 @@ namespace
 
 		// [DoxyExampleSca]
 
-		// Addition of Scalar and mixed grade types
+		// Subtraction of Scalar and mixed grade types
 
-		// == same type addition - ref. test_g3opsAdd_same
-		// TBD: ParaVec const gotScaVec{ sca + vec };
-		Spinor const gotScaBiv{ aSca + aBiv };
-		ComPlex const gotScaTri{ aSca + aTri };
-		Spinor const gotScaSpin{ aSca + aSpin };
-		// TBD: NoTri const gotScaImsp{ aSca + aImsp };
-		ComPlex const gotScaCplx{ aSca + aCplx };
-		// TBD: NoTri const gotScaDplx{ aSca + aDplx };
-		MultiVector const gotScaMvec{ aSca + aMvec };
+		// == same type subtraction : ref. test_g3opsSub_same
+		// TBD: ParaVec const gotScaVec{ sca - vec };
+		Spinor const gotScaBiv{ aSca - aBiv };
+		ComPlex const gotScaTri{ aSca - aTri };
+		Spinor const gotScaSpin{ aSca - aSpin };
+		// TBD: NoTri const gotScaImsp{ aSca - aImsp };
+		ComPlex const gotScaCplx{ aSca - aCplx };
+		// TBD: NoTri const gotScaDplx{ aSca - aDplx };
+		MultiVector const gotScaMvec{ aSca - aMvec };
 
 		// expected values
-		Spinor const expScaBiv{ aSca, aBiv };
-		ComPlex const expScaTri{ aSca, aTri };
-		Spinor const expScaSpin{ aSca + aSpin.theSca, aSpin.theBiv };
-		ComPlex const expScaCplx{ aSca + aCplx.theSca, aCplx.theTri };
+		Spinor const expScaBiv{ aSca, -aBiv };
+		ComPlex const expScaTri{ aSca, -aTri };
+		Spinor const expScaSpin{ aSca - aSpin.theSca, -aSpin.theBiv };
+		ComPlex const expScaCplx{ aSca - aCplx.theSca, -aCplx.theTri };
 		MultiVector const expScaMvec
-			{ aSca + aMvec.theSca, aMvec.theVec, aMvec.theBiv, aMvec.theTri };
+			{ aSca - aMvec.theSca
+			, -aMvec.theVec
+			, -aMvec.theBiv
+			, -aMvec.theTri
+			};
 
 			// [DoxyExampleSca]
 
@@ -134,25 +138,29 @@ namespace
 
 		// [DoxyExampleVec]
 
-		// Addition of Vector and mixed grade types
+		// Subtraction of Vector and mixed grade types
 
-		// TBD: ParaVec const gotVecSca{ aVec + aSca };
-		// == same type addition - ref. test_g3opsAdd_same
-		DirPlex const gotVecBiv{ aVec + aBiv };
-		ImSpin const gotVecTri{ aVec + aTri };
-		// TBD: NoTri const gotVecSpin{ aVec + aSpin };
-		ImSpin const gotVecImsp{ aVec + aImsp };
-		// TBD: NoBiv const gotVecCplx{ aVec + aCplx };
-		DirPlex const gotVecDplx{ aVec + aDplx };
-		MultiVector const gotVecMvec{ aVec + aMvec };
+		// TBD: ParaVec const gotVecSca{ aVec - aSca };
+		// == same type subtraction : ref. test_g3opsSub_same
+		DirPlex const gotVecBiv{ aVec - aBiv };
+		ImSpin const gotVecTri{ aVec - aTri };
+		// TBD: NoTri const gotVecSpin{ aVec - aSpin };
+		ImSpin const gotVecImsp{ aVec - aImsp };
+		// TBD: NoBiv const gotVecCplx{ aVec - aCplx };
+		DirPlex const gotVecDplx{ aVec - aDplx };
+		MultiVector const gotVecMvec{ aVec - aMvec };
 
 		// expected values
-		DirPlex const expVecBiv{ aVec, aBiv };
-		ImSpin const expVecTri{ aVec, aTri };
-		ImSpin const expVecImsp{ aVec + aImsp.theVec, aImsp.theTri };
-		DirPlex const expVecDplx{ aVec + aDplx.theVec, aDplx.theBiv };
+		DirPlex const expVecBiv{ aVec, -aBiv };
+		ImSpin const expVecTri{ aVec, -aTri };
+		ImSpin const expVecImsp{ aVec - aImsp.theVec, -aImsp.theTri };
+		DirPlex const expVecDplx{ aVec - aDplx.theVec, -aDplx.theBiv };
 		MultiVector const expVecMvec
-			{ aMvec.theSca, aVec + aMvec.theVec, aMvec.theBiv, aMvec.theTri };
+			{ -aMvec.theSca
+			, aVec - aMvec.theVec
+			, -aMvec.theBiv
+			, -aMvec.theTri
+			};
 
 
 			// [DoxyExampleVec]
@@ -176,25 +184,29 @@ namespace
 
 		// [DoxyExampleBiv]
 
-		// Addition of BiVector and mixed grade types
+		// Subtraction of BiVector and mixed grade types
 
-		Spinor const gotBivSca{ aBiv + aSca };
-		DirPlex const gotBivVec{ aBiv + aVec };
-		// == same type addition - ref. test_g3opsAdd_same
-		// TBD: ImPara const gotBivTri{ aBiv + aTri };
-		Spinor const gotBivSpin{ aBiv + aSpin };
-		// TBD: NoSca const gotBivImsp{ aBiv + aImsp };
-		// TBD: NoVec const gotBivCplx{ aBiv + aCplx };
-		DirPlex const gotBivDplx{ aBiv + aDplx };
-		MultiVector const gotBivMvec{ aBiv + aMvec };
+		Spinor const gotBivSca{ aBiv - aSca };
+		DirPlex const gotBivVec{ aBiv - aVec };
+		// == same type subtraction : ref. test_g3opsSub_same
+		// TBD: ImPara const gotBivTri{ aBiv - aTri };
+		Spinor const gotBivSpin{ aBiv - aSpin };
+		// TBD: NoSca const gotBivImsp{ aBiv - aImsp };
+		// TBD: NoVec const gotBivCplx{ aBiv - aCplx };
+		DirPlex const gotBivDplx{ aBiv - aDplx };
+		MultiVector const gotBivMvec{ aBiv - aMvec };
 
 		// expected values
-		Spinor const expBivSca{ aSca, aBiv };
-		DirPlex const expBivVec{ aVec, aBiv };
-		Spinor const expBivSpin{ aSpin.theSca, aBiv + aSpin.theBiv };
-		DirPlex const expBivDplx{ aDplx.theVec, aBiv + aDplx.theBiv };
+		Spinor const expBivSca{ aSca, -aBiv };
+		DirPlex const expBivVec{ aVec, -aBiv };
+		Spinor const expBivSpin{ -aSpin.theSca, aBiv - aSpin.theBiv };
+		DirPlex const expBivDplx{ -aDplx.theVec, aBiv - aDplx.theBiv };
 		MultiVector const expBivMvec
-			{ aMvec.theSca, aMvec.theVec, aBiv + aMvec.theBiv, aMvec.theTri };
+			{ -aMvec.theSca
+			, -aMvec.theVec
+			, aBiv - aMvec.theBiv
+			, -aMvec.theTri
+			};
 
 			// [DoxyExampleBiv]
 
@@ -216,25 +228,29 @@ namespace
 
 		// [DoxyExampleTri]
 
-		// Addition of TriVector and mixed grade types
+		// Subtraction of TriVector and mixed grade types
 
-		ComPlex const gotTriSca{ aTri + aSca };
-		ImSpin const gotTriVec{ aTri + aVec };
-		// TBD: ImPara const gotTriBiv{ aTri + aBiv };
-		// == same type addition - ref. test_g3opsAdd_same
-		// TBD: NoVec const gotTriSpin{ aTri + aSpin };
-		ImSpin const gotTriImsp{ aTri + aImsp };
-		ComPlex const gotTriCplx{ aTri + aCplx };
-		// TBD: NoSca const gotTriDplx{ aTri + aDplx };
-		MultiVector const gotTriMvec{ aTri + aMvec };
+		ComPlex const gotTriSca{ aTri - aSca };
+		ImSpin const gotTriVec{ aTri - aVec };
+		// TBD: ImPara const gotTriBiv{ aTri - aBiv };
+		// == same type subtraction : ref. test_g3opsSub_same
+		// TBD: NoVec const gotTriSpin{ aTri - aSpin };
+		ImSpin const gotTriImsp{ aTri - aImsp };
+		ComPlex const gotTriCplx{ aTri - aCplx };
+		// TBD: NoSca const gotTriDplx{ aTri - aDplx };
+		MultiVector const gotTriMvec{ aTri - aMvec };
 
 		// expected values
-		ComPlex const expTriSca{ aSca, aTri };
-		ImSpin const expTriVec{ aVec, aTri };
-		ImSpin const expTriImsp{ aImsp.theVec, aTri + aImsp.theTri };
-		ComPlex const expTriCplx{ aCplx.theSca, aTri + aCplx.theTri };
+		ComPlex const expTriSca{ aSca, -aTri };
+		ImSpin const expTriVec{ aVec, -aTri };
+		ImSpin const expTriImsp{ -aImsp.theVec, aTri - aImsp.theTri };
+		ComPlex const expTriCplx{ -aCplx.theSca, aTri - aCplx.theTri };
 		MultiVector const expTriMvec
-			{ aMvec.theSca, aMvec.theVec, aMvec.theBiv, aTri + aMvec.theTri };
+			{ -aMvec.theSca
+			, -aMvec.theVec
+			, -aMvec.theBiv
+			, aTri - aMvec.theTri
+			};
 
 			// [DoxyExampleTri]
 
@@ -256,28 +272,28 @@ namespace
 
 		// [DoxyExampleSpin]
 
-		// Addition of Spinor and mixed grade types
+		// Subtraction of Spinor and mixed grade types
 
-		Spinor const gotSpinSca{ aSpin + aSca };
-		// TBD: NoTri const gotSpinVec{ aSpin + aVec };
-		Spinor const gotSpinBiv{ aSpin + aBiv };
-		// TBD: NoVec const gotSpinTri{ aSpin + aTri };
-		// == same type addition - ref. test_g3opsAdd_same
-		MultiVector const gotSpinImsp{ aSpin + aImsp };
-		// TBD: NoVec const gotSpinCplx{ aSpin + aCplx };
-		// TBD: NoTri const gotSpinDplx{ aSpin + aDplx };
-		MultiVector const gotSpinMvec{ aSpin + aMvec };
+		Spinor const gotSpinSca{ aSpin - aSca };
+		// TBD: NoTri const gotSpinVec{ aSpin - aVec };
+		Spinor const gotSpinBiv{ aSpin - aBiv };
+		// TBD: NoVec const gotSpinTri{ aSpin - aTri };
+		// == same type subtraction : ref. test_g3opsSub_same
+		MultiVector const gotSpinImsp{ aSpin - aImsp };
+		// TBD: NoVec const gotSpinCplx{ aSpin - aCplx };
+		// TBD: NoTri const gotSpinDplx{ aSpin - aDplx };
+		MultiVector const gotSpinMvec{ aSpin - aMvec };
 
 		// expected values
-		Spinor const expSpinSca{ aSpin.theSca + aSca, aSpin.theBiv };
-		Spinor const expSpinBiv{ aSpin.theSca, aSpin.theBiv + aBiv };
+		Spinor const expSpinSca{ aSca - aSpin.theSca, -aSpin.theBiv };
+		Spinor const expSpinBiv{ -aSpin.theSca, aBiv - aSpin.theBiv };
 		MultiVector const expSpinImsp
-			{ aSpin.theSca, aImsp.theVec, aSpin.theBiv, aImsp.theTri };
+			{ aSpin.theSca, -aImsp.theVec, aSpin.theBiv, -aImsp.theTri };
 		MultiVector const expSpinMvec
-			{ aSpin.theSca + aMvec.theSca
-			, aMvec.theVec
-			, aSpin.theBiv + aMvec.theBiv
-			, aMvec.theTri
+			{ aSpin.theSca - aMvec.theSca
+			, -aMvec.theVec
+			, aSpin.theBiv - aMvec.theBiv
+			, -aMvec.theTri
 			};
 
 			// [DoxyExampleSpin]
@@ -298,28 +314,28 @@ namespace
 
 		// [DoxyExampleImsp]
 
-		// Addition of ImSpin and mixed grade types
+		// Subtraction of ImSpin and mixed grade types
 
-		// TBD: NoBiv const gotImspSca{ aImsp + aSca };
-		ImSpin const gotImspVec{ aImsp + aVec };
-		// TBD: NoSca const gotImspBiv{ aImsp + aBiv };
-		ImSpin const gotImspTri{ aImsp + aTri };
-		MultiVector const gotImspSpin{ aImsp + aSpin };
-		// == same type addition - ref. test_g3opsAdd_same
-		// TBD: NoBiv const gotImspCplx{ aImsp + aCplx };
-		// TBD: NoSca const gotImspDplx{ aImsp + aDplx };
-		MultiVector const gotImspMvec{ aImsp + aMvec };
+		// TBD: NoBiv const gotImspSca{ aImsp - aSca };
+		ImSpin const gotImspVec{ aImsp - aVec };
+		// TBD: NoSca const gotImspBiv{ aImsp - aBiv };
+		ImSpin const gotImspTri{ aImsp - aTri };
+		MultiVector const gotImspSpin{ aImsp - aSpin };
+		// == same type subtraction : ref. test_g3opsSub_same
+		// TBD: NoBiv const gotImspCplx{ aImsp - aCplx };
+		// TBD: NoSca const gotImspDplx{ aImsp - aDplx };
+		MultiVector const gotImspMvec{ aImsp - aMvec };
 
 		// expected values
-		ImSpin const expImspVec{ aImsp.theVec + aVec, aImsp.theTri};
-		ImSpin const expImspTri{ aImsp.theVec, aImsp.theTri + aTri };
+		ImSpin const expImspVec{ aImsp.theVec - aVec, aImsp.theTri};
+		ImSpin const expImspTri{ aImsp.theVec, aImsp.theTri - aTri};
 		MultiVector const expImspSpin
-			{ aSpin.theSca , aImsp.theVec , aSpin.theBiv , aImsp.theTri };
+			{ -aSpin.theSca , aImsp.theVec , -aSpin.theBiv , aImsp.theTri };
 		MultiVector const expImspMvec
-			{ aMvec.theSca
-			, aImsp.theVec + aMvec.theVec
-			, aMvec.theBiv
-			, aImsp.theTri + aMvec.theTri
+			{ -aMvec.theSca
+			, aImsp.theVec - aMvec.theVec
+			, -aMvec.theBiv
+			, aImsp.theTri - aMvec.theTri
 			};
 
 			// [DoxyExampleImsp]
@@ -341,28 +357,28 @@ namespace
 
 		// [DoxyExampleCplx]
 
-		// Addition of ComPlex and mixed grade types
+		// Subtraction of ComPlex and mixed grade types
 
-		ComPlex const gotCplxSca{ aCplx + aSca };
-		// TBD: NoBiv const gotCplxVec{ aCplx + aVec };
-		// TBD: NoVec const gotCplxBiv{ aCplx + aBiv };
-		ComPlex const gotCplxTri{ aCplx + aTri };
-		// TBD: NoVec const gotCplxSpin{ aCplx + aSpin };
-		// TBD: NoBiv const gotCplxImsp{ aCplx + aImsp };
-		// == same type addition - ref. test_g3opsAdd_same
-		MultiVector const gotCplxDplx{ aCplx + aDplx };
-		MultiVector const gotCplxMvec{ aCplx + aMvec };
+		ComPlex const gotCplxSca{ aCplx - aSca };
+		// TBD: NoBiv const gotCplxVec{ aCplx - aVec };
+		// TBD: NoVec const gotCplxBiv{ aCplx - aBiv };
+		ComPlex const gotCplxTri{ aCplx - aTri };
+		// TBD: NoVec const gotCplxSpin{ aCplx - aSpin };
+		// TBD: NoBiv const gotCplxImsp{ aCplx - aImsp };
+		// == same type subtraction : ref. test_g3opsSub_same
+		MultiVector const gotCplxDplx{ aCplx - aDplx };
+		MultiVector const gotCplxMvec{ aCplx - aMvec };
 
 		// expected values
-		ComPlex const expCplxSca{ aCplx.theSca + aSca, aCplx.theTri };
-		ComPlex const expCplxTri{ aCplx.theSca, aCplx.theTri + aTri };
+		ComPlex const expCplxSca{ aCplx.theSca - aSca, aCplx.theTri };
+		ComPlex const expCplxTri{ aCplx.theSca, aCplx.theTri - aTri };
 		MultiVector const expCplxDplx
-			{ aCplx.theSca, aDplx.theVec, aDplx.theBiv, aCplx.theTri };
+			{ aCplx.theSca, -aDplx.theVec, -aDplx.theBiv, aCplx.theTri };
 		MultiVector const expCplxMvec
-			{ aCplx.theSca + aMvec.theSca
-			, aMvec.theVec
-			, aMvec.theBiv
-			, aCplx.theTri + aMvec.theTri
+			{ aCplx.theSca - aMvec.theSca
+			, -aMvec.theVec
+			, -aMvec.theBiv
+			, aCplx.theTri - aMvec.theTri
 			};
 
 			// [DoxyExampleCplx]
@@ -384,28 +400,28 @@ namespace
 
 		// [DoxyExampleDplx]
 
-		// Addition of DirPlex and mixed grade types
+		// Subtraction of DirPlex and mixed grade types
 
-		// TBD: NoTri const gotDplxSca{ aDplx + aSca };
-		DirPlex const gotDplxVec{ aDplx + aVec };
-		DirPlex const gotDplxBiv{ aDplx + aBiv };
-		// TBD: NoSca const gotDplxTri{ aDplx + aTri };
-		// TBD: NoTri const gotDplxSpin{ aDplx + aSpin };
-		// TBD: NoBiv const gotDplxImsp{ aDplx + aImsp };
-		// == same type addition - ref. test_g3opsAdd_same
-		MultiVector const gotDplxCplx{ aDplx + aCplx };
-		MultiVector const gotDplxMvec{ aDplx + aMvec };
+		// TBD: NoTri const gotDplxSca{ aDplx - aSca };
+		DirPlex const gotDplxVec{ aDplx - aVec };
+		DirPlex const gotDplxBiv{ aDplx - aBiv };
+		// TBD: NoSca const gotDplxTri{ aDplx - aTri };
+		// TBD: NoTri const gotDplxSpin{ aDplx - aSpin };
+		// TBD: NoBiv const gotDplxImsp{ aDplx - aImsp };
+		// == same type subtraction : ref. test_g3opsSub_same
+		MultiVector const gotDplxCplx{ aDplx - aCplx };
+		MultiVector const gotDplxMvec{ aDplx - aMvec };
 
 		// expected values
-		DirPlex const expDplxVec{ aDplx.theVec + aVec, aDplx.theBiv };
-		DirPlex const expDplxBiv{ aDplx.theVec, aDplx.theBiv + aBiv };
+		DirPlex const expDplxVec{ aDplx.theVec - aVec, aDplx.theBiv };
+		DirPlex const expDplxBiv{ aDplx.theVec, aDplx.theBiv - aBiv };
 		MultiVector const expDplxCplx
-			{ aCplx.theSca, aDplx.theVec, aDplx.theBiv, aCplx.theTri };
+			{ -aCplx.theSca, aDplx.theVec, aDplx.theBiv, -aCplx.theTri };
 		MultiVector const expDplxMvec
-			{ aMvec.theSca
-			, aDplx.theVec + aMvec.theVec
-			, aDplx.theBiv + aMvec.theBiv
-			, aMvec.theTri
+			{ -aMvec.theSca
+			, aDplx.theVec - aMvec.theVec
+			, aDplx.theBiv - aMvec.theBiv
+			, -aMvec.theTri
 			};
 
 			// [DoxyExampleDplx]
@@ -427,65 +443,65 @@ namespace
 
 		// [DoxyExampleMvec]
 
-		// Addition of MultiVector and mixed grade types
+		// Subtraction of MultiVector and mixed grade types
 
-		MultiVector const gotMvecSca{ aMvec + aSca };
-		MultiVector const gotMvecVec{ aMvec + aVec };
-		MultiVector const gotMvecBiv{ aMvec + aBiv };
-		MultiVector const gotMvecTri{ aMvec + aTri };
-		MultiVector const gotMvecSpin{ aMvec + aSpin };
-		MultiVector const gotMvecImsp{ aMvec + aImsp };
-		MultiVector const gotMvecCplx{ aMvec + aCplx };
-		MultiVector const gotMvecDplx{ aMvec + aDplx };
-		// == same type addition - ref. test_g3opsAdd_same
+		MultiVector const gotMvecSca{ aMvec - aSca };
+		MultiVector const gotMvecVec{ aMvec - aVec };
+		MultiVector const gotMvecBiv{ aMvec - aBiv };
+		MultiVector const gotMvecTri{ aMvec - aTri };
+		MultiVector const gotMvecSpin{ aMvec - aSpin };
+		MultiVector const gotMvecImsp{ aMvec - aImsp };
+		MultiVector const gotMvecCplx{ aMvec - aCplx };
+		MultiVector const gotMvecDplx{ aMvec - aDplx };
+		// == same type subtraction : ref. test_g3opsSub_same
 
 		// expected values
 		MultiVector const expMvecSca
-			{ aMvec.theSca + aSca
+			{ aMvec.theSca - aSca
 			, aMvec.theVec
 			, aMvec.theBiv
 			, aMvec.theTri
 			};
 		MultiVector const expMvecVec
 			{ aMvec.theSca
-			, aMvec.theVec + aVec
+			, aMvec.theVec - aVec
 			, aMvec.theBiv
 			, aMvec.theTri
 			};
 		MultiVector const expMvecBiv
 			{ aMvec.theSca
 			, aMvec.theVec
-			, aMvec.theBiv + aBiv
+			, aMvec.theBiv - aBiv
 			, aMvec.theTri
 			};
 		MultiVector const expMvecTri
 			{ aMvec.theSca
 			, aMvec.theVec
 			, aMvec.theBiv
-			, aMvec.theTri + aTri
+			, aMvec.theTri - aTri
 			};
 		MultiVector const expMvecSpin
-			{ aMvec.theSca + aSpin.theSca
+			{ aMvec.theSca - aSpin.theSca
 			, aMvec.theVec
-			, aMvec.theBiv + aSpin.theBiv
+			, aMvec.theBiv - aSpin.theBiv
 			, aMvec.theTri
 			};
 		MultiVector const expMvecImsp
 			{ aMvec.theSca
-			, aMvec.theVec + aImsp.theVec
+			, aMvec.theVec - aImsp.theVec
 			, aMvec.theBiv
-			, aMvec.theTri + aImsp.theTri
+			, aMvec.theTri - aImsp.theTri
 			};
 		MultiVector const expMvecCplx
-			{ aMvec.theSca + aCplx.theSca
+			{ aMvec.theSca - aCplx.theSca
 			, aMvec.theVec
 			, aMvec.theBiv
-			, aMvec.theTri + aCplx.theTri
+			, aMvec.theTri - aCplx.theTri
 			};
 		MultiVector const expMvecDplx
 			{ aMvec.theSca
-			, aMvec.theVec + aDplx.theVec
-			, aMvec.theBiv + aDplx.theBiv
+			, aMvec.theVec - aDplx.theVec
+			, aMvec.theBiv - aDplx.theBiv
 			, aMvec.theTri
 			};
 

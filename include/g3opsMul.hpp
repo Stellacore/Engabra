@@ -106,7 +106,10 @@ the result.  \snippet test_g3opsMul.cpp DoxyExample02
 #include "g3type.hpp"
 
 #include "g3opsAdd_same.hpp"
+#include "g3opsSub_same.hpp"
+
 #include "g3opsUni.hpp"
+#include "g3_private.hpp"
 
 #include <algorithm>
 #include <array>
@@ -118,61 +121,6 @@ namespace engabra
 
 namespace g3
 {
-
-namespace priv
-{
-	//
-	// Commutative patterns
-	//
-
-	//! Commutative product - product of contraction
-	inline
-	double
-	prodComm
-		( std::array<double, 3u> const & argA
-		, std::array<double, 3u> const & argB
-		)
-	{
-		return std::inner_product
-			( std::cbegin(argA)
-			, std::cend(argA)
-			, std::cbegin(argB)
-			, 0.
-			);
-	}
-
-	//! Specialization Commutative product for Scalar/TriVector support
-	inline
-	double
-	prodComm
-		( std::array<double, 1u> const & argA
-		, std::array<double, 1u> const & argB
-		)
-	{
-		return (argA[0] * argB[0]);
-	}
-
-	//
-	// Anti-commutative patterns
-	//
-
-	//! Anticommutative product - product of extension
-	inline
-	std::array<double, 3u>
-	prodAnti
-		( std::array<double, 3u> const & argA
-		, std::array<double, 3u> const & argB
-		)
-	{
-		return
-			{ argA[1]*argB[2] - argA[2]*argB[1]
-			, argA[2]*argB[0] - argA[0]*argB[2]
-			, argA[0]*argB[1] - argA[1]*argB[0]
-			};
-	}
-
-} // [priv]
-
 
 	// Contents provide a multiplication table organized in order of:
 	// - double
