@@ -108,6 +108,8 @@ namespace
 		TriVector const triA{ (1./20.) * 21. };
 		Spinor const spinA{ scaA, bivA };
 		ImSpin const imspA{ vecA, triA };
+		ComPlex const cplxA{ scaA, triA };
+		DirPlex const dplxA{ vecA, bivA };
 		MultiVector const mvA(scaA, vecA, bivA, triA);
 
 		double const dubB{ 1.125 };
@@ -117,6 +119,8 @@ namespace
 		TriVector const triB{ (1./42.) * -43. };
 		Spinor const spinB{ scaB, bivB };
 		ImSpin const imspB{ vecB, triB };
+		ComPlex const cplxB{ scaB, triB };
+		DirPlex const dplxB{ vecB, bivB };
 		MultiVector const mvB(scaB, vecB, bivB, triB);
 
 		// double*...
@@ -127,6 +131,8 @@ namespace
 		oss << check<double, TriVector>(dubA, triB);
 		oss << check<double, Spinor>(dubA, spinB);
 		oss << check<double, ImSpin>(dubA, imspB);
+		oss << check<double, ComPlex>(dubA, cplxB);
+		oss << check<double, DirPlex>(dubA, dplxB);
 		oss << check<double, MultiVector>(dubA, mvB);
 
 		// Scalar*...
@@ -137,6 +143,8 @@ namespace
 		oss << check<Scalar, TriVector>(scaA, triB);
 		oss << check<Scalar, Spinor>(scaA, spinB);
 		oss << check<Scalar, ImSpin>(scaA, imspB);
+		oss << check<Scalar, ComPlex>(scaA, cplxB);
+		oss << check<Scalar, DirPlex>(scaA, dplxB);
 		oss << check<Scalar, MultiVector>(scaA, mvB);
 
 		// Vector*...
@@ -147,6 +155,8 @@ namespace
 		oss << check<Vector, TriVector>(vecA, triB);
 		oss << check<Vector, Spinor>(vecA, spinB);
 		oss << check<Vector, ImSpin>(vecA, imspB);
+		oss << check<Vector, ComPlex>(vecA, cplxB);
+		oss << check<Vector, DirPlex>(vecA, dplxB);
 		oss << check<Vector, MultiVector>(vecA, mvB);
 
 		// BiVector*...
@@ -157,6 +167,8 @@ namespace
 		oss << check<BiVector, TriVector>(bivA, triB);
 		oss << check<BiVector, Spinor>(bivA, spinB);
 		oss << check<BiVector, ImSpin>(bivA, imspB);
+		oss << check<BiVector, ComPlex>(bivA, cplxB);
+		oss << check<BiVector, DirPlex>(bivA, dplxB);
 		oss << check<BiVector, MultiVector>(bivA, mvB);
 
 		// TriVector*...
@@ -167,6 +179,8 @@ namespace
 		oss << check<TriVector, TriVector>(triA, triB);
 		oss << check<TriVector, Spinor>(triA, spinB);
 		oss << check<TriVector, ImSpin>(triA, imspB);
+		oss << check<TriVector, ComPlex>(triA, cplxB);
+		oss << check<TriVector, DirPlex>(triA, dplxB);
 		oss << check<TriVector, MultiVector>(triA, mvB);
 
 		// Spinor*...
@@ -177,6 +191,8 @@ namespace
 		oss << check<Spinor, TriVector>(spinA, triB);
 		oss << check<Spinor, Spinor>(spinA, spinB);
 		oss << check<Spinor, ImSpin>(spinA, imspB);
+		oss << check<Spinor, ComPlex>(spinA, cplxB);
+		oss << check<Spinor, DirPlex>(spinA, dplxB);
 		oss << check<Spinor, MultiVector>(spinA, mvB);
 
 		// ImSpin*...
@@ -187,7 +203,33 @@ namespace
 		oss << check<ImSpin, TriVector>(imspA, triB);
 		oss << check<ImSpin, Spinor>(imspA, spinB);
 		oss << check<ImSpin, ImSpin>(imspA, imspB);
+		oss << check<ImSpin, ComPlex>(imspA, cplxB);
+		oss << check<ImSpin, DirPlex>(imspA, dplxB);
 		oss << check<ImSpin, MultiVector>(imspA, mvB);
+
+		// ComPlex*...
+		oss << check<ComPlex, double>(cplxA, dubB);
+		oss << check<ComPlex, Scalar>(cplxA, scaB);
+		oss << check<ComPlex, Vector>(cplxA, vecB);
+		oss << check<ComPlex, BiVector>(cplxA, bivB);
+		oss << check<ComPlex, TriVector>(cplxA, triB);
+		oss << check<ComPlex, Spinor>(cplxA, spinB);
+		oss << check<ComPlex, ImSpin>(cplxA, imspB);
+		oss << check<ComPlex, ComPlex>(cplxA, cplxB);
+		oss << check<ComPlex, DirPlex>(cplxA, dplxB);
+		oss << check<ComPlex, MultiVector>(cplxA, mvB);
+
+		// DirPlex*...
+		oss << check<DirPlex, double>(dplxA, dubB);
+		oss << check<DirPlex, Scalar>(dplxA, scaB);
+		oss << check<DirPlex, Vector>(dplxA, vecB);
+		oss << check<DirPlex, BiVector>(dplxA, bivB);
+		oss << check<DirPlex, TriVector>(dplxA, triB);
+		oss << check<DirPlex, Spinor>(dplxA, spinB);
+		oss << check<DirPlex, ImSpin>(dplxA, imspB);
+		oss << check<DirPlex, ComPlex>(dplxA, cplxB);
+		oss << check<DirPlex, DirPlex>(dplxA, dplxB);
+		oss << check<DirPlex, MultiVector>(dplxA, mvB);
 
 		// MultiVector*...
 		oss << check<MultiVector, double>(mvA, dubB);
@@ -197,6 +239,8 @@ namespace
 		oss << check<MultiVector, TriVector>(mvA, triB);
 		oss << check<MultiVector, Spinor>(mvA, spinB);
 		oss << check<MultiVector, ImSpin>(mvA, imspB);
+		oss << check<MultiVector, ComPlex>(mvA, cplxB);
+		oss << check<MultiVector, DirPlex>(mvA, dplxB);
 		oss << check<MultiVector, MultiVector>(mvA, mvB);
 
 		return oss.str();;

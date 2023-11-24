@@ -144,7 +144,15 @@ namespace g3
 		, Spinor const & spinB
 		)
 	{
-		return Spinor{ dubA*spinB.theSca, dubA*spinB.theBiv };
+		return Spinor
+			{ Scalar
+				{ dubA * spinB.theSca.theData[0] }
+			, BiVector
+				{ dubA * spinB.theBiv.theData[0]
+				, dubA * spinB.theBiv.theData[1]
+				, dubA * spinB.theBiv.theData[2]
+				}
+			};
 	}
 
 	/*! \brief ImSpin from double * ImSpin.
@@ -160,7 +168,15 @@ namespace g3
 		, ImSpin const & imspB
 		)
 	{
-		return ImSpin{ dubA * imspB.theVec, dubA * imspB.theTri};
+		return ImSpin
+			{ Vector
+				{ dubA * imspB.theVec.theData[0]
+				, dubA * imspB.theVec.theData[1]
+				, dubA * imspB.theVec.theData[2]
+				}
+			, TriVector
+				{ dubA * imspB.theTri.theData[0] }
+			};
 	}
 
 	/*! \brief ComPlex from double * ComPlex.
@@ -176,7 +192,10 @@ namespace g3
 		, ComPlex const & cplxB
 		)
 	{
-		return ComPlex{ dubA*cplxB.theSca, dubA*cplxB.theTri };
+		return ComPlex
+			{ dubA * cplxB.theSca.theData[0]
+			, dubA * cplxB.theTri.theData[0]
+			};
 	}
 
 	/*! \brief DirPlex from double * DirPlex.
@@ -192,7 +211,18 @@ namespace g3
 		, DirPlex const & dplxB
 		)
 	{
-		return DirPlex{ dubA*dplxB.theVec, dubA*dplxB.theBiv };
+		return DirPlex
+			{ Vector
+				{ dubA*dplxB.theVec.theData[0]
+				, dubA*dplxB.theVec.theData[1]
+				, dubA*dplxB.theVec.theData[2]
+				}
+			, BiVector
+				{ dubA*dplxB.theBiv.theData[0]
+				, dubA*dplxB.theBiv.theData[1]
+				, dubA*dplxB.theBiv.theData[2]
+				}
+			};
 	}
 
 	/*! \brief MultiVector from double * MultiVector.
@@ -209,10 +239,20 @@ namespace g3
 		)
 	{
 		return MultiVector
-			{ dubA * mvB.theSca
-			, dubA * mvB.theVec
-			, dubA * mvB.theBiv
-			, dubA * mvB.theTri
+			{ Scalar
+					{ dubA * mvB.theSca.theData[0] }
+			, Vector
+				{ dubA * mvB.theVec.theData[0]
+				, dubA * mvB.theVec.theData[1]
+				, dubA * mvB.theVec.theData[2]
+				}
+			, BiVector
+				{ dubA * mvB.theBiv.theData[0]
+				, dubA * mvB.theBiv.theData[1]
+				, dubA * mvB.theBiv.theData[2]
+				}
+			, TriVector
+				{ dubA * mvB.theTri.theData[0] }
 			};
 	}
 

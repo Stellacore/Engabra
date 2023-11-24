@@ -93,7 +93,7 @@ namespace
 	{
 		std::ostringstream oss;
 
-		// [DoxyExampleBiv]
+		// [DoxyExampleVec]
 		using namespace engabra::g3;
 
 		ImSpin const gotBivVec{ aBiv * bVec };
@@ -107,7 +107,7 @@ namespace
 				{ 23.*13. + 29.*17. + 31.*19. }
 			};
 
-			// [DoxyExampleBiv]
+			// [DoxyExampleVec]
 
 		tst::checkGotExp(oss, gotBivVec, expBivVec, "BivVec");
 

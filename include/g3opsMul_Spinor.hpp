@@ -64,7 +64,6 @@ namespace g3
 	/*! \brief Spinor from Spinor * double.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleDub
 	 */
 	inline
@@ -80,7 +79,6 @@ namespace g3
 	/*! \brief Spinor from Spinor * Scalar.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleSca
 	 */
 	inline
@@ -99,7 +97,6 @@ namespace g3
 	/*! \brief ImSpin from Spinor * Vector.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleVec
 	 */
 	inline
@@ -125,7 +122,6 @@ namespace g3
 	/*! \brief Spinor from Spinor * BiVector.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleBiv
 	 */
 	inline
@@ -143,7 +139,6 @@ namespace g3
 	/*! \brief ImSpin from Spinor * TriVector.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleTri
 	 */
 	inline
@@ -163,7 +158,6 @@ namespace g3
 	/*! \brief Spinor from Spinor * Spinor.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleSpin
 	 */
 	inline
@@ -199,7 +193,6 @@ namespace g3
 	/*! \brief ImSpin from Spinor * ImSpin.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleImsp
 	 */
 	inline
@@ -217,7 +210,6 @@ namespace g3
 	/*! \brief MultiVector from Spinor * ComPlex.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleCplx
 	 */
 	inline
@@ -238,7 +230,6 @@ namespace g3
 	/*! \brief MultiVector from Spinor * DirPlex.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleDplx
 	 */
 	inline
@@ -264,7 +255,6 @@ namespace g3
 	/*! \brief MultiVector from Spinor * MultiVector.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleMvec
 	 */
 	inline
@@ -284,7 +274,6 @@ namespace g3
 	/*! \brief ZZ from Spinor * Type.
 	 *
 	 * Example:
-	 * \snippet test_g3opsMul.hpp DoxyExampleData
 	 * \snippet test_g3opsMul_Spinor.cpp DoxyExampleType
 	 */
 

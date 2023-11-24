@@ -19,6 +19,8 @@ function(setReleaseTag ReleaseTagVar)
 
 	else(${ReleaseTagVar})
 
+		message("### ReleaseTagVar: Decoding Git Repository Description")
+
 		# -- use timestamp
 		# string (TIMESTAMP ResultString UTC)
 
@@ -34,9 +36,22 @@ function(setReleaseTag ReleaseTagVar)
 		execute_process(
 			COMMAND ${GIT_CMD} describe
 			OUTPUT_VARIABLE ResultString
+			ERROR_VARIABLE ErrorString
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			OUTPUT_STRIP_TRAILING_WHITESPACE
 			)
+
+		if("${ResultString}" STREQUAL "")
+			message("###")
+			message("###")
+			message("### Can't get 'git describe' result")
+			message("### ErrorString: ${ErrorString}")
+			message("###")
+			message("###")
+			set(ResultString "NoSourceCodeIdentity_CantRunGitDescribe_!!")
+		else()
+			message("### ReleaseTagVar: ResultString ${ResultString}")
+		endif()
 
 	endif(${ReleaseTagVar})
 

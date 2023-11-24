@@ -40,7 +40,10 @@ set(unitTests
 	test_g3opsMul_BiVector
 	test_g3opsMul_TriVector
 	test_g3opsMul_Spinor
-##	test_g3opsMul_same
+	test_g3opsMul_ImSpin
+	test_g3opsMul_ComPlex
+	test_g3opsMul_DirPlex
+	test_g3opsMul_MultiVector
 test_g3opsMul
 test_g3opsMulAll
 
@@ -67,12 +70,11 @@ foreach(aUnitTest ${unitTests}) # loop over all tests
 		PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}  # local test code includes
 		)
 
-	#[[
 	target_link_libraries(
 		${aUnitTest}
-		LINK_PUBLIC engabra
+		PRIVATE
+			engabra::engabra
 		)
-	#]]
 
 	# add test to CTest collection
 	add_test(

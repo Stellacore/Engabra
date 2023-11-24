@@ -38,8 +38,10 @@ main
 	()
 {
 	int status{ tst::CTest::pass }; // value from test environment
-	std::cout << "Engabra_Project_Version: " << engabra::projectVersion << '\n';
-	std::cout << "Engabra_Source_Identity: " << engabra::sourceIdentity << '\n';
+	std::cout
+		<< "Engabra_Project_Version: " << engabra::projectVersion() << '\n';
+	std::cout
+		<< "Engabra_Source_Identity: " << engabra::sourceIdentity() << '\n';
 	return status;
 }
 

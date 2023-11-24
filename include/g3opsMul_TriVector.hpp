@@ -144,7 +144,9 @@ namespace g3
 	{
 		// S = T*T = -|T*T|
 		// note negation
-		return Scalar{ - triA.theData[0] * triB.theData[0] };
+		return Scalar
+			{ - triA.theData[0] * triB.theData[0]
+			};
 	}
 
 	//
@@ -164,9 +166,16 @@ namespace g3
 		, Spinor const & spinB
 		)
 	{
-		TriVector const t1{ triA * spinB.theSca };
-		Vector const v2{ triA * spinB.theBiv };
-		return ImSpin{ v2, t1 };
+		return ImSpin
+			{ Vector
+				{ - triA.theData[0] * spinB.theBiv.theData[0]
+				, - triA.theData[0] * spinB.theBiv.theData[1]
+				, - triA.theData[0] * spinB.theBiv.theData[2]
+				}
+			, TriVector
+				{ triA.theData[0] * spinB.theSca.theData[0]
+				}
+			};
 	}
 
 	/*! \brief Spinor from TriVector * ImSpin.
@@ -182,9 +191,15 @@ namespace g3
 		, ImSpin const & imspB
 		)
 	{
-		BiVector const b1{ triA * imspB.theVec };
-		Scalar const s1{ triA * imspB.theTri };
-		return Spinor{ s1, b1 };
+		return Spinor
+			{ Scalar
+				{ - triA.theData[0] * imspB.theTri.theData[0] }
+			, BiVector
+				{ triA.theData[0] * imspB.theVec.theData[0]
+				, triA.theData[0] * imspB.theVec.theData[1]
+				, triA.theData[0] * imspB.theVec.theData[2]
+				}
+			};
 	}
 
 	/*! \brief ComPlex from TriVector * ComPlex.
@@ -201,8 +216,8 @@ namespace g3
 		)
 	{
 		return ComPlex
-			{ triA * cplx.theTri
-			, triA * cplx.theSca
+			{ - triA.theData[0] * cplx.theTri.theData[0]
+			, triA.theData[0] * cplx.theSca.theData[0]
 			};
 	}
 
@@ -220,8 +235,16 @@ namespace g3
 		)
 	{
 		return DirPlex
-			{ triA * dplx.theBiv
-			, triA * dplx.theVec
+			{ Vector
+				{ - triA.theData[0] * dplx.theBiv.theData[0]
+				, - triA.theData[0] * dplx.theBiv.theData[1]
+				, - triA.theData[0] * dplx.theBiv.theData[2]
+				}
+			, BiVector
+				{ triA.theData[0] * dplx.theVec.theData[0]
+				, triA.theData[0] * dplx.theVec.theData[1]
+				, triA.theData[0] * dplx.theVec.theData[2]
+				}
 			};
 	}
 
@@ -239,10 +262,21 @@ namespace g3
 		)
 	{
 		return MultiVector
-			{ triA * mvB.theTri
-			, triA * mvB.theBiv
-			, triA * mvB.theVec
-			, triA * mvB.theSca
+			{ Scalar
+				{ - triA.theData[0] * mvB.theTri.theData[0]
+				}
+			, Vector
+				{ -triA.theData[0] * mvB.theBiv.theData[0]
+				, -triA.theData[0] * mvB.theBiv.theData[1]
+				, -triA.theData[0] * mvB.theBiv.theData[2]
+				}
+			, BiVector
+				{ triA.theData[0] * mvB.theVec.theData[0]
+				, triA.theData[0] * mvB.theVec.theData[1]
+				, triA.theData[0] * mvB.theVec.theData[2]
+				}
+			, TriVector
+				{ triA.theData[0] * mvB.theSca.theData[0] }
 			};
 	}
 

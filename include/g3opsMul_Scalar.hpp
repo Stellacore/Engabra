@@ -84,7 +84,7 @@ namespace g3
 		, Scalar const & scaB
 		)
 	{
-		return Scalar{ scaA * scaB.theData[0] };
+		return Scalar{ scaA.theData[0] * scaB.theData[0] };
 	}
 
 	//
@@ -161,8 +161,13 @@ namespace g3
 		)
 	{
 		return Spinor
-			{ scaA.theData[0] * spinB.theSca
-			, scaA.theData[0] * spinB.theBiv
+			{ Scalar
+				{ scaA.theData[0] * spinB.theSca.theData[0] }
+			, BiVector
+				{ scaA.theData[0] * spinB.theBiv.theData[0]
+				, scaA.theData[0] * spinB.theBiv.theData[1]
+				, scaA.theData[0] * spinB.theBiv.theData[2]
+				}
 			};
 	}
 
@@ -180,8 +185,13 @@ namespace g3
 		)
 	{
 		return ImSpin
-			{ scaA.theData[0] * imspB.theVec
-			, scaA.theData[0] * imspB.theTri
+			{ Vector
+				{ scaA.theData[0] * imspB.theVec.theData[0]
+				, scaA.theData[0] * imspB.theVec.theData[1]
+				, scaA.theData[0] * imspB.theVec.theData[2]
+				}
+			, TriVector
+				{ scaA.theData[0] * imspB.theTri.theData[0] }
 			};
 	}
 
@@ -199,8 +209,8 @@ namespace g3
 		)
 	{
 		return ComPlex
-			{ scaA.theData[0] * cplxB.theSca
-			, scaA.theData[0] * cplxB.theTri
+			{ scaA.theData[0] * cplxB.theSca.theData[0]
+			, scaA.theData[0] * cplxB.theTri.theData[0]
 			};
 	}
 
@@ -218,8 +228,16 @@ namespace g3
 		)
 	{
 		return DirPlex
-			{ scaA.theData[0] * dplxB.theVec
-			, scaA.theData[0] * dplxB.theBiv
+			{ Vector
+				{ scaA.theData[0] * dplxB.theVec.theData[0]
+				, scaA.theData[0] * dplxB.theVec.theData[1]
+				, scaA.theData[0] * dplxB.theVec.theData[2]
+				}
+			, BiVector
+				{ scaA.theData[0] * dplxB.theBiv.theData[0]
+				, scaA.theData[0] * dplxB.theBiv.theData[1]
+				, scaA.theData[0] * dplxB.theBiv.theData[2]
+				}
 			};
 	}
 
@@ -237,10 +255,20 @@ namespace g3
 		)
 	{
 		return MultiVector
-			{ scaA.theData[0] * mvB.theSca
-			, scaA.theData[0] * mvB.theVec
-			, scaA.theData[0] * mvB.theBiv
-			, scaA.theData[0] * mvB.theTri
+			{ Scalar
+				{ scaA.theData[0] * mvB.theSca.theData[0] }
+			, Vector
+				{ scaA.theData[0] * mvB.theVec.theData[0]
+				, scaA.theData[0] * mvB.theVec.theData[1]
+				, scaA.theData[0] * mvB.theVec.theData[2]
+				}
+			, BiVector
+				{ scaA.theData[0] * mvB.theBiv.theData[0]
+				, scaA.theData[0] * mvB.theBiv.theData[1]
+				, scaA.theData[0] * mvB.theBiv.theData[2]
+				}
+			, TriVector
+				{ scaA.theData[0] * mvB.theTri.theData[0] }
 			};
 	}
 

@@ -128,7 +128,15 @@ namespace g3
 		Scalar const symm{ priv::prodComm(bivA.theData, bivB.theData) };
 		BiVector const anti{ priv::prodAnti(bivA.theData, bivB.theData) };
 		// note negation (e.g. A*B = I*a*I*b = I*I*a*b = -a*b)
-		return Spinor{ -symm, -anti };
+		return Spinor
+			{ Scalar
+				{ - symm.theData[0] }
+			, BiVector
+				{ - anti.theData[0]
+				, - anti.theData[1]
+				, - anti.theData[2]
+				}
+			};
 	}
 
 	//
@@ -169,9 +177,26 @@ namespace g3
 		, Spinor const & spinB
 		)
 	{
-		BiVector const biv1{ bivA * spinB.theSca };
-		Spinor const spin1{ bivA * spinB.theBiv };
-		return Spinor{ spin1.theSca, biv1 + spin1.theBiv };
+		BiVector const & b1 = bivA;
+		double const & s2 = spinB.theSca.theData[0];
+		BiVector const & b2 = spinB.theBiv;
+		// bivA * spinB.theSca
+		BiVector const biv_b1s2
+			{ b1.theData[0] * s2
+			, b1.theData[1] * s2
+			, b1.theData[2] * s2
+			};
+		// bivA * spinB.theBiv (b1 * b2) -- negative signs in return
+		Scalar const sca_b1b2{ priv::prodComm(b1.theData, b2.theData) };
+		BiVector const biv_b1b2{ priv::prodAnti(b1.theData, b2.theData) };
+		return Spinor
+			{ -sca_b1b2
+			, BiVector
+				{ biv_b1s2.theData[0] - biv_b1b2.theData[0]
+				, biv_b1s2.theData[1] - biv_b1b2.theData[1]
+				, biv_b1s2.theData[2] - biv_b1b2.theData[2]
+				}
+			};
 	}
 
 	/*! \brief ImSpin from BiVector * ImSpin.
@@ -187,9 +212,26 @@ namespace g3
 		, ImSpin const & imspB
 		)
 	{
-		ImSpin const imsp1{ bivA * imspB.theVec };
-		Vector const vec1{ bivA * imspB.theTri };
-		return ImSpin{ imsp1.theVec + vec1, imsp1.theTri };
+		BiVector const & b1 = bivA;
+		Vector const & v2 = imspB.theVec;
+		TriVector const & t2 = imspB.theTri;
+		// b1 * v2
+		Vector const vec_b1v2{ priv::prodAnti(b1.theData, v2.theData) };
+		TriVector const tri_b1v2{ priv::prodComm(b1.theData, v2.theData) };
+		// b1 * t2
+		Vector const vec_b1t2
+			{ - b1.theData[0] * t2.theData[0]
+			, - b1.theData[1] * t2.theData[0]
+			, - b1.theData[2] * t2.theData[0]
+			};
+		return ImSpin
+			{ Vector
+				{ vec_b1t2.theData[0] - vec_b1v2.theData[0]
+				, vec_b1t2.theData[1] - vec_b1v2.theData[1]
+				, vec_b1t2.theData[2] - vec_b1v2.theData[2]
+				}
+			, tri_b1v2
+			};
 	}
 
 	/*! \brief DirPlex from BiVector * ComPlex.
@@ -202,13 +244,28 @@ namespace g3
 	DirPlex
 	operator*
 		( BiVector const & bivA
-		, ComPlex const & mvB
+		, ComPlex const & cplxB
 		)
 	{
-		return DirPlex
-			{ bivA * mvB.theTri
-			, bivA * mvB.theSca
+		BiVector const & b1 = bivA;
+		Scalar const & s2 = cplxB.theSca;
+		TriVector const & t2 = cplxB.theTri;
+		// b1 * s2
+		BiVector const biv_b1s2
+			{ b1.theData[0] * s2.theData[0]
+			, b1.theData[1] * s2.theData[0]
+			, b1.theData[2] * s2.theData[0]
 			};
+		// b1 * t2
+		Vector const vec_b1t2
+			{ - b1.theData[0] * t2.theData[0]
+			, - b1.theData[1] * t2.theData[0]
+			, - b1.theData[2] * t2.theData[0]
+			};
+		return DirPlex
+		{ vec_b1t2
+		, biv_b1s2
+		};
 	}
 
 	/*! \brief MultiVector from BiVector * DirPlex.
@@ -224,10 +281,31 @@ namespace g3
 		, DirPlex const & dplxB
 		)
 	{
+		BiVector const & b1 = bivA;
+		Vector const & v2 = dplxB.theVec;
+		BiVector const & b2 = dplxB.theBiv;
+		// b1 * v2  (negations in return below)
+		TriVector const tri_b1v2{ priv::prodComm(b1.theData, v2.theData) };
+		Vector const vec_b1v2{ priv::prodAnti(b1.theData, v2.theData) };
+		// b1 * b2  (negations in return below)
+		Scalar const sca_b1b2{ priv::prodComm(b1.theData, b2.theData) };
+		BiVector const biv_b1b2{ priv::prodAnti(b1.theData, b2.theData) };
 		return MultiVector
-			{ bivA * dplxB.theVec
-			+ bivA * dplxB.theBiv
-			};
+		{ Scalar
+			{ - sca_b1b2.theData[0] }
+		, Vector
+			{ - vec_b1v2.theData[0]
+			, - vec_b1v2.theData[1]
+			, - vec_b1v2.theData[2]
+			}
+		, BiVector
+			{ - biv_b1b2.theData[0]
+			, - biv_b1b2.theData[1]
+			, - biv_b1b2.theData[2]
+			}
+		, TriVector
+			{ tri_b1v2.theData[0] }
+		};
 	}
 
 	/*! \brief MultiVector from BiVector * MultiVector.
@@ -243,15 +321,44 @@ namespace g3
 		, MultiVector const & mvB
 		)
 	{
-		BiVector const & biv1{ bivA * mvB.theSca };
-		ImSpin const & imsp1{ bivA * mvB.theVec };
-		Spinor const & spin1{ bivA * mvB.theBiv };
-		Vector const & vec1{ bivA * mvB.theTri };
+		BiVector const & b1 = bivA;
+		Scalar const & s2 = mvB.theSca;
+		Vector const & v2 = mvB.theVec;
+		BiVector const & b2 = mvB.theBiv;
+		TriVector const & t2 = mvB.theTri;
+		// b1 * s2
+		BiVector const biv_b1s2
+			{ b1.theData[0] * s2.theData[0]
+			, b1.theData[1] * s2.theData[0]
+			, b1.theData[2] * s2.theData[0]
+			};
+		// b1 * v2 (negative signs in return below)
+		Vector const vec_b1v2{ priv::prodAnti(b1.theData, v2.theData) };
+		TriVector const tri_b1v2{ priv::prodComm(b1.theData, v2.theData) };
+		// b1 * b2 (negative signs in return below)
+		Scalar const sca_b1b2{ priv::prodComm(b1.theData, b2.theData) };
+		BiVector const biv_b1b2{ priv::prodAnti(b1.theData, b2.theData) };
+		// b1 * t2
+		Vector const vec_b1t2
+			{ - b1.theData[0] * t2.theData[0]
+			, - b1.theData[1] * t2.theData[0]
+			, - b1.theData[2] * t2.theData[0]
+			};
 		return MultiVector
-			{ spin1.theSca
-			, vec1 + imsp1.theVec
-			, biv1 + spin1.theBiv
-			, imsp1.theTri
+			{ Scalar
+				{ - sca_b1b2.theData[0] }
+			, Vector
+				{ vec_b1t2.theData[0] - vec_b1v2.theData[0]
+				, vec_b1t2.theData[1] - vec_b1v2.theData[1]
+				, vec_b1t2.theData[2] - vec_b1v2.theData[2]
+				}
+			, BiVector
+				{ biv_b1s2.theData[0] - biv_b1b2.theData[0]
+				, biv_b1s2.theData[1] - biv_b1b2.theData[1]
+				, biv_b1s2.theData[2] - biv_b1b2.theData[2]
+				}
+			, TriVector
+				{ tri_b1v2.theData[0] }
 			};
 	}
 

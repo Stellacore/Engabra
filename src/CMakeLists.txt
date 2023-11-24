@@ -8,6 +8,7 @@ set(engabraLibName engabra)
 # list of sources on which library depends
 set(engabraLibSources
 
+	engabra.cpp
 	foo.cpp
 	
 	)
@@ -17,6 +18,14 @@ add_library(
 	${engabraLibName}
 	STATIC
 	${engabraLibSources}
+	)
+
+target_compile_options(
+	${engabraLibName}
+	PRIVATE
+		$<$<CXX_COMPILER_ID:Clang>:${BUILD_FLAGS_FOR_CLANG}>
+		$<$<CXX_COMPILER_ID:GNU>:${BUILD_FLAGS_FOR_GCC}>
+		$<$<CXX_COMPILER_ID:MSVC>:${BUILD_FLAGS_FOR_VISUAL}>
 	)
 
 target_include_directories(

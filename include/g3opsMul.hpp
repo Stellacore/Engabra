@@ -103,7 +103,54 @@ the result.  \snippet test_g3opsMul.cpp DoxyExample02
 */
 
 
+//
+// Implementation Note
+// 
+// NOTE: a number of the functions (in g3opsMul_....hpp) could be
+// implemented with template code. However, that:
+// - leads to confusion in maintaining the code
+// - often produces extremely verbose error messages for consumers
+// - adds extra compilation overhead to resolve alternatives
+//
+
+//
+// A hierarchy of "Forward" combinations is used to organize
+// implementation of the pair-wise multiplication functions.
+//
+// "Forward" (primary implementation) functions are implemented
+// Forward argument order is "A(operator)B" where "A" is near
+// the top of the hierarchy list below and "B" is (equal or)
+// further down the list.
+//
+// "Backward" (secondary implementation) functions are implemented
+// assuming the forward functions are available for use (as a option).
+//
+// The hierarchy order *defined* herein is:
+// - double
+// - Scalar
+// - Vector
+// - BiVector
+// - TriVector
+// - Spinor
+// - ImSpin
+// - ComPlex
+// - DirPlex
+// - MultiVector
+//
+// For example, (Vector\*DirPlex) is the "forward" implementation
+// and (DirPlex\*Vector) is the "backward" implementation (that
+// optionally may use the forward one).
+//
+
+
 #include "g3type.hpp"
+
+#include "g3opsUni.hpp"
+
+#include "g3_private.hpp"
+
+#include "g3opsAdd_same.hpp"
+#include "g3opsSub_same.hpp"
 
 #include "g3opsMul_double.hpp"
 #include "g3opsMul_Scalar.hpp"
@@ -111,12 +158,10 @@ the result.  \snippet test_g3opsMul.cpp DoxyExample02
 #include "g3opsMul_BiVector.hpp"
 #include "g3opsMul_TriVector.hpp"
 #include "g3opsMul_Spinor.hpp"
-
-#include "g3opsAdd_same.hpp"
-#include "g3opsSub_same.hpp"
-
-#include "g3opsUni.hpp"
-#include "g3_private.hpp"
+#include "g3opsMul_ImSpin.hpp"
+#include "g3opsMul_ComPlex.hpp"
+#include "g3opsMul_DirPlex.hpp"
+#include "g3opsMul_MultiVector.hpp"
 
 #include <algorithm>
 #include <array>
@@ -129,275 +174,9 @@ namespace engabra
 namespace g3
 {
 
-	// Contents provide a multiplication table organized in order of:
-	// - double
-	// - Scalar
-	// - Vector
-	// - BiVector
-	// - TriVector
-	// - Spinor
-	// - ImSpin
-	// - ComPlex
-	// - DirPlex
-	// - MultiVector
-
-	// NOTE: a number of these functions could be implemented with
-	// templates. However, that:
-	// - leads to confusion in maintaining the code
-	// - often produces extremely verbose error messages for consumers
-	// - adds extra compilation overhead to resolve alternatives
-
-	//
-	// === ImSpin * QQQ
-	//
-
-	//! (ImSpin) product of (ImSpin)*(double)
-	inline
-	ImSpin
-	operator*
-		( ImSpin const & imspA
-		, double const & dubB
-		)
-	{
-		return ImSpin{ dubB * imspA.theVec, dubB * imspA.theTri };
-	}
-
-	//! (ImSpin) product of (ImSpin)*(Scalar)
-	inline
-	ImSpin
-	operator*
-		( ImSpin const & imspA
-		, Scalar const & scaB
-		)
-	{
-		double const & dubB = scaB.theData[0];
-		return ImSpin{ dubB * imspA.theVec, dubB * imspA.theTri };
-	}
-
-	//! (Scalar+BiVector) result of (Vector+TriVector)*(Vector)
-	inline
-	Spinor
-	operator*
-		( ImSpin const & imspA
-		, Vector const & vecB
-		)
-	{
-		// a.b + a^b + A*b
-		Spinor const spinAB{ imspA.theVec * vecB };
-		BiVector const bivAB{ imspA.theTri * vecB };
-		return Spinor{ spinAB.theSca, spinAB.theBiv + bivAB };
-	}
-
-	//! (ImSpin) result of (Vector+TriVector)*(BiVector)
-	inline
-	ImSpin
-	operator*
-		( ImSpin const & imspA
-		, BiVector const & bivB
-		)
-	{
-		ImSpin const imsp1{ imspA.theVec * bivB };
-		Vector const vec1{ imspA.theTri * bivB };
-		return { imsp1.theVec + vec1, imsp1.theTri };
-	}
-
-	//! (Scalar+BiVector) result of (Vector+TriVector)*(TriVector) - ImSpin dual
-	inline
-	Spinor
-	operator*
-		( ImSpin const & imspA
-		, TriVector const & triB
-		)
-	{
-		return triB*imspA;
-	}
-
-	//! (Vector+TriVector) result of (Vector+TriVector)*(Scalar+BiVector)
-	inline
-	ImSpin
-	operator*
-		( ImSpin const & imspA
-		, Spinor const & spinB
-		)
-	{
-		ImSpin const imsp1{ imspA.theVec * spinB };
-		ImSpin const imsp2{ imspA.theTri * spinB };
-		return ImSpin{ imsp1 + imsp2 };
-	}
-
-	//! (Spinor) result of (Vector+TriVector)*(Vector+TriVector)
-	inline
-	Spinor
-	operator*
-		( ImSpin const & imspA
-		, ImSpin const & imspB
-		)
-	{
-		Spinor const spin1{ imspA.theVec * imspB };
-		Spinor const spin2{ imspA.theTri * imspB };
-		return Spinor{ spin1 + spin2 };
-	}
-
-	//! (MultiVector) result of (Vector+TriVector)*(MultiVector)
-	inline
-	MultiVector
-	operator*
-		( ImSpin const & imspA
-		, MultiVector const & mvB
-		)
-	{
-		return MultiVector
-			{ imspA.theVec * mvB
-			+ imspA.theTri * mvB
-			};
-	}
-
-	//
-	// === MultiVector * QQQ
-	//
-
-	//! (MultiVector) product of (MultiVector)*(double)
-	inline
-	MultiVector
-	operator*
-		( MultiVector const & mvA
-		, double const dubB
-		)
-	{
-		return MultiVector
-			{ dubB * mvA.theSca
-			, dubB * mvA.theVec
-			, dubB * mvA.theBiv
-			, dubB * mvA.theTri
-			};
-	}
-
-	//! (MultiVector) product of (MultiVector)*(Scalar)
-	inline
-	MultiVector
-	operator*
-		( MultiVector const & mvA
-		, Scalar const scaB
-		)
-	{
-		double const & dubB = scaB.theData[0];
-		return MultiVector
-			{ dubB * mvA.theSca
-			, dubB * mvA.theVec
-			, dubB * mvA.theBiv
-			, dubB * mvA.theTri
-			};
-	}
-
-	//! (MultiVector) product of (MultiVector)*(Vector)
-	inline
-	MultiVector
-	operator*
-		( MultiVector const & mvA
-		, Vector const vecB
-		)
-	{
-		Vector const vec1{ mvA.theSca * vecB };
-		Spinor const spin1{ mvA.theVec * vecB };
-		ImSpin const imsp1{ mvA.theBiv * vecB };
-		BiVector const biv1{ mvA.theTri * vecB };
-		return MultiVector
-			{ spin1.theSca
-			, vec1 + imsp1.theVec
-			, biv1 + spin1.theBiv
-			, imsp1.theTri
-			};
-	}
-
-	//! (MultiVector) product of (MultiVector)*(BiVector)
-	inline
-	MultiVector
-	operator*
-		( MultiVector const & mvA
-		, BiVector const bivB
-		)
-	{
-		BiVector const biv1{ mvA.theSca * bivB };
-		ImSpin const imsp1{ mvA.theVec * bivB };
-		Spinor const spin1{ mvA.theBiv * bivB };
-		Vector const vec1{ mvA.theTri * bivB };
-		return MultiVector
-			{ spin1.theSca
-			, imsp1.theVec + vec1
-			, biv1 + spin1.theBiv
-			, imsp1.theTri
-			};
-	}
-
-	//! (MultiVector) product of (MultiVector)*(TriVector)
-	inline
-	MultiVector
-	operator*
-		( MultiVector const & mvA
-		, TriVector const triB
-		)
-	{
-		TriVector const tri1{ mvA.theSca * triB };
-		BiVector const biv1{ mvA.theVec * triB };
-		Vector const vec1{ mvA.theBiv * triB };
-		Scalar const sca1{ mvA.theTri * triB };
-		return MultiVector{ sca1, vec1, biv1, tri1 };
-	}
-
-	//! (MultiVector) product of (MultiVector)*(Spinor)
-	inline
-	MultiVector
-	operator*
-		( MultiVector const & mvA
-		, Spinor const spinB
-		)
-	{
-		return MultiVector
-			( mvA * spinB.theSca
-			+ mvA * spinB.theBiv
-			);
-	}
-
-	//! (MultiVector) product of (MultiVector)*(ImSpin)
-	inline
-	MultiVector
-	operator*
-		( MultiVector const & mvA
-		, ImSpin const imspB
-		)
-	{
-		return MultiVector
-			( mvA * imspB.theVec
-			+ mvA * imspB.theTri
-			);
-	}
-
-	/*! \brief General MultiVector product (most general in 3D)
-	 *
-	 * This is the most general product of the algebra and represents
-	 * a superset of all possible pairwise component operations.
-	 *
-	 * The implementation involves approximately 128 floating point
-	 * operations (64 each multiplies and additions, 8 assignments).
-	 * This may represent some overhead if working only with simple
-	 * types (e.g. it is a wasteful way to implement Scalar*Scalar
-	 * product). However, if either entity has a composite structure,
-	 * then casting to/from MultiVector type and using this one
-	 * function call can provide reasonably efficient computation.
-	 */
-	inline
-	MultiVector
-	operator*
-		( MultiVector const & mvA
-		, MultiVector const & mvB
-		); // Implemented in g3opsMul.inl
-
 } // [g3]
 
 } // [engabra]
-
-// Include file for more lengthy implementations.
-#include "g3opsMul.inl"
 
 
 #endif // engabra_g3opsMul_INCL_

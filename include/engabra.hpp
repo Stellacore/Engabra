@@ -85,12 +85,15 @@ For typical use, only this file need be included.
  */
 namespace engabra
 {
-	//! Defined by build environment to identify project version
-	static std::string const projectVersion = Engabra_Project_Version;
+	//! Engabra project version identifier
+	std::string
+	projectVersion
+		();
 
-	//! Defined by build environment to identify source used
-	static std::string const sourceIdentity = Engabra_Source_Identity;
-
+	//! Engabra project source code identifier
+	std::string
+	sourceIdentity
+		();
 
 //! Sub-namespace for geometric algebra in 3D space.
 namespace g3

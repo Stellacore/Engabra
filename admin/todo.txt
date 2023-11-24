@@ -6,6 +6,7 @@ Action List:
 		- unit tests
 		- move functions from g3.hpp
 
+	- /include - g3opsMul_ -- factor into g3opsMulFwd_* and g3opsMulBck_*
 
 
 CMake

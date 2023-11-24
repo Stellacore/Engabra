@@ -24,14 +24,14 @@
 
 
 /*! \file
-\brief Unit tests (and example) code for engabra::g3opsMul_Spinor
+\brief Unit tests (and example) code for engabra::g3opsMul_DirPlex
 */
 
 
 #include "checks.hpp" // testing environment common utilities
 #include "test_g3opsMul.hpp" // useful data values: aDub, aSca, ..., aMvec
 
-#include "g3opsMul_Spinor.hpp"
+#include "g3opsMul_DirPlex.hpp"
 
 #include "g3compare.hpp"
 #include "g3io.hpp"
@@ -46,7 +46,7 @@ namespace
 	using namespace engabra;
 	using g3::nearlyEquals;
 
-	//! Check product: Spinor * double
+	//! Check product: DirPlex * double
 	std::string
 	testDub
 		()
@@ -56,20 +56,20 @@ namespace
 		// [DoxyExampleDub]
 		using namespace engabra::g3;
 
-		Spinor const gotSpinDub{ aSpin * bDub };
-		Spinor const expSpinDub
-			{ aSpin.theSca * bDub
-			, aSpin.theBiv * bDub
+		DirPlex const gotDplxDub{ aDplx * bDub };
+		DirPlex const expDplxDub
+			{ aDplx.theVec * bDub
+			, aDplx.theBiv * bDub
 			};
 
 			// [DoxyExampleDub]
 
-		tst::checkGotExp(oss, gotSpinDub, expSpinDub, "SpinDub");
+		tst::checkGotExp(oss, gotDplxDub, expDplxDub, "DplxDub");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * Scalar
+	//! Check product: DirPlex * Scalar
 	std::string
 	testSca
 		()
@@ -79,20 +79,20 @@ namespace
 		// [DoxyExampleSca]
 		using namespace engabra::g3;
 
-		Spinor const gotSpinSca{ aSpin * bSca };
-		Spinor const expSpinSca
-			{ aSpin.theSca * bSca
-			, aSpin.theBiv * bSca
+		DirPlex const gotDplxSca{ aDplx * bSca };
+		DirPlex const expDplxSca
+			{ aDplx.theVec * bSca
+			, aDplx.theBiv * bSca
 			};
 
 			// [DoxyExampleSca]
 
-		tst::checkGotExp(oss, gotSpinSca, expSpinSca, "SpinSca");
+		tst::checkGotExp(oss, gotDplxSca, expDplxSca, "DplxSca");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * Vector
+	//! Check product: DirPlex * Vector
 	std::string
 	testVec
 		()
@@ -102,20 +102,20 @@ namespace
 		// [DoxyExampleVec]
 		using namespace engabra::g3;
 
-		ImSpin const gotSpinVec{ aSpin * bVec };
-		ImSpin const expSpinVec
-			{ aSpin.theSca * bVec
-			+ aSpin.theBiv * bVec
+		MultiVector const gotDplxVec{ aDplx * bVec };
+		MultiVector const expDplxVec
+			{ aDplx.theVec * bVec
+			+ aDplx.theBiv * bVec
 			};
 
 			// [DoxyExampleVec]
 
-		tst::checkGotExp(oss, gotSpinVec, expSpinVec, "SpinVec");
+		tst::checkGotExp(oss, gotDplxVec, expDplxVec, "DplxVec");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * BiVector
+	//! Check product: DirPlex * BiVector
 	std::string
 	testBiv
 		()
@@ -125,20 +125,20 @@ namespace
 		// [DoxyExampleBiv]
 		using namespace engabra::g3;
 
-		Spinor const gotSpinBiv{ aSpin * bBiv };
-		Spinor const expSpinBiv
-			{ aSpin.theSca * bBiv
-			+ aSpin.theBiv * bBiv
+		MultiVector const gotDplxBiv{ aDplx * bBiv };
+		MultiVector const expDplxBiv
+			{ aDplx.theVec * bBiv
+			+ aDplx.theBiv * bBiv
 			};
 
 			// [DoxyExampleBiv]
 
-		tst::checkGotExp(oss, gotSpinBiv, expSpinBiv, "SpinBiv");
+		tst::checkGotExp(oss, gotDplxBiv, expDplxBiv, "DplxBiv");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * TriVector
+	//! Check product: DirPlex * TriVector
 	std::string
 	testTri
 		()
@@ -148,20 +148,20 @@ namespace
 		// [DoxyExampleTri]
 		using namespace engabra::g3;
 
-		ImSpin const gotSpinTri{ aSpin * bTri };
-		ImSpin const expSpinTri
-			{ aSpin.theSca * bTri
-			+ aSpin.theBiv * bTri
+		DirPlex const gotDplxTri{ aDplx * bTri };
+		DirPlex const expDplxTri
+			{ aDplx.theVec * bTri
+			+ aDplx.theBiv * bTri
 			};
 
 			// [DoxyExampleTri]
 
-		tst::checkGotExp(oss, gotSpinTri, expSpinTri, "SpinTri");
+		tst::checkGotExp(oss, gotDplxTri, expDplxTri, "DplxTri");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * Spinor
+	//! Check product: DirPlex * Spinor
 	std::string
 	testSpin
 		()
@@ -171,22 +171,20 @@ namespace
 		// [DoxyExampleSpin]
 		using namespace engabra::g3;
 
-		Spinor const gotSpinSpin{ aSpin * bSpin };
-		Spinor const expSpinSpin
-			{ aSpin.theSca * bSpin.theSca
-			+ aSpin.theSca * bSpin.theBiv
-			+ aSpin.theBiv * bSpin.theSca
-			+ aSpin.theBiv * bSpin.theBiv
+		MultiVector const gotDplxSpin{ aDplx * bSpin };
+		MultiVector const expDplxSpin
+			{ aDplx.theVec * bSpin
+			+ aDplx.theBiv * bSpin
 			};
 
 			// [DoxyExampleSpin]
 
-		tst::checkGotExp(oss, gotSpinSpin, expSpinSpin, "SpinSpin");
+		tst::checkGotExp(oss, gotDplxSpin, expDplxSpin, "DplxSpin");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * ImSpin
+	//! Check product: DirPlex * ImSpin
 	std::string
 	testImsp
 		()
@@ -196,22 +194,20 @@ namespace
 		// [DoxyExampleImsp]
 		using namespace engabra::g3;
 
-		ImSpin const gotSpinImsp{ aSpin * bImsp };
-		ImSpin const expSpinImsp
-			{ aSpin.theSca * bImsp.theVec
-			+ aSpin.theSca * bImsp.theTri
-			+ aSpin.theBiv * bImsp.theVec
-			+ aSpin.theBiv * bImsp.theTri
+		MultiVector const gotDplxImsp{ aDplx * bImsp };
+		MultiVector const expDplxImsp
+			{ aDplx.theVec * bImsp
+			+ aDplx.theBiv * bImsp
 			};
 
 			// [DoxyExampleImsp]
 
-		tst::checkGotExp(oss, gotSpinImsp, expSpinImsp, "SpinImsp");
+		tst::checkGotExp(oss, gotDplxImsp, expDplxImsp, "DplxImsp");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * ComPlex
+	//! Check product: DirPlex * ComPlex
 	std::string
 	testCplx
 		()
@@ -221,22 +217,22 @@ namespace
 		// [DoxyExampleCplx]
 		using namespace engabra::g3;
 
-		MultiVector const gotSpinCplx{ aSpin * bCplx };
-		MultiVector const expSpinCplx
-			{ Scalar{ aSpin.theSca * bCplx.theSca }
-			, Vector{ aSpin.theBiv * bCplx.theTri }
-			, BiVector{ aSpin.theBiv * bCplx.theSca }
-			, TriVector{ aSpin.theSca * bCplx.theTri }
+		DirPlex const gotDplxCplx{ aDplx * bCplx };
+		DirPlex const expDplxCplx
+			{ Vector{ aDplx.theVec * bCplx.theSca }
+			+ Vector{ aDplx.theBiv * bCplx.theTri }
+			, BiVector{ aDplx.theVec * bCplx.theTri }
+			+ BiVector{ aDplx.theBiv * bCplx.theSca }
 			};
 
 			// [DoxyExampleCplx]
 
-		tst::checkGotExp(oss, gotSpinCplx, expSpinCplx, "SpinCplx");
+		tst::checkGotExp(oss, gotDplxCplx, expDplxCplx, "DplxCplx");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * DirPlex
+	//! Check product: DirPlex * DirPlex
 	std::string
 	testDplx
 		()
@@ -246,23 +242,22 @@ namespace
 		// [DoxyExampleDplx]
 		using namespace engabra::g3;
 
-		MultiVector const gotSpinDplx{ aSpin * bDplx };
-		MultiVector const expSpinDplx
-			// Add in this order to avoid missing op+() for TBD types
-			{ Spinor{ aSpin.theBiv * bDplx.theBiv }
-			+ ImSpin{ aSpin.theBiv * bDplx.theVec }
-			+ Vector{ aSpin.theSca * bDplx.theVec }
-			+ BiVector{ aSpin.theSca * bDplx.theBiv }
+		MultiVector const gotDplxDplx{ aDplx * bDplx };
+		MultiVector const expDplxDplx
+			{ Spinor{ aDplx.theBiv * bDplx.theBiv }
+			+ Spinor{ aDplx.theVec * bDplx.theVec }
+			+ ImSpin{ aDplx.theBiv * bDplx.theVec }
+			+ ImSpin{ aDplx.theVec * bDplx.theBiv }
 			};
 
 			// [DoxyExampleDplx]
 
-		tst::checkGotExp(oss, gotSpinDplx, expSpinDplx, "SpinDplx");
+		tst::checkGotExp(oss, gotDplxDplx, expDplxDplx, "DplxDplx");
 
 		return oss.str();;
 	}
 
-	//! Check product: Spinor * MultiVector
+	//! Check product: DirPlex * MultiVector
 	std::string
 	testMvec
 		()
@@ -272,22 +267,22 @@ namespace
 		// [DoxyExampleMvec]
 		using namespace engabra::g3;
 
-		MultiVector const gotSpinMvec{ aSpin * bMvec };
-		MultiVector const expSpinMvec
+		MultiVector const gotDplxMvec{ aDplx * bMvec };
+		MultiVector const expDplxMvec
 			// Add in this order to avoid missing op+() for TBD types
-			{ Spinor{ aSpin.theBiv * bMvec.theBiv }
-			+ ImSpin{ aSpin.theBiv * bMvec.theVec }
-			+ Scalar{ aSpin.theSca * bMvec.theSca }
-			+ Vector{ aSpin.theSca * bMvec.theVec }
-			+ Vector{ aSpin.theBiv * bMvec.theTri }
-			+ BiVector{ aSpin.theSca * bMvec.theBiv }
-			+ BiVector{ aSpin.theBiv * bMvec.theSca }
-			+ TriVector{ aSpin.theSca * bMvec.theTri }
+			{ Spinor{ aDplx.theVec * bMvec.theVec }
+			+ Spinor{ aDplx.theBiv * bMvec.theBiv }
+			+ ImSpin{ aDplx.theBiv * bMvec.theVec }
+			+ ImSpin{ aDplx.theVec * bMvec.theBiv }
+			+ Vector{ aDplx.theVec * bMvec.theSca }
+			+ Vector{ aDplx.theBiv * bMvec.theTri }
+			+ BiVector{ aDplx.theBiv * bMvec.theSca }
+			+ BiVector{ aDplx.theVec * bMvec.theTri }
 			};
 
 			// [DoxyExampleMvec]
 
-		tst::checkGotExp(oss, gotSpinMvec, expSpinMvec, "SpinMvec");
+		tst::checkGotExp(oss, gotDplxMvec, expDplxMvec, "DplxMvec");
 
 		return oss.str();;
 	}

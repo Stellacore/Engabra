@@ -118,6 +118,7 @@ namespace g3
 
 	//! Null instance for any type constructable from 'double' argument.
 	template <typename Type>
+	inline
 	constexpr
 	Type
 	null
@@ -134,6 +135,7 @@ namespace g3
 	/*
 	//! Null value - specialization for Scalar
 	template <>
+	inline
 	constexpr
 	Scalar
 	null<Scalar>
@@ -145,6 +147,7 @@ namespace g3
 
 	//! Null value - specialization for Vector
 	template <>
+	inline
 	constexpr
 	Vector
 	null<Vector>
@@ -155,6 +158,7 @@ namespace g3
 
 	//! Null value - specialization for BiVector
 	template <>
+	inline
 	constexpr
 	BiVector
 	null<BiVector>
@@ -167,6 +171,7 @@ namespace g3
 	/*
 	//! Null value - specialization for TriVector
 	template <>
+	inline
 	constexpr
 	TriVector
 	null<TriVector>
@@ -178,6 +183,7 @@ namespace g3
 
 	//! Null value - specialization for Spinor
 	template <>
+	inline
 	constexpr
 	Spinor
 	null<Spinor>()
@@ -187,6 +193,7 @@ namespace g3
 
 	//! Null value - specialization for ImSpin
 	template <>
+	inline
 	constexpr
 	ImSpin
 	null<ImSpin>()
@@ -196,6 +203,7 @@ namespace g3
 
 	//! Null value - specialization for ComPlex
 	template <>  // NOTE: can't be const because of ctors
+	inline
 	ComPlex
 	null<ComPlex>()
 	{
@@ -206,6 +214,7 @@ namespace g3
 
 	//! Null value - specialization for DirPlex
 	template <>
+	inline
 	constexpr
 	DirPlex
 	null<DirPlex>()
@@ -219,6 +228,7 @@ namespace g3
 
 	//! Zero value instance of requested Type
 	template <typename Type>
+	inline
 	constexpr
 	Type
 	zero
@@ -241,6 +251,7 @@ namespace g3
 
 	//! Zero as a Vector instance
 	template <>
+	inline
 	constexpr
 	Vector
 	zero<Vector>()
@@ -250,6 +261,7 @@ namespace g3
 
 	//! Zero as a BiVector instance
 	template <>
+	inline
 	constexpr
 	BiVector
 	zero<BiVector>()
@@ -261,6 +273,7 @@ namespace g3
 	// NOTE: TriVector handled by default template
 	//! Zero as a TriVector instance
 	template <>
+	inline
 	constexpr
 	TriVector
 	zero<TriVector>()
@@ -271,6 +284,7 @@ namespace g3
 
 	//! Zero as a Spinor instance
 	template <>
+	inline
 	constexpr
 	Spinor
 	zero<Spinor>()
@@ -280,6 +294,7 @@ namespace g3
 
 	//! Zero as a ImSpin instance
 	template <>
+	inline
 	constexpr
 	ImSpin
 	zero<ImSpin>()
@@ -289,6 +304,7 @@ namespace g3
 
 	//! Zero as a ComPlex instance
 	template <>
+	inline
 	constexpr
 	ComPlex
 	zero<ComPlex>()
@@ -298,6 +314,7 @@ namespace g3
 
 	//! Zero as a DirPlex instance
 	template <>
+	inline
 	constexpr
 	DirPlex
 	zero<DirPlex>()
@@ -325,6 +342,7 @@ namespace g3
 
 	//! Unit value instance - standard types also Scalar, TriVector
 	template <typename Type>
+	inline
 	constexpr
 	Type
 	one()
@@ -334,6 +352,7 @@ namespace g3
 
 	//! Unit value for vector is all zeros
 	template<>
+	inline
 	constexpr
 	Vector
 	one<Vector>()
@@ -343,6 +362,7 @@ namespace g3
 
 	//! Unit value for bivector is all zeros
 	template<>
+	inline
 	constexpr
 	BiVector
 	one<BiVector>()
@@ -352,6 +372,7 @@ namespace g3
 
 	//! Unit value (identity multiplier)
 	template<>
+	inline
 	constexpr
 	Spinor
 	one<Spinor>()
