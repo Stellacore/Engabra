@@ -23,7 +23,7 @@
 # 
 
 #
-# CMake description for building Engabra demo programs.
+# CMake description for building project demo programs.
 #
 
 

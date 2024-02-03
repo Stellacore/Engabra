@@ -4,7 +4,7 @@
 
 
 # list of headers that form package public interface
-set(engabraPublicHeaders
+set(${aProjName}PublicHeaders
 
 	Engabra
 	engabra.hpp
@@ -60,8 +60,8 @@ set(engabraPublicHeaders
 
 # install (public) header files
 install(
-	FILES ${engabraPublicHeaders}
+	FILES ${${aProjName}PublicHeaders}
 	DESTINATION
-		${CMAKE_INSTALL_INCLUDEDIR}/${engabraProjName}
+		${CMAKE_INSTALL_INCLUDEDIR}/${aProjName}
 	)
 

@@ -4,16 +4,17 @@
 
 cmake_minimum_required(VERSION 3.13)
 
-set(engabraProjName "engabra")
-# Set based on features, updates and patches
-set(engabraProjVersion "0.1.0")
+set(aProjName "Engabra")
+set(${aProjName}LibName Engabra)
+set(aProjVersion "0.1.0") # Set based on features, updates and patches
+
 # Get source code identifier (e.g. hash code from git repo)
 include(./cmake/func_setReleaseTag.cmake)
-setReleaseTag(engabraSourceIdentity)
+setReleaseTag(aSourceIdentity)
 
 project(
-	${engabraProjName}
-	VERSION ${engabraProjVersion}
+	${aProjName}
+	VERSION ${aProjVersion}
 	DESCRIPTION "Practical Geometric Algebra Computations for Engineering"
 	LANGUAGES CXX
 	)
@@ -39,8 +40,8 @@ set(BUILD_FLAGS_FOR_CLANG
 	""
 	)
 set(BUILD_FLAGS_FOR_GCC
-	"-DEngabra_Project_Version=\"${engabraProjVersion}\""
-	"-DEngabra_Source_Identity=\"${engabraSourceIdentity}\""
+	"-DEngabra_Project_Version=\"${aProjVersion}\""
+	"-DEngabra_Source_Identity=\"${aSourceIdentity}\""
 	#
 	-pthread
 	-fomit-frame-pointer
@@ -61,14 +62,6 @@ set(BUILD_FLAGS_FOR_VISUAL
 	""
 	)
 
-
-
-##
-## -- simple demo programs (more elaborate ones in engabraDemo project)
-##
-
-add_subdirectory(demos)
-
 ##
 ## -- configure packaging utilities
 ##
@@ -86,8 +79,8 @@ include(GNUInstallDirs) # creates/sets CMAKE_INSTALL_<dir>
 ## -- project source tree description
 ##
 
-set(EXPORT_ALIAS_NAME ${engabraProjName}::${engabraProjName})
-set(EXPORT_TARGETS_NAME ${engabraProjName}Targets)
+set(EXPORT_ALIAS_NAME ${aProjName}::${aProjName})
+set(EXPORT_TARGETS_NAME ${aProjName}Targets)
 set(EXPORT_FILENAME ${EXPORT_TARGETS_NAME}.cmake)
 message("### EXPORT_ALIAS_NAME: " ${EXPORT_ALIAS_NAME})
 message("### EXPORT_TARGETS_NAME: " ${EXPORT_TARGETS_NAME})
@@ -96,20 +89,38 @@ message("### EXPORT_FILENAME: " ${EXPORT_FILENAME})
 
 ## -- Inform CMake about project tree
 
+# ===
+# === Documentation
+# ===
+
+add_subdirectory(doc) # project reference documentation
+
+# ===
+# === Library
+# ===
+
 # Project source code
 add_subdirectory(src) # project source code
 add_subdirectory(include) # project library public interface (e.g. c++ headers)
 
-# Documentation
-add_subdirectory(doc) # project reference documentation
+# ===
+# === Tests
+# ===
 
-# Project test programs
-add_subdirectory(tests) # developer unit tests (check source code operation)
+add_subdirectory(test) # developer unit tests (check source code operation)
 #add_subdirectory(vnv) # use-case validation tests
 
-# Project examples
-#add_subdirectory(demos) # demonstration/example code
+# ===
+# === Demonstrations
+# ===
 
+# Project examples
+## -- simple demo programs (more elaborate ones separate repositories)
+add_subdirectory(demo)
+
+# ===
+# === Packaging
+# ===
 
 # CMake configuration file packaging
 add_subdirectory(cmake) # generate .cmake files for downstream use
@@ -118,17 +129,19 @@ add_subdirectory(cmake) # generate .cmake files for downstream use
 ## -- CMake configuration utilities
 ##
 
+message("####==== aProjName: ${aProjName}")
+message("####==== ${aProjName}_VERSION: ${${aProjName}_VERSION}")
 set_property(
-	TARGET ${engabraProjName}
-	PROPERTY VERSION ${engabra_VERSION}
+	TARGET ${aProjName}
+	PROPERTY VERSION ${${aProjName}_VERSION}
 	)
 set_property(
-	TARGET ${engabraProjName}
-	PROPERTY VERSION INTERFACE_engabra_MAJOR_VERSION 1
+	TARGET ${aProjName}
+	PROPERTY VERSION INTERFACE_${aProjName}_MAJOR_VERSION 1
 	)
 set_property(
-	TARGET ${engabraProjName}
-	APPEND PROPERTY COMPATIBLE_INTERFACE_STRING engabra_MAJOR_VERSION
+	TARGET ${aProjName}
+	APPEND PROPERTY COMPATIBLE_INTERFACE_STRING ${aProjName}_MAJOR_VERSION
 	)
 
 
@@ -140,7 +153,7 @@ set_property(
 # Override default install location for testing this package
 # In general default (no command here) will install to /usr/{lib,bin,...}
 # - but here, set package to sandbox location for easier/safer testing
-# set (DEB_PACKAGE_ROOT "/tmpLocal/${engabraProjName}")
+# set (DEB_PACKAGE_ROOT "/tmpLocal/${aProjName}")
 # - default is "/usr" (e.g. for system packages)
 # - specify explicitly as "/usr/local" as a developer local package
 # - extract from command line
@@ -155,12 +168,12 @@ set(CPACK_GENERATOR "DEB")
 # === Distribution package creation
 #
 
-	set(Engabra_PACKAGE_VENDOR "https://github.com/Stellacore")
-	set(Engabra_PACKAGE_MAINTAINER "https://github.com/Stellacore/engabra")
+	set(aProj_PACKAGE_VENDOR "https://github.com/Stellacore")
+	set(aProj_PACKAGE_MAINTAINER "https://github.com/Stellacore/${aProjName}")
 
 	# Specify generic cross-package distribuation properties
-	# set(CPACK_PACKAGE_NAME ${engabraProjName}) # same as default
-	set(CPACK_PACKAGE_VENDOR "${Engabra_PACKAGE_VENDOR}")
+	# set(CPACK_PACKAGE_NAME ${aProjName}) # same as default
+	set(CPACK_PACKAGE_VENDOR "${aProj_PACKAGE_VENDOR}")
 	set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 	set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 	set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
@@ -171,8 +184,8 @@ set(CPACK_GENERATOR "DEB")
 
 		set(CPACK_PACKAGING_INSTALL_PREFIX "${DEB_PACKAGE_ROOT}")
 		# Set package(Generator) specific characteristics
-		set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${Engabra_PACKAGE_MAINTAINER}")
-		# -- deps: none for engabra
+		set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${aProj_PACKAGE_MAINTAINER}")
+		# -- deps:
 		#	set(APT_PACKAGE_DEPLIST
 		#	"libeigen3-dev (>= ${EigenVersion}) \
 		#	"

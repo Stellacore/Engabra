@@ -832,13 +832,13 @@ several subdirectories:
 
 * ./src -- currently (2023.03) not used (is header only project)
 
-* ./tests -- project test programs (integrated with 'CTest')
+* ./test -- project test programs (integrated with 'CTest')
 
 * ./cmake -- contains source files used in the CMake generator system
 
 * ./doc -- files and information used for Doxygen document production
 
-* ./demos -- a few simple demonstration programs for reference which
+* ./demo -- a few simple demonstration programs for reference which
 can be [Compiling Demo Programs](#Compiling-Demo-Programs) compiled as
 described below).
 

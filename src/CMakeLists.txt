@@ -3,10 +3,8 @@
 ##
 
 
-set(engabraLibName engabra)
-
 # list of sources on which library depends
-set(engabraLibSources
+set(${aProjName}LibSources
 
 	engabra.cpp
 	foo.cpp
@@ -15,13 +13,13 @@ set(engabraLibSources
 
 # create CMake library target
 add_library(
-	${engabraLibName}
+	${${aProjName}LibName}
 	STATIC
-	${engabraLibSources}
+		${${aProjName}LibSources}
 	)
 
 target_compile_options(
-	${engabraLibName}
+	${${aProjName}LibName}
 	PRIVATE
 		$<$<CXX_COMPILER_ID:Clang>:${BUILD_FLAGS_FOR_CLANG}>
 		$<$<CXX_COMPILER_ID:GNU>:${BUILD_FLAGS_FOR_GCC}>
@@ -29,41 +27,41 @@ target_compile_options(
 	)
 
 target_include_directories(
-	${engabraLibName}
+	${${aProjName}LibName}
 	PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
-		$<INSTALL_INTERFACE:include/${engabraProjName}>
+		$<INSTALL_INTERFACE:include/${aProjName}>
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
 	)
 
 # install the library
 install(
-	TARGETS ${engabraLibName}
+	TARGETS ${${aProjName}LibName}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	)
 
 # Alias for use in downstream CMakeLists
-add_library(engabra::${engabraProjName} ALIAS ${engabraLibName})
+add_library(${aProjName}::${aProjName} ALIAS ${${aProjName}LibName})
 
 # Export info
 add_library(
 	${EXPORT_ALIAS_NAME}
 	ALIAS
-	${engabraLibName}
+	${${aProjName}LibName}
 	)
 
 # export linkable library target
 install(
-	TARGETS ${engabraLibName}
+	TARGETS ${${aProjName}LibName}
 	EXPORT ${EXPORT_TARGETS_NAME}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	#[[
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 	INCLUDES DESTINATION
-		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${engabra_LibDIR}>
-		$<INSTALL_INTERFACE:${engabra_LibDIR}>
-	NAMESPACE ${engabraProjName}:: # e.g. engabra::engabra
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${${aProjName}_LibDIR}>
+		$<INSTALL_INTERFACE:${${aProjName}_LibDIR}>
+	NAMESPACE ${aProjName}:: # e.g. ${aProjName}::${aProjName}
 	#]]
 	)
 

@@ -73,7 +73,7 @@ foreach(aUnitTest ${unitTests}) # loop over all tests
 	target_link_libraries(
 		${aUnitTest}
 		PRIVATE
-			engabra::engabra
+			${aProjName}::${aProjName}
 		)
 
 	# add test to CTest collection

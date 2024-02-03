@@ -4,8 +4,8 @@ find_package(Doxygen)
 if (DOXYGEN_FOUND)
 
 	# Variables for expansion in Doxyfile template
-	set(DoxyProjName "${engabraProjName}")
-	set(DoxyProjVersion "${engabraProjVersion}")
+	set(DoxyProjName "${aProjName}")
+	set(DoxyProjVersion "${aProjVersion}")
 	set( DoxyProjTagline
 		"Practical Geometric Algebra Computation for Engineering"
 		)
@@ -27,13 +27,13 @@ if (DOXYGEN_FOUND)
 		VERBATIM
 		)
 
-message("#### ${CMAKE_CURRENT_BINARY_DIR}/html : "
+message("#### CMAKE_CURRENT_BINARY_DIR/html : "
 	${CMAKE_CURRENT_BINARY_DIR}/html)
-message("#### ${CMAKE_INSTALL_DOCDIR}/${local_LIBTARGET} : "
+message("#### CMAKE_INSTALL_DOCDIR/${local_LIBTARGET} : "
 	${CMAKE_INSTALL_DOCDIR}/${local_LIBTARGET})
-message("#### ${CMAKE_INSTALL_DOCDIR} : "
+message("#### CMAKE_INSTALL_DOCDIR : "
 	${CMAKE_INSTALL_DOCDIR})
-message("#### ${CPACK_PACKAGING_INSTALL_PREFIX} : "
+message("#### CPACK_PACKAGING_INSTALL_PREFIX : "
 	${CPACK_PACKAGING_INSTALL_PREFIX})
 #[[
 #]]
