@@ -1,0 +1,14 @@
+
+Namespace - Capitalize to match project name
+
+Move content into formal Engabra repo
+
+Add product functions e.g.:
+	* dot(itemA, itemB)
+	* wedge(itemA, itemB)
+	* commutator(itemA, itemB)
+
+Geometric (subspace) constructions
+	* projection(itemA, itemB)
+	* rejection(itemA, itemB)
+
