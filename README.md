@@ -1,10 +1,10 @@
-
 [//]: # (Comments Like this)
 
 [MIT License](https://mit-license.org/)
 
 
 # Engabra - ENGineering Geometric AlgeBRA
+
 *A C++ Library enabling  __practical__ engineering computation
 with Geometric Algebra in 3D space.*
 
@@ -14,17 +14,10 @@ Engabra is lightweight C++ library that supports performing practical
 Engineering computation, modeling, analysis, and simulation in 3D space
 with no other software dependencies.
 
-
 The main emphasis is on _practical utility_ (not theoretical abstraction
-<<<<<<< HEAD
 nor education, nor experimentation - as is the case for many GA software
 libraries).  The fundamental idea behind engabra is that the library be
 useful for real world computation, modeling and simulation.
-=======
-nor education, nor experimentation - as is the case for many available
-GA software libraries).  The fundamental idea behind Engabra is that
-the library is useful for real world computation, modeling and simulation.
->>>>>>> d698e59 (README.md - title intro tweaking, improved many descriptions in types and operations)
 
 The focus on 3D space allows providing relationships and operations that
 may not be available in other dimensions. For example splitting multivectors
@@ -434,10 +427,10 @@ is composed of a Scalar and a BiVector grade member). These constituent
 grades may be accessed directly with the associated member variables. The
 member variable naming is consistent across all compound types.
 
-	__theSca__: The scalar grade constituent member.
-	__theVec__: The vector grade constituent member.
-	__theBiv__: The bivector grade constituent member.
-	__theTri__: The trivector grade constituent member.
+	.theSca : The scalar grade member of an instance
+	.theVec : The vector grade member of an instance
+	.theBiv : The bivector grade member of an instance
+	.theTri : The trivector grade member of an instance
 
 From one perspective these provide the blade decomposition of a general
 MultiVector. I.e.
@@ -497,6 +490,7 @@ subscript operator.
 
 * __operator[]()__: The indices start at zero and increase as follows:
 
+	```
 	Scalar     : 0
 	Vector     : 0, 1, 2
 	BiVector   : 0, 1, 2
@@ -506,6 +500,7 @@ subscript operator.
 	MultiVector: (0), (1, 2, 3), (4, 5, 6), (7)
 	ComPlex    : (0), (1)
 	DirPlex    : (0, 1, 2), (3, 4, 5)
+	```
 
 
 ## GA Entity Operations
@@ -857,7 +852,7 @@ of the library build and installation process. Ref section
 
 #### Overall Access
 
-* __engabra__ -- for matter of style (has "#include "engabra.hpp")
+* __Engabra__ -- for matter of style (has "#include "engabra.hpp")
 
 * __engabra.hpp__ -- includes the headers listed below
 
@@ -1015,6 +1010,21 @@ Build Example:
 	$ sudo apt-get install ./Engabra-0.1.0-Linux.deb   # Install
 	$ sudo apt-get remove engabra   # Remove
 
+	```
+	NOTE:
+
+	The source version identity check in test_helloEngabra may fail
+	if the build environment is associated with a different user ID
+	than the one owning the git repo. To address this, from the build
+	environment, issue a git command similar to:
+
+	$ git config --global --add safe.directory /repos/Engabra
+
+	This allows the build process to run the "git describe" command
+	which extracts source code identifier to be included as version
+	info in the build result.
+	```
+
 ### Compiling Demo Programs
 	* cmake --build . --target all -j `nproc`
 
@@ -1068,12 +1078,3 @@ https://arxiv.org/pdf/1205.5195.pdf
 
 * https://www.researchgate.net/publication/281948670_Some_remarks_on_Cl3_and_Lorentz_transformations
 
-	% veterinary faculty guy 
-	unknown{unknown,
-	author = {Josipovic, Miroslav},
-	year = {2015},
-	month = {09},
-	pages = {},
-	title = {Some remarks on Cl3 and Lorentz transformations},
-	doi = {10.13140/RG.2.1.3138.6088}
-	}

@@ -35,7 +35,7 @@ For typical use, only this file need be included.
 
 
 #include "g3compare.hpp"
-#include "g3types.hpp"
+#include "g3type.hpp"
 #include "g3const.hpp"
 #include "g3func.hpp"
 #include "g3io.hpp" // TODO -- (slow compile?)
