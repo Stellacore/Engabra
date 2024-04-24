@@ -1,10 +1,10 @@
-
 [//]: # (Comments Like this)
 
 [MIT License](https://mit-license.org/)
 
 
 # Engabra - ENGineering Geometric AlgeBRA
+
 *A C++ Library enabling  __practical__ engineering computation
 with Geometric Algebra in 3D space.*
 
@@ -14,17 +14,10 @@ Engabra is lightweight C++ library that supports performing practical
 Engineering computation, modeling, analysis, and simulation in 3D space
 with no other software dependencies.
 
-
 The main emphasis is on _practical utility_ (not theoretical abstraction
-<<<<<<< HEAD
 nor education, nor experimentation - as is the case for many GA software
 libraries).  The fundamental idea behind engabra is that the library be
 useful for real world computation, modeling and simulation.
-=======
-nor education, nor experimentation - as is the case for many available
-GA software libraries).  The fundamental idea behind Engabra is that
-the library is useful for real world computation, modeling and simulation.
->>>>>>> d698e59 (README.md - title intro tweaking, improved many descriptions in types and operations)
 
 The focus on 3D space allows providing relationships and operations that
 may not be available in other dimensions. For example splitting multivectors
