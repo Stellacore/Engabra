@@ -1,0 +1,617 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass IEEEtran
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+MultiVector - Undirected and Directed Component Operations
+\end_layout
+
+\begin_layout Section
+Involutions
+\end_layout
+
+\begin_layout Standard
+In 3D space,
+\end_layout
+
+\begin_layout Standard
+Given multivector
+\begin_inset Formula 
+\[
+M=\sigma+v+B+\mathcal{T}
+\]
+
+\end_inset
+
+the Dirverse (Clifford Conjugate) is
+\begin_inset Formula 
+\[
+\overline{M}=\sigma-v-B+\mathcal{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the dirverse is an anti-automorphism such that
+\begin_inset Formula 
+\[
+\overline{MN}=\overline{N}\overline{M}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Components
+\end_layout
+
+\begin_layout Standard
+Split this into multiplicatively commutative (undirected) and multiplicatively
+ not commutative (directed) components, 
+\begin_inset Formula $C$
+\end_inset
+
+ and 
+\begin_inset Formula $D$
+\end_inset
+
+, 
+\end_layout
+
+\begin_layout Standard
+Let
+\begin_inset Formula 
+\begin{align*}
+M & =C+D\\
+C & \equiv\sigma+\mathcal{T}\\
+D\equiv & v+B
+\end{align*}
+
+\end_inset
+
+for which
+\begin_inset Formula 
+\begin{align*}
+\overline{C} & =C\\
+\overline{D} & =-D
+\end{align*}
+
+\end_inset
+
+and therefore
+\begin_inset Formula 
+\[
+\overline{M}=\overline{C}+\overline{D}=C-D
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sums
+\begin_inset Formula 
+\begin{align*}
+C+\overline{C} & =2C\\
+ & =2\left(\sigma+\mathcal{T}\right)\\
+D+\overline{D} & =0\\
+C+\overline{D} & =C-D\\
+ & =\overline{M}\\
+ & =\sigma-v-B+\mathcal{T}\\
+\overline{C}+D & =C+D=D+C\\
+ & =M\\
+ & =\sigma+v+B+\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Products
+\begin_inset Formula 
+\begin{align*}
+C\overline{C} & =C^{2}\\
+ & =\sigma^{2}+\mathcal{T}^{2}+2\sigma\mathcal{T}\\
+D\overline{D} & =-D^{2}\\
+ & =-\left(v^{2}+B^{2}+vB+Bv\right)\\
+\overline{C}D & =CD=DC\\
+ & =\left(\sigma v+\mathcal{T}B\right)+\left(\sigma B+\mathcal{T}v\right)\\
+C\overline{D} & =-CD=-DC\\
+ & =-\left(\left(\sigma v+\mathcal{T}B\right)+\left(\sigma B+\mathcal{T}v\right)\right)
+\end{align*}
+
+\end_inset
+
+and
+\begin_inset Formula 
+\begin{align*}
+D^{2} & =-D\overline{D}=-\overline{D}D\\
+ & =-\left(v^{2}+B^{2}+vB+Bv\right)\\
+C^{2} & =C\overline{C}=\overline{C}C\\
+ & =\sigma^{2}+\mathcal{T}^{2}+2\sigma\mathcal{T}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Sum
+\end_layout
+
+\begin_layout Standard
+In terms of the undirected and directed components,
+\begin_inset Formula 
+\begin{align*}
+M+\overline{M} & =C+D+C-D\\
+ & =2C
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The sum is
+\begin_inset Formula 
+\[
+M+\overline{M}=2\left(\sigma+\mathcal{T}\right)
+\]
+
+\end_inset
+
+which is of Complex type.
+\end_layout
+
+\begin_layout Subsection
+Product
+\end_layout
+
+\begin_layout Standard
+The product is
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+M\overline{M}=\left(\sigma+v+B+\mathcal{T}\right)\left(\sigma-v-B+\mathcal{T}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+M\overline{M}=\left(\left(\sigma+\mathcal{T}\right)+\left(v+B\right)\right)\left(\left(\sigma+\mathcal{T}\right)-\left(v+B\right)\right)
+\]
+
+\end_inset
+
+Then
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+M\overline{M} & =\left(C+D\right)\left(C-D\right)\\
+ & =C^{2}-CD+DC-D^{2}\\
+ & =C^{2}+\left(-CD+CD\right)-D^{2}\\
+ & =C^{2}-D^{2}
+\end{align*}
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+C^{2}=\sigma^{2}+2\sigma\mathcal{T}+\mathcal{T}^{2}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+D^{2} & =v^{2}+vB+Bv+B^{2}\\
+ & =v^{2}+B^{2}+2v\wedge B
+\end{align*}
+
+\end_inset
+
+Therefore,
+\begin_inset Formula 
+\begin{align*}
+M\overline{M}=C^{2}-D^{2} & =\left(\sigma^{2}-v^{2}-B^{2}+\mathcal{T}^{2}\right)\\
+ & +0\\
+ & +0\\
+ & +\left(2\sigma\mathcal{T}-2v\wedge B\right)
+\end{align*}
+
+\end_inset
+
+which is of Complex type.
+\end_layout
+
+\begin_layout Section
+Use in Solving Sylvester's Equation
+\end_layout
+
+\begin_layout Standard
+Consider the linear equation
+\begin_inset Formula 
+\[
+AX+XB=C
+\]
+
+\end_inset
+
+for which 
+\begin_inset Formula $A$
+\end_inset
+
+, 
+\begin_inset Formula $B$
+\end_inset
+
+, 
+\begin_inset Formula $C$
+\end_inset
+
+ are known multivectors, and 
+\begin_inset Formula $X$
+\end_inset
+
+ is an unknown multivector with value to be determined in terms of the others.
+\end_layout
+
+\begin_layout Standard
+Assuming 
+\begin_inset Formula $A^{-1}$
+\end_inset
+
+ exists, first multiply from the left by 
+\begin_inset Formula $A^{-1}$
+\end_inset
+
+ and from the right by 
+\begin_inset Formula $\overline{B}$
+\end_inset
+
+, to obtain
+\begin_inset Formula 
+\[
+X\overline{B}+A^{-1}XB\overline{B}=A^{-1}C\overline{B}
+\]
+
+\end_inset
+
+Since 
+\begin_inset Formula $B\overline{B}$
+\end_inset
+
+ is commutative, this may also be expressed as
+\begin_inset Formula 
+\[
+A^{-1}B\overline{B}X+X\overline{B}=A^{-1}C\overline{B}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next add this and the original equation
+\begin_inset Formula 
+\[
+AX+A^{-1}B\overline{B}X+XB+X\overline{B}=C+A^{-1}C\overline{B}
+\]
+
+\end_inset
+
+Factor pre-X and post-X terms
+\begin_inset Formula 
+\[
+\left(A+A^{-1}B\overline{B}\right)X+X\left(B+\overline{B}\right)=\left(C+A^{-1}C\overline{B}\right)
+\]
+
+\end_inset
+
+Since 
+\begin_inset Formula $B+\overline{B}$
+\end_inset
+
+ is commutative, this may be expressed as
+\begin_inset Formula 
+\[
+\left(A+A^{-1}B\overline{B}\right)X+\left(B+\overline{B}\right)X=\left(C+A^{-1}C\overline{B}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left(A+A^{-1}B\overline{B}+B+\overline{B}\right)X=\left(C+A^{-1}C\overline{B}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Provided the coefficient is has an inverse, then
+\begin_inset Formula 
+\[
+X=\left(A+A^{-1}B\overline{B}+B+\overline{B}\right)^{-1}\left(C+A^{-1}C\overline{B}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+X=\frac{\left(\overline{A+A^{-1}B\overline{B}+B+\overline{B}}\right)\left(C+A^{-1}C\overline{B}\right)}{\left(A+A^{-1}B\overline{B}+B+\overline{B}\right)\left(\overline{A+A^{-1}B\overline{B}+B+\overline{B}}\right)}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+X=\frac{\left(\overline{A}+B\overline{B}\overline{A^{-1}}+\overline{B}+B\right)\left(C+A^{-1}C\overline{B}\right)}{\left(A+A^{-1}B\overline{B}+B+\overline{B}\right)\left(\overline{A}+B\overline{B}\overline{A^{-1}}+\overline{B}+B\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+If 
+\begin_inset Formula $A\ne0$
+\end_inset
+
+, then
+\begin_inset Formula 
+\[
+A^{-1}=\frac{\overline{A}}{A\overline{A}}
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+\overline{A^{-1}}=\frac{A}{A\overline{A}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+X=\frac{\left(\overline{A}+B\overline{B}\frac{A}{A\overline{A}}+\overline{B}+B\right)\left(C+\frac{\overline{A}}{A\overline{A}}C\overline{B}\right)}{\left(A+\frac{\overline{A}}{A\overline{A}}B\overline{B}+B+\overline{B}\right)\left(\overline{A}+B\overline{B}\frac{A}{A\overline{A}}+\overline{B}+B\right)}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+X=\frac{\left(\overline{A}+\frac{B\overline{B}}{A\overline{A}}A+\overline{B}+B\right)\left(C+\frac{\overline{A}}{A\overline{A}}C\overline{B}\right)}{\left(A+\overline{A}\frac{B\overline{B}}{A\overline{A}}+B+\overline{B}\right)\left(\overline{A}+\frac{B\overline{B}}{A\overline{A}}A+\overline{B}+B\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Special Case
+\end_layout
+
+\begin_layout Standard
+Note that if 
+\begin_inset Formula $A=B$
+\end_inset
+
+, then the coefficient on 
+\begin_inset Formula $X$
+\end_inset
+
+ above must be complex type, since
+\begin_inset Formula 
+\begin{align*}
+A+A^{-1}B\overline{B}+B+\overline{B} & =A+A^{-1}A\overline{A}+A+\overline{A}\\
+ & =A+\overline{A}+A+\overline{A}\\
+ & =2\left(A+\overline{A}\right)\\
+ & =2\left\langle A\right\rangle _{0}+2\left\langle A\right\rangle _{3}
+\end{align*}
+
+\end_inset
+
+Thereby suggesting this solution technique is only valid if, for the case
+ 
+\begin_inset Formula $A=B$
+\end_inset
+
+, the original linear equation must have complex coefficients on 
+\begin_inset Formula $X$
+\end_inset
+
+, e.g.
+\begin_inset Formula 
+\[
+A_{c}X+XA_{c}=2A_{c}X=C
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+X=\left(2A_{c}\right)^{-1}C
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Examples
+\end_layout
+
+\begin_layout Standard
+Consider equation with vector coefficients
+\begin_inset Formula 
+\[
+uX+Xv=C
+\]
+
+\end_inset
+
+Multiply from left with 
+\begin_inset Formula $u^{-1}$
+\end_inset
+
+ and from right by 
+\begin_inset Formula $\overline{v}=-v$
+\end_inset
+
+ to obtain
+\begin_inset Formula 
+\[
+-Xv-u^{-1}Xv^{2}=-u^{-1}Cv
+\]
+
+\end_inset
+
+Add equations
+\begin_inset Formula 
+\[
+uX-u^{-1}v^{2}X+Xv-Xv=C-u^{-1}Cv
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left(u-u^{-1}v^{2}\right)X=C-u^{-1}Cv
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+X=\left(u-u^{-1}v^{2}\right)^{-1}\left(C-u^{-1}Cv\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,54 @@
+
+
+Action List:
+
+	- Complete g3ops port
+		- unit tests
+		- move functions from g3.hpp
+
+	- /include - g3opsMul_ -- factor into g3opsMulFwd_* and g3opsMulBck_*
+
+
+CMake
+
+	- decide naming for install package (e.g. add version number?)
+	- test/main programs include "Engabra/g3..."? or just "g3..."?
+	- cmake config file dir naming
+	- library tree directory use (perhaps like TPQZ?)
+
+Naming
+
+	- file naming in general
+
+Documentation
+
+	- describe concept of using const instances e.g.
+		Vector const foo{};
+		not doing (foo = bar;, foo[1]=3.; etc)
+
+	- everything
+	- doxygen generation as part of build process
+
+	https://gist.github.com/francesco-romano/351a6ae457860c14ee7e907f2b0fc1a5
+
+Coding
+
+	- need multivector arithmetic
+
+	- Case: Should use (Complex and Dirplex) or (ComPlex and DirPlex) but
+	not both. (or ComPlex and AntPlex for commutitive and anti-commutative?)
+
+
+Thoughts and Ideas (while coding
+GravitySpatial/HorizontalAngle EvalHoriAngleDiffs.cpp)
+
+
+would be nice to have a wedge(a,b) that uses antiCommProduct directly
+ (not waste time computing scalar).
+ e.g. maybe like wedgeVecVec(x,x);
+
+Perhaps have .g0(), .g1(), .g2(), .g3() grade selection methods?
+
+Consider convenience function collections - e.g. g3angles (and other such).
+e.g. shortAngleBetween(), longAngleBeteen(), 1D,2D families of angles, etc.
+

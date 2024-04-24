@@ -1,0 +1,63 @@
+
+# Example uses of <projectNameHere>
+
+
+## Photogrammetry/Computer Vision
+
+	- Optical system distortion model?
+
+## Computer Graphics and Animation
+
+### Rotation Interpolation
+
+	- Rotation interpolation - slerp kind of things...
+		- e.g. bivector interpolation functions
+
+### Kinematics
+
+	- integration of rotation sensors from smart device
+
+
+## Engineering
+
+### Survey
+
+	- angle between two sightings (body motion, dir recovery, angle compute)
+
+	- space intersection computation
+
+### Geodesy
+
+	- shortest path distance on surface of a sphere?
+
+### Statics
+
+	- solution for forces on a ladder
+
+	- numeric solution for tension in a truss member?
+
+    - Forces and moments on a beam
+
+
+## Physics
+
+### Gravity solution
+
+	- generative bridge design on binary/trinary asteroid
+
+	- orbiting dumb-bells around spherical body
+
+
+## Math
+
+### Fractals
+
+	- Mandelbrot like iterations
+
+	- E.g. perhaps: x' = k2*exp(k1(ln(X) - A)) - C
+		- k1: Real (integer?)
+		- k2: Real
+		- A: Angle (generalized) angular-element
+		- C: Linel (generalized) linear-element
+		- X: Morphor (generalized rotor)
+

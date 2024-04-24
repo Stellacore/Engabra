@@ -1,0 +1,34 @@
+#
+# Example (minimal) CMakeLists.txt file for project using Engabra
+#
+
+# == Standard cmake beginning
+cmake_minimum_required(VERSION 3.0)
+
+# == Standard cmake project specification
+project(
+	MyProjectName
+	DESCRIPTION
+		"Some s/w project using Engabra"
+	LANGUAGES
+		CXX
+	)
+
+# == Request cmake to find an installed Engabra
+find_package(
+	Engabra REQUIRED NO_MODULE
+	)
+# == Report (option) information about found package
+message("Engabra Found: " ${Engabra_FOUND})
+message("Engabra Version: " ${Engabra_VERSION})
+
+# == Build an executable program that uses Engabra
+add_executable(
+	foo foo.cpp
+	)
+target_link_libraries(
+	foo
+	PRIVATE
+		Engabra::Engabra
+	)
+

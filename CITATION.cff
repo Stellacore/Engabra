@@ -1,0 +1,38 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Engabra - Software for ENgineering Geometric AlgeBRA
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Dave
+    family-names: Knopp
+    affiliation: Stellacore Corporation
+repository-code: 'https://github.com/Stellacore/engabraStaging'
+abstract: >-
+  A C++ Library enabling practical engineering computation
+  with Geometric Algebra in 3D space.
+
+
+  Engabra is lightweight C++ library that supports
+  performing practical Engineering computation, modeling,
+  analysis, and simulation in 3D space with no other
+  software dependencies.
+
+
+  The main emphasis is on practical utility (not theoretical
+  abstraction nor education, nor experimentation - as is the
+  case for many available GA software libraries). The
+  fundamental idea behind Engabra is that the library is
+  useful for real world computation, modeling and
+  simulation.
+keywords:
+  - Geometric Algebra
+  - Engineering
+  - Software
+license: MIT
+version: PreRelease
+date-released: '2023-09-30'
