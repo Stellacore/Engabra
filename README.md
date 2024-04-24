@@ -1010,6 +1010,21 @@ Build Example:
 	$ sudo apt-get install ./Engabra-0.1.0-Linux.deb   # Install
 	$ sudo apt-get remove engabra   # Remove
 
+	```
+	NOTE:
+
+	The source version identity check in test_helloEngabra may fail
+	if the build environment is associated with a different user ID
+	than the one owning the git repo. To address this, from the build
+	environment, issue a git command similar to:
+
+	$ git config --global --add safe.directory /repos/Engabra
+
+	This allows the build process to run the "git describe" command
+	which extracts source code identifier to be included as version
+	info in the build result.
+	```
+
 ### Compiling Demo Programs
 	* cmake --build . --target all -j `nproc`
 
