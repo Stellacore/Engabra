@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.13)
 
 set(aProjName "Engabra")
 set(${aProjName}LibName Engabra)
-set(aProjVersion "0.2.0") # Set based on features, updates and patches
+set(aProjVersion "0.2.1") # Set based on features, updates and patches
 
 # Get source code identifier (e.g. hash code from git repo)
 include(./cmake/func_setReleaseTag.cmake)
