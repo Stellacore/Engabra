@@ -258,6 +258,40 @@ namespace
 		return oss.str();;
 	}
 
+	//! Check operations with null instance
+	std::string
+	test2
+		()
+	{
+		std::ostringstream oss;
+
+		using namespace engabra::g3;
+
+		BiVector const bivZero{ zero<BiVector>() };
+		Spinor const gotSpinZero{ exp(bivZero) };
+		Spinor const expSpinZero{ one<Spinor>() };
+
+		if (! nearlyEquals(gotSpinZero, expSpinZero))
+		{
+			oss << "Failure of exp: spinZero test\n";
+			oss << "exp: " << expSpinZero << '\n';
+			oss << "got: " << gotSpinZero << '\n';
+		}
+
+		BiVector const bivNull{ null<BiVector>() };
+		Spinor const gotSpinNull{ exp(bivNull) };
+		Spinor const expSpinNull{ null<Spinor>() };
+
+		if (isValid(gotSpinNull))
+		{
+			oss << "Failure of exp: spinNull test\n";
+			oss << "exp: " << expSpinNull << '\n';
+			oss << "got: " << gotSpinNull << '\n';
+		}
+
+		return oss.str();;
+	}
+
 }
 
 //! Check behavior of 
@@ -270,7 +304,7 @@ main
 
 	oss << test0();
 	oss << test1();
-	// oss << test2();
+	oss << test2();
 
 	if (oss.str().empty()) // Only pass if no errors were encountered
 	{
