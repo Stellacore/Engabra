@@ -27,7 +27,7 @@ set(unitTests
 	test_g3func_mag
 	test_g3func_inv
 
-#TODO#	test_g3func_exp
+	test_g3func_exp # TODO - needs tests re-enabled
 
 	test_g3opsAdd_same
 	test_g3opsAdd_other
