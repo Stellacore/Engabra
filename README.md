@@ -989,7 +989,7 @@ Engabra uses the [CMake build system generator utility](https://cmake.org/).
 Clone Example:
 
 	$ cd /repos  # or wherever, '/repos' is used as example here
-	$ git clone https://github.com/Stellacore/engabra.git
+	$ git clone https://github.com/Stellacore/Engabra.git
 
 Build Example:
 
@@ -999,7 +999,7 @@ Build Example:
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/tmpLocal/ \
 		-DCMAKE_PREFIX_PATH=/tmpLocal/ \
-		/repos/engabra
+		/repos/Engabra
 	$ cmake --build . --target all -j `nproc`
 	$ # -- Run library unit tests
 	$ ctest -j `nproc`
@@ -1028,12 +1028,12 @@ Build Example:
 ### Compiling Demo Programs
 	* cmake --build . --target all -j `nproc`
 
-Assuming that Engabra is cloned to /repos/engabra, then
+Assuming that Engabra is cloned to /repos/Engabra, then
 
 	$ mkdir <someBuildDir> && cd <someBuildDir>
 	$ cmake  \
 		-DCMAKE_BUILD_TYPE=Release \
-		/repos/engabra/demos
+		/repos/Engabra/demos
 	$ make -j `nproc`
 	$ # -- Run individual programs as desired (relative to build dir) e.g.
 	$ ./demos/helloEngabra
@@ -1052,7 +1052,7 @@ After building system (with cmake), point browser to:
 After installation of the package documents are found in appropriate system
 install locations. E.g. on linux systems, often in:
 
-	<installPath>/share/doc/engabra/html/index.html
+	<installPath>/share/doc/Engabra/html/index.html
 
 ## References
 

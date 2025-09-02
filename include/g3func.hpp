@@ -538,13 +538,19 @@ namespace g3
 		( BiVector const & spinAngle
 		)
 	{
-		Spinor spin{ 1., zero<BiVector>() }; // zero angle default result
-		std::pair<double, BiVector> const magdir{ pairMagDirFrom(spinAngle) };
-		double const & mag = magdir.first;
-		BiVector const & dir = magdir.second;
-		if (isValid(dir)) // zero angle direction undefined - return default
+		Spinor spin{ null<Spinor>() }; // zero angle default result
+		if (isValid(spinAngle))
 		{
-			spin = Spinor{ std::cos(mag), std::sin(mag)*dir };
+			spin = Spinor{ 1., zero<BiVector>() }; // zero angle default result
+			std::pair<double, BiVector> const magdir
+				{ pairMagDirFrom(spinAngle) };
+			double const & mag = magdir.first;
+			BiVector const & dir = magdir.second;
+			if (isValid(dir))
+			{
+				spin = Spinor{ std::cos(mag), std::sin(mag)*dir };
+			}
+			// else // zero angle dir undefined - return default unity
 		}
 		return spin;
 	}
