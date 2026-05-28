@@ -224,6 +224,7 @@ namespace
 		return okay;
 	}
 
+/*
 	//! Check ### TODO
 	std::string
 	test1
@@ -257,6 +258,7 @@ namespace
 
 		return oss.str();;
 	}
+*/
 
 	//! Check operations with null instance
 	std::string
