@@ -140,7 +140,9 @@ namespace
 
 		Spinor const gotDubSpin{ aDub * bSpin };
 		Spinor const expDubSpin
-			{ (101.*3.), BiVector{ (101.*37.), (101.*41.), (101.*43.) } };
+			{ Scalar{ 101.*3. }
+			, BiVector{ (101.*37.), (101.*41.), (101.*43.) }
+			};
 
 			// [DoxyExampleSpin]
 
@@ -183,7 +185,7 @@ namespace
 		using namespace engabra::g3;
 
 		ComPlex const gotDubCplx{ aDub * bCplx };
-		ComPlex const expDubCplx{ (101.*3.), (101.*53.) };
+		ComPlex const expDubCplx{ { 101.*3. }, { 101.*53. } };
 
 			// [DoxyExampleCplx]
 

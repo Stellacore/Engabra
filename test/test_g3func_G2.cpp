@@ -61,7 +61,7 @@ namespace
 		BiVector const halfTurnAngle{ turnHalf * someAngleDir };
 		// Euler Identify: exp(pi*i) = Spinor{ -1., zero<BiVector>() };
 		Spinor const gotSpin{ exp(halfTurnAngle) };
-		Spinor const expSpin{ -1., zero<BiVector>() };
+		Spinor const expSpin{ { -1. }, zero<BiVector>() };
 			// [DoxyExampleExp]
 
 		if (! nearlyEquals(gotSpin, expSpin))
@@ -85,9 +85,9 @@ namespace
 
 		// corner case - zero rotation
 		// std::cout << "============= zero case\n";
-		Spinor const spinZeroInit{  1., zero<BiVector>() };
+		Spinor const spinZeroInit{ { 1. }, zero<BiVector>() };
 		Spinor const gotLogZero{ logG2(spinZeroInit) };
-		Spinor const expLogZero{ 0., zero<BiVector>() };
+		Spinor const expLogZero{ { 0. }, zero<BiVector>() };
 		Spinor const spinZeroRedo{ exp(gotLogZero) };
 		if ( (! nearlyEquals(gotLogZero.theSca, expLogZero.theSca))
 		  || (! nearlyEquals(gotLogZero.theBiv, expLogZero.theBiv))
@@ -107,9 +107,9 @@ namespace
 		// std::cout << "============= half case\n";
 		// corner case - half rotation
 		BiVector const bivDir{ e31 };
-		Spinor const spinHalfInit{ -1., zero<BiVector>() };
+		Spinor const spinHalfInit{ { -1. }, zero<BiVector>() };
 		Spinor const gotLogHalf{ logG2(spinHalfInit, bivDir) };
-		Spinor const expLogHalf{ std::log(1.), turnHalf * bivDir };
+		Spinor const expLogHalf{ { std::log(1.) }, turnHalf * bivDir };
 		Spinor const spinHalfRedo{ exp(gotLogHalf) };
 		constexpr double tol{ 4. * std::numeric_limits<double>::epsilon() };
 		if ( (! nearlyEquals(gotLogHalf.theSca, expLogHalf.theSca, tol))
@@ -129,9 +129,9 @@ namespace
 
 		// std::cout << "============= neg scalar case\n";
 		// corner case - half rotation
-		Spinor const spinNegsInit{ -3., zero<BiVector>() };
+		Spinor const spinNegsInit{ { -3. }, zero<BiVector>() };
 		Spinor const gotLogNegs{ logG2(spinNegsInit, bivDir) };
-		Spinor const expLogNegs{ std::log(3.), turnHalf * bivDir };
+		Spinor const expLogNegs{ { std::log(3.) }, turnHalf * bivDir };
 		Spinor const spinNegsRedo{ exp(gotLogNegs) };
 		if ( (! nearlyEquals(gotLogNegs.theSca, expLogNegs.theSca, tol))
 		  || (! nearlyEquals(gotLogNegs.theBiv, expLogNegs.theBiv, tol))
@@ -150,7 +150,7 @@ namespace
 
 		// std::cout << "============= general case\n";
 		// general case
-		Spinor const spinSomeInit{ -2., BiVector{ .5, -.3, .7} };
+		Spinor const spinSomeInit{ { -2. }, BiVector{ .5, -.3, .7} };
 		Spinor const gotLogSome{ logG2(spinSomeInit) };
 		Spinor const spinSomeRedo{ exp(gotLogSome) };
 		if (! nearlyEquals(spinSomeRedo, spinSomeInit, tol))
@@ -176,7 +176,7 @@ namespace
 
 		// corner case - zero
 		Spinor const gotRootZero{ sqrtG2(zero<Spinor>()) };
-		Spinor const expRootZero{ 0., zero<BiVector>() };
+		Spinor const expRootZero{ { 0. }, zero<BiVector>() };
 		if (! nearlyEquals(gotRootZero, expRootZero))
 		{
 			oss << "Failure sqrtG2 zero test\n";
@@ -198,7 +198,7 @@ namespace
 		{ // corner case - half turn
 			BiVector const bivDir{ e12 };
 			Spinor const gotRootHalf{ sqrtG2(-one<Spinor>(), bivDir) };
-			Spinor const expRootHalf{ 0., bivDir };
+			Spinor const expRootHalf{ { 0. }, bivDir };
 			if (! nearlyEquals(gotRootHalf, expRootHalf))
 			{
 				oss << "Failure sqrtG2 half -1 test\n";

@@ -158,7 +158,7 @@ namespace
 
 		Spinor const gotScaSpin{ aSca * bSpin };
 		Spinor const expScaSpin
-			{ (2.*3.), BiVector{ (2.*37.), (2.*41.), (2.*43.) } };
+			{ { 2.*3. }, BiVector{ (2.*37.), (2.*41.), (2.*43.) } };
 
 			// [DoxyExampleSpin]
 
@@ -201,7 +201,7 @@ namespace
 		using namespace engabra::g3;
 
 		ComPlex const gotScaCplx{ aSca * bCplx };
-		ComPlex const expScaCplx{ (2.*3.), (2.*53.) };
+		ComPlex const expScaCplx{ { 2.*3. }, { 2.*53. } };
 
 			// [DoxyExampleCplx]
 

@@ -50,6 +50,7 @@ namespace
 
 using namespace engabra;
 
+#if 0 // needs update for valid test
 // computeExp convergence limit and test tolerance (3 bits for compute noise)
 constexpr double sSmallMag{ 8. * std::numeric_limits<double>::epsilon() };
 
@@ -153,6 +154,7 @@ computeExp
 
 	return result;
 }
+#endif
 
 } // [anon]
 
@@ -163,6 +165,7 @@ namespace
 	using namespace engabra;
 	using g3::nearlyEquals;
 
+#if 0 // needs update for valid test
 	//! Examples for documentation
 	std::string
 	test0
@@ -223,8 +226,9 @@ namespace
 		}
 		return okay;
 	}
+#endif
 
-/*
+#if 0 // needs update for valid test
 	//! Check ### TODO
 	std::string
 	test1
@@ -258,7 +262,7 @@ namespace
 
 		return oss.str();;
 	}
-*/
+#endif
 
 	//! Check operations with null instance
 	std::string

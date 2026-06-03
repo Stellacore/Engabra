@@ -54,7 +54,7 @@ namespace
 
 		// [DoxyExampleUtil]
 		using namespace engabra::g3;
-		Spinor const aSpin{ 1., -.5, .25, .75 };
+		Spinor const aSpin{ { 1. }, { -.5, .25, .75 } };
 
 		Spinor const expSq{ aSpin * aSpin };
 		Spinor const gotSq{ sq(aSpin) };
