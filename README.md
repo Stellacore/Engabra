@@ -995,6 +995,8 @@ Build Example:
 
 	$ # -- Compile everything (including doxygen documentation)
 	$ mkdir <someBuildDir> && cd <someBuildDir>
+	  # Note first (CC) line is optional to set compiler (here to clang)
+	$ CC=/usr/bin/clang CXX=/usr/bin/clang++ \
 	$ cmake  \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/tmpLocal/ \
