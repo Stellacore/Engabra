@@ -209,8 +209,8 @@ namespace g3
 		)
 	{
 		return ComPlex
-			{ scaA.theData[0] * cplxB.theSca.theData[0]
-			, scaA.theData[0] * cplxB.theTri.theData[0]
+			{ { scaA.theData[0] * cplxB.theSca.theData[0] }
+			, { scaA.theData[0] * cplxB.theTri.theData[0] }
 			};
 	}
 

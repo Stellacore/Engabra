@@ -220,10 +220,10 @@ namespace
 		g3::Vector const aVector{ 1.0, 1.1, 1.2 };
 		g3::BiVector const aBiVector{ 2.0, 2.1, 2.2 };
 		g3::TriVector const aTriVector{ 3.0 };
-		g3::Spinor const aSpinor{ 0.0 ,  2.0, 2.1, 2.2 };
-		g3::ImSpin const aImSpin{ 1.0, 1.1, 1.2 ,  3.0 };
-		g3::ComPlex const aComPlex{ 1.0 ,  3.0 };
-		g3::DirPlex const aDirPlex{ 1.0, 1.1, 1.2 ,  2.0, 2.1, 2.2 };
+		g3::Spinor const aSpinor{ { 0.0 }, { 2.0, 2.1, 2.2 } };
+		g3::ImSpin const aImSpin{ { 1.0, 1.1, 1.2 }, { 3.0 } };
+		g3::ComPlex const aComPlex{ { 1.0 }, { 3.0 } };
+		g3::DirPlex const aDirPlex{ { 1.0, 1.1, 1.2 }, { 2.0, 2.1, 2.2 } };
 		g3::MultiVector const aMultiVector
 			{ 0.1
 			, 1.0, 1.1, 1.2

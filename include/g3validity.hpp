@@ -131,7 +131,7 @@ namespace g3
 		( Spinor const & spin
 		)
 	{
-		return { isValid(spin.theSca) && isValid(spin.theBiv) };
+		return (isValid(spin.theSca) && isValid(spin.theBiv));
 	}
 
 	//! True if instance is not null - specialization for ImSpin
@@ -141,7 +141,7 @@ namespace g3
 		( ImSpin const & imsp
 		)
 	{
-		return { isValid(imsp.theVec) && isValid(imsp.theTri) };
+		return (isValid(imsp.theVec) && isValid(imsp.theTri));
 	}
 
 	//! True if instance is not null - specialization for ComPlex
@@ -151,7 +151,7 @@ namespace g3
 		( ComPlex const & cplx
 		)
 	{
-		return { isValid(cplx.theSca) && isValid(cplx.theTri) };
+		return (isValid(cplx.theSca) && isValid(cplx.theTri));
 	}
 
 	//! True if instance is not null - specialization for DirPlex
@@ -161,7 +161,7 @@ namespace g3
 		( DirPlex const & dplx
 		)
 	{
-		return { isValid(dplx.theVec) && isValid(dplx.theBiv) };
+		return (isValid(dplx.theVec) && isValid(dplx.theBiv));
 	}
 
 	//! True if instance is not null - specialization for MultiVector
@@ -172,11 +172,11 @@ namespace g3
 		)
 	{
 		return
-			{  isValid<Scalar>(mv.theSca)
+			(  isValid<Scalar>(mv.theSca)
 			&& isValid<Vector>(mv.theVec)
 			&& isValid<BiVector>(mv.theBiv)
 			&& isValid<TriVector>(mv.theTri)
-			};
+			);
 	}
 
 } // [g3]
