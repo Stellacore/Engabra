@@ -193,8 +193,8 @@ namespace g3
 		)
 	{
 		return ComPlex
-			{ dubA * cplxB.theSca.theData[0]
-			, dubA * cplxB.theTri.theData[0]
+			{ { dubA * cplxB.theSca.theData[0] }
+			, { dubA * cplxB.theTri.theData[0] }
 			};
 	}
 

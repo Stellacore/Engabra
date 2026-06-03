@@ -140,7 +140,7 @@ namespace g3
 		( double const & dub
 		)
 	{
-		return { sq(dub) };
+		return sq(dub);
 	}
 
 
@@ -167,7 +167,7 @@ namespace g3
 	{
 		double const scaSq{ sq(spin.theSca.theData[0]) };
 		double const bivSq{ magSq(spin.theBiv) };
-		return {scaSq + bivSq };
+		return (scaSq + bivSq);
 	}
 
 	//! Squared magnitude - specialization for ImSpin
@@ -179,7 +179,7 @@ namespace g3
 	{
 		double const vecSq{ magSq(imsp.theVec) };
 		double const triSq{ sq(imsp.theTri.theData[0]) };
-		return {vecSq + triSq };
+		return (vecSq + triSq);
 	}
 
 	//! Squared magnitude - specialization for ComPlex
@@ -191,7 +191,7 @@ namespace g3
 	{
 		Scalar const & sca = cplx.theSca;
 		TriVector const & tri = cplx.theTri;
-		return { magSq(sca) + magSq(tri) };
+		return (magSq(sca) + magSq(tri));
 	}
 
 	//! Squared magnitude - specialization for DirPlex
@@ -203,7 +203,7 @@ namespace g3
 	{
 		Vector const & vec = dplx.theVec;
 		BiVector const & biv = dplx.theBiv;
-		return { magSq(vec) + magSq(biv) };
+		return (magSq(vec) + magSq(biv));
 	}
 
 	//! Squared magnitude - specialization for MultiVector
@@ -217,7 +217,7 @@ namespace g3
 		double const vecSq{ magSq(mv.theVec) };
 		double const bivSq{ magSq(mv.theBiv) };
 		double const triSq{ sq(mv.theTri.theData[0]) };
-		return { scaSq + vecSq + bivSq + triSq };
+		return (scaSq + vecSq + bivSq + triSq);
 	}
 
 	//! Magnitude of element of any type
@@ -487,7 +487,10 @@ namespace g3
 		{
 			std::complex<double> const zInvAmpSq{ 1. / zAmpSq };
 			std::complex<double> const zInv{ zConj * zInvAmpSq };
-			inv = ComPlex{ std::real(zInv), std::imag(zInv) };
+			inv = ComPlex
+				{ Scalar{ std::real(zInv) }
+				, TriVector{ std::imag(zInv) }
+				};
 		}
 		return inv;
 	}
@@ -541,14 +544,17 @@ namespace g3
 		Spinor spin{ null<Spinor>() }; // zero angle default result
 		if (isValid(spinAngle))
 		{
-			spin = Spinor{ 1., zero<BiVector>() }; // zero angle default result
+			spin = Spinor // default associated with zero *angle*
+				{ Scalar{ 1. }
+				, zero<BiVector>()
+				};
 			std::pair<double, BiVector> const magdir
 				{ pairMagDirFrom(spinAngle) };
 			double const & mag = magdir.first;
 			BiVector const & dir = magdir.second;
 			if (isValid(dir))
 			{
-				spin = Spinor{ std::cos(mag), std::sin(mag)*dir };
+				spin = Spinor{ Scalar{ std::cos(mag) }, std::sin(mag)*dir };
 			}
 			// else // zero angle dir undefined - return default unity
 		}
@@ -736,7 +742,7 @@ std::cout << " sum  : " << epa123 + ena123 << std::endl;
 				// check special case of zero rotation
 				if (almostOne < dirCosValue)
 				{
-					gangle = G2Item{ logSpinMag, zero<BiVector>() };
+					gangle = G2Item{ Scalar{ logSpinMag }, zero<BiVector>() };
 				}
 				else
 				// check special case of turnHalf
@@ -747,7 +753,7 @@ std::cout << " sum  : " << epa123 + ena123 << std::endl;
 					// - use provided argument plane to complete rotation
 					// - unitize argument for safety
 					BiVector const bivDir{ direction(bivDirForImaginary) };
-					gangle = G2Item{ logSpinMag, turnHalf * bivDir };
+					gangle = G2Item{ Scalar{ logSpinMag }, turnHalf * bivDir };
 				}
 				else
 				// handle as general case
@@ -760,7 +766,7 @@ std::cout << " sum  : " << epa123 + ena123 << std::endl;
 					// dirCosValue can be +/- while (0 <= dirSinMag)
 					double const angleSize
 						{ std::atan2(dirSinMag, dirCosValue) };
-					gangle = G2Item{ logSpinMag, angleSize * bivDir };
+					gangle = G2Item{ Scalar{ logSpinMag }, angleSize * bivDir };
 				}
 			}
 		}

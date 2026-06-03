@@ -216,8 +216,8 @@ namespace g3
 		)
 	{
 		return ComPlex
-			{ - triA.theData[0] * cplx.theTri.theData[0]
-			, triA.theData[0] * cplx.theSca.theData[0]
+			{ { - triA.theData[0] * cplx.theTri.theData[0] }
+			, {   triA.theData[0] * cplx.theSca.theData[0] }
 			};
 	}
 

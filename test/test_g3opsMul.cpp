@@ -249,9 +249,9 @@ namespace
 		Spinor const gotE23{ e2 * e3 };
 		Spinor const gotE31{ e3 * e1 };
 		Spinor const gotE12{ e1 * e2 };
-		Spinor const expE23{ 0., e23 };
-		Spinor const expE31{ 0., e31 };
-		Spinor const expE12{ 0., e12 };
+		Spinor const expE23{ { 0. }, e23 };
+		Spinor const expE31{ { 0. }, e31 };
+		Spinor const expE12{ { 0. }, e12 };
 		bool const okay23{ nearlyEquals(gotE23, expE23) };
 		bool const okay31{ nearlyEquals(gotE31, expE31) };
 		bool const okay12{ nearlyEquals(gotE12, expE12) };
@@ -283,7 +283,7 @@ namespace
 
 		// orthogonal unitary trivector product
 		ImSpin const got123{ e1 * e2 * e3 };
-		ImSpin const exp123{ zero<Vector>(), 1. };
+		ImSpin const exp123{ zero<Vector>(), { 1. } };
 		if (! nearlyEquals(got123, exp123))
 		{
 			oss << "Failure of orthogonal triple vector product test\n";
