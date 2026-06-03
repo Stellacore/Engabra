@@ -37,7 +37,24 @@ add_definitions()
 
 
 set(BUILD_FLAGS_FOR_CLANG
-	""
+	"-DEngabra_Project_Version=\"${aProjVersion}\""
+	"-DEngabra_Source_Identity=\"${aSourceIdentity}\""
+	#
+	-pthread
+	-fomit-frame-pointer
+	-fno-operator-names
+	-fstrict-enums
+	# warnings
+	-Wall
+	-Wextra
+	-Wuninitialized
+	-pedantic-errors # xwrap.h has trouble with this
+	-Wno-psabi
+	    # disable ABI compatibility warnings
+		#- OK if everything compiled with same compiler
+	-Wc++11-compat
+	-Winit-self
+	#
 	)
 set(BUILD_FLAGS_FOR_GCC
 	"-DEngabra_Project_Version=\"${aProjVersion}\""
